@@ -2,6 +2,7 @@ package MindExpander;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class MindExpander {
@@ -56,6 +57,7 @@ public class MindExpander {
 
         ArrayList<String> validTypes = new ArrayList<>();
         validTypes.add("fitb");
+        validTypes.add("mcq");
 
         String questionType;
         while (true) {
@@ -71,12 +73,30 @@ public class MindExpander {
 
         System.out.println("Please enter the question content:");
         String question = scanner.nextLine().trim();
-        System.out.println("Please enter the answer to the question:");
-        String answer = scanner.nextLine().trim();
+//        System.out.println("Please enter the answer to the question:");
+//        String answer = scanner.nextLine().trim();
 
         switch (questionType) {
         case "fitb":
+            System.out.println("Please enter the answer to the question:");
+            String answer = scanner.nextLine().trim();
             questions.add(new FillInTheBlanks(question, answer));
+            break;
+
+        case "mcq":
+            System.out.println("Please enter the correct answer:");
+            String correctAnswer = scanner.nextLine().trim();
+
+            List<String> options = new ArrayList<>();
+            options.add(correctAnswer);
+
+            System.out.println("Enter 3 incorrect options:");
+            for (int i = 1; i <= 3; i++) {
+                System.out.print("Incorrect option " + i + ": ");
+                options.add(scanner.nextLine().trim());
+            }
+
+            questions.add(new MultipleChoice(question, correctAnswer, options));
             break;
 
         default:
