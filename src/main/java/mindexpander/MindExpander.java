@@ -1,4 +1,4 @@
-package MindExpander;
+package mindexpander;
 
 import java.io.IOException;
 import java.util.ArrayList;

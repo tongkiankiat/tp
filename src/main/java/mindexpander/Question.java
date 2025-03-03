@@ -1,4 +1,4 @@
-package MindExpander;
+package mindexpander;
 
 abstract class Question {
     protected String question;

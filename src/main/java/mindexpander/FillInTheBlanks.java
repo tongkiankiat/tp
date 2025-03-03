@@ -1,4 +1,4 @@
-package MindExpander;
+package mindexpander;
 
 class FillInTheBlanks extends Question {
     public FillInTheBlanks(String question, String answer) {
