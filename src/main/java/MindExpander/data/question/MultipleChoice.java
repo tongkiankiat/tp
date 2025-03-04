@@ -1,0 +1,40 @@
+package MindExpander.data.question;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+class MultipleChoice extends Question {
+    private final List<String> options;
+
+    public MultipleChoice(String question, String answer, List<String> options) {
+        super(question, answer);
+        this.options = new ArrayList<>(options);
+    }
+
+    @Override
+    public boolean checkAnswer(String userAnswer) {
+        return answer.equalsIgnoreCase(userAnswer.trim());
+    }
+
+    @Override
+    public String showQuestion() {
+        List<String> shuffledOptions = new ArrayList<>(options);
+        Collections.shuffle(shuffledOptions);
+        StringBuilder sb = new StringBuilder();
+        sb.append("MCQ: ").append(question).append("\n");
+        for (int i = 0; i < shuffledOptions.size(); i += 1) {
+            sb.append((char) ('A' + i)).append(". ").append(shuffledOptions.get(i)).append("\n");
+        }
+        return sb.toString();
+    }
+
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("MCQ: ").append(question).append("\n");
+        for (int i = 0; i < options.size(); i += 1) {
+            sb.append((char) ('A' + i)).append(". ").append(options.get(i)).append("\n");
+        }
+        return sb.toString();
+    }
+}
