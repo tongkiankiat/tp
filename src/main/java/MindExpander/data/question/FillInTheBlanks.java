@@ -1,8 +1,8 @@
-package MindExpander.data.question;
+package mindexpander.data.question;
 
 class FillInTheBlanks extends Question {
     public FillInTheBlanks(String question, String answer) {
-        super(question, answer);
+        super(question, answer, QuestionType.FITB);
     }
 
     @Override

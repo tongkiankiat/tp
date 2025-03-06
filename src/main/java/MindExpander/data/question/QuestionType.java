@@ -1,4 +1,4 @@
-package MindExpander.data.question;
+package mindexpander.data.question;
 
 public enum QuestionType {
     FITB("fitb"),

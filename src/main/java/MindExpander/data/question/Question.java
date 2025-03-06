@@ -1,12 +1,14 @@
-package MindExpander.data.question;
+package mindexpander.data.question;
 
-abstract class Question {
+public abstract class Question {
     protected String question;
     protected String answer;
+    protected final QuestionType type;
 
-    public Question(String question, String answer) {
+    public Question(String question, String answer, QuestionType type) {
         this.question = question;
         this.answer = answer;
+        this.type = type;
     }
 
     public String getQuestion() {
