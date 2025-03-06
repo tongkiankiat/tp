@@ -1,6 +1,9 @@
 package mindexpander.parser;
-
+// Commands
 import mindexpander.commands.Command;
+import mindexpander.commands.Help;
+// Exceptions
+import mindexpander.exceptions.IllegalCommandException;
 
 /**
  * The {@code Parser} class is responsible for interpreting user commands
@@ -39,13 +42,11 @@ public class Parser {
 
         // Handle commands
         return switch (userCommand.toLowerCase()) {
-            case "list" -> new ListTasks(taskDetails, taskList);
-            case "todo" -> new AddTodo(taskDetails, taskList);
-            case "deadline" -> new AddDeadline(taskDetails, taskList);
-            case "event" -> new AddEvent(taskDetails, taskList);
-            case "mark", "unmark" -> new MarkCommand(userCommand.toLowerCase(), stringParts, taskDetails, taskList);
-            case "find" -> new FindTask(taskDetails, taskList);
-            case "delete" -> new DeleteTask(stringParts, taskDetails, taskList);
+            case "help" -> new Help();
+            // case "add" -> new AddTodo(taskDetails, taskList);
+            // case "list" -> new AddDeadline(taskDetails, taskList);
+            // case "solve" -> new AddEvent(taskDetails, taskList);
+            // case "edit" -> new MarkCommand(userCommand.toLowerCase(), stringParts, taskDetails, taskList);
             default -> throw new IllegalCommandException(ILLEGAL_COMMAND_MESSAGE);
         };
     }
