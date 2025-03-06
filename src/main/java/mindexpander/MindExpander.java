@@ -1,4 +1,3 @@
-<<<<<<< HEAD:src/main/java/mindexpander/MindExpander.java
 package mindexpander;
 
 import java.io.IOException;
@@ -139,7 +138,7 @@ public class MindExpander {
         }
     }
 }
-=======
+
 //package MindExpander;
 //
 //import java.io.IOException;
@@ -301,4 +300,3 @@ public class MindExpander {
 //        }
 //    }
 //}
->>>>>>> 0a42c3bb5c2030118d00a06018e520a5dc68221f:src/main/java/MindExpander/MindExpander.java

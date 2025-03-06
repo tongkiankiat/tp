@@ -1,4 +1,4 @@
-package MindExpander;
+package mindexpander;
 
 public class Main {
 
