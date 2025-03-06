@@ -3,7 +3,7 @@ package mindexpander.commands;
 import mindexpander.exceptions.IllegalCommandException;
 
 public class Command {
-    protected String commandMessage;
+    private String commandMessage;
 
     protected void updateCommandMessage(String commandMessage) {
         this.commandMessage = commandMessage;

@@ -14,7 +14,9 @@ public class Help extends Command {
      * whatever new features are implemented.
      */
     private final String HELP_MESSAGE = """
-            MindExpander Commands:
+            Welcome to MindExpander!
+            
+            List of commands:
             1. help
                 - Print a list of commands.
             2. add
@@ -28,6 +30,6 @@ public class Help extends Command {
             """;
 
     public Help() {
-        super.commandMessage = HELP_MESSAGE;
+        updateCommandMessage(HELP_MESSAGE);
     }
 }
