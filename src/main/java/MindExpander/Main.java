@@ -1,4 +1,6 @@
-package MindExpander;
+package mindexpander;
+
+import mindexpander.data.*;
 
 public class Main {
 
