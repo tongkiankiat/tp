@@ -1,4 +1,9 @@
 package mindexpander;
+<<<<<<< HEAD:src/main/java/mindexpander/Main.java
+=======
+
+import mindexpander.data.*;
+>>>>>>> 73661c7cc0feb6bca11db40d90d49afd45f8a6ef:src/main/java/MindExpander/Main.java
 
 public class Main {
 
