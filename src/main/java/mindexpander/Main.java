@@ -1,7 +1,5 @@
 package mindexpander;
 
-import mindexpander.data.*;
-
 public class Main {
 
     public static final String VERSION = "MindExpander - Version 0.2";
