@@ -27,8 +27,7 @@ public class Parser {
     /**
      * Parses the user's input command and returns the appropriate {@code CommandHandler} object.
      *
-     * <p>This method splits the input into the command and task details, then
-     * uses a switch expression to return the corresponding command object.</p>
+     * <p>This method uses a switch expression to return the corresponding command object.</p>
      *
      * @param userEntry The full command input from the user.
      * @param questionBank The {@code QuestionBank} that contains all tasks.
