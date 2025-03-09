@@ -1,7 +1,7 @@
 package mindexpander.parser;
 
 import mindexpander.commands.ExitCommand;
-import mindexpander.data.QuestionBank;
+
 // Commands
 import mindexpander.commands.Command;
 import mindexpander.commands.HelpCommand;
@@ -41,10 +41,9 @@ public class Parser {
 
         // Handle commands
         return switch (userCommand.toLowerCase()) {
-            case "help" -> new HelpCommand();
-            case "exit" -> new ExitCommand();
-            default -> throw new IllegalCommandException(Messages.UNKNOWN_COMMAND_MESSAGE);
+        case "help" -> new HelpCommand();
+        case "exit" -> new ExitCommand();
+        default -> throw new IllegalCommandException(Messages.UNKNOWN_COMMAND_MESSAGE);
         };
     }
 }
-

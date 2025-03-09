@@ -16,6 +16,8 @@ public class Messages {
     public static final String WELCOME_MESSAGE = "Welcome to MindExpander! Please press enter to continue.";
     public static final String FAILED_MESSAGE = "Something went wrong starting MindExpander, exiting program...";
     public static final String GOODBYE_MESSAGE = "Bye! Hope to see you again soon :)";
-    public static final String[] MENU_MESSAGE = {"What would you like to do today?", "Type <help> for a list of commands."};
-    public static final String UNKNOWN_COMMAND_MESSAGE = "You have entered an unknown command. Please refer to the user guide, or type <help> to display the available commands";
+    public static final String[] MENU_MESSAGE = {"What would you like to do today?",
+            "Type <help> for a list of commands."};
+    public static final String UNKNOWN_COMMAND_MESSAGE = "You have entered an unknown command." +
+            " Please refer to the user guide, or type <help> to display the available commands";
 }

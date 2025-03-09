@@ -1,6 +1,6 @@
 package mindexpander.data;
 
-import mindexpander.data.question.*;
+import mindexpander.data.question.Question;
 
 import java.util.ArrayList;
 import java.util.List;

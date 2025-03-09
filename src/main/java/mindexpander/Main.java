@@ -6,12 +6,12 @@ import mindexpander.data.QuestionBank;
 import mindexpander.exceptions.IllegalCommandException;
 import mindexpander.ui.TextUi;
 
-import mindexpander.commands.*;
+import mindexpander.commands.Command;
 
 public class Main {
     // Attributes
-    private TextUi ui;
     private static QuestionBank questionBank;
+    private TextUi ui;
 
     // Constructor
     public static void main(String[] args) {
