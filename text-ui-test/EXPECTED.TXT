@@ -1,9 +1,55 @@
-Hello from
- ____        _        
-|  _ \ _   _| | _____ 
-| | | | | | | |/ / _ \
-| |_| | |_| |   <  __/
-|____/ \__,_|_|\_\___|
+==============================
 
-What is your name?
-Hello James Gosling
+   _____  .__            .______________                                .___            
+  /     \ |__| ____    __| _/\_   _____/__  ______________    ____    __| _/___________ 
+ /  \ /  \|  |/    \  / __ |  |    __)_\  \/  /\____ \__  \  /    \  / __ |/ __ \_  __ \
+/    Y    \  |   |  \/ /_/ |  |        \>    < |  |_> > __ \|   |  \/ /_/ \  ___/|  | \/
+\____|__  /__|___|  /\____ | /_______  /__/\_ \|   __(____  /___|  /\____ |\___  >__|   
+        \/        \/      \/         \/      \/|__|       \/     \/      \/    \/       
+
+Presented by: CS2113-F12-3
+Welcome to MindExpander! Please press enter to continue.
+==============================
+==============================
+What would you like to do today?
+Type <help> for a list of commands.
+==============================
+==============================
+[Command you entered: help]
+==============================
+==============================
+Welcome to MindExpander!
+
+List of commands:
+1. help
+    - Print a list of commands.
+2. add
+    - Add a question to the list.
+3. list
+    - List all questions added.
+4. solve
+    - Attempt to solve a question.
+5. edit
+    - Edit a question in the list.
+
+==============================
+==============================
+What would you like to do today?
+Type <help> for a list of commands.
+==============================
+==============================
+[Command you entered: potato]
+==============================
+==============================
+You have entered an unknown command. Please refer to the user guide, or type <help> to display the available commands
+==============================
+==============================
+What would you like to do today?
+Type <help> for a list of commands.
+==============================
+==============================
+[Command you entered: exit]
+==============================
+==============================
+Bye! Hope to see you again soon :)
+==============================
