@@ -8,8 +8,6 @@ import mindexpander.ui.TextUi;
 
 import mindexpander.commands.*;
 
-import mindexpander.common.Messages;
-
 public class Main {
     // Attributes
     private TextUi ui;
@@ -44,18 +42,22 @@ public class Main {
         // New command variable
         Command command;
         // Temporary state for exit, before adding in command class
-        boolean exit = false;
+        boolean isRunning = true;
+
         do {
             String userCommand = ui.getUserCommand();
 
-            command = new Parser().parseCommand(userCommand);
             try {
+                command = new Parser().parseCommand(userCommand);
+
                 String commandResult = command.execute();
                 ui.displayResults(commandResult);
+
+                isRunning =command.keepProgramRunning();
             } catch (IllegalCommandException e) {
-                ui.printToUser(Messages.UNKNOWN_COMMAND_MESSAGE);
+                ui.printToUser(e.getMessage());
             }
 
-        } while (!ExitCommand.isExit(command));
+        } while (isRunning);
     }
 }

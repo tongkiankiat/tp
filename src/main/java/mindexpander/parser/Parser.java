@@ -9,6 +9,8 @@ import mindexpander.commands.HelpCommand;
 // Exceptions
 import mindexpander.exceptions.IllegalCommandException;
 
+import mindexpander.common.Messages;
+
 /**
  * The {@code Parser} class is responsible for interpreting user commands
  * and returning the corresponding {@code CommandHandler} object.
@@ -37,16 +39,11 @@ public class Parser {
         String userCommand = stringParts[0];
         String taskDetails = stringParts.length > 1? stringParts[1] : "";
 
-        String ILLEGAL_COMMAND_MESSAGE = """
-                Please enter a valid command.
-                Use 'help' for a list of commands.
-                """;
-
         // Handle commands
         return switch (userCommand.toLowerCase()) {
             case "help" -> new HelpCommand();
             case "exit" -> new ExitCommand();
-            default -> throw new IllegalCommandException(ILLEGAL_COMMAND_MESSAGE);
+            default -> throw new IllegalCommandException(Messages.UNKNOWN_COMMAND_MESSAGE);
         };
     }
 }
