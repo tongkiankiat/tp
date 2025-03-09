@@ -9,6 +9,10 @@ public class Command {
         this.commandMessage = commandMessage;
     }
 
+    public boolean keepProgramRunning() {
+        return true;
+    }
+
     public String execute() throws IllegalCommandException {
         return commandMessage;
     }
