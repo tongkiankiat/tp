@@ -7,6 +7,7 @@ import mindexpander.commands.Command;
 import mindexpander.commands.HelpCommand;
 
 // Exceptions
+import mindexpander.commands.SolveCommand;
 import mindexpander.exceptions.IllegalCommandException;
 
 import mindexpander.common.Messages;
@@ -23,6 +24,7 @@ import mindexpander.common.Messages;
  * @since 2025-03-06
  */
 public class Parser {
+    private Command ongoingCommand = null; // Tracks multistep command
 
     /**
      * Parses the user's input command and returns the appropriate {@code CommandHandler} object.
@@ -34,6 +36,11 @@ public class Parser {
      * @throws IllegalCommandException If the command is invalid or unrecognized.
      */
     public Command parseCommand (String userEntry) throws IllegalCommandException {
+        if (ongoingCommand != null && !ongoingCommand.isCommandComplete()) {
+            // Continue processing the ongoing multistep command
+            return ongoingCommand.handleMultistepCommand(userEntry);
+        }
+
         // Split into commands and details of task
         String[] stringParts = userEntry.split(" ", 2);
         String userCommand = stringParts[0];
@@ -43,6 +50,7 @@ public class Parser {
         return switch (userCommand.toLowerCase()) {
         case "help" -> new HelpCommand();
         case "exit" -> new ExitCommand();
+        case "solve" -> new SolveCommand();
         default -> throw new IllegalCommandException(Messages.UNKNOWN_COMMAND_MESSAGE);
         };
     }
