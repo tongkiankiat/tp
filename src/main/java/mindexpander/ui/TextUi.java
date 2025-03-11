@@ -44,11 +44,6 @@ public class TextUi {
         return input.trim().isEmpty();
     }
 
-    public void enterMainMenu() {
-        in.nextLine();
-        clearUserScreen();
-    }
-
     public String getUserCommand() {
         printToUser(Messages.MENU_MESSAGE);
         String input = in.nextLine();
@@ -73,7 +68,7 @@ public class TextUi {
         }
     }
 
-    public void displayResults(String message) {
+    public void displayResults(String... message) {
         printToUser(message);
     }
 }

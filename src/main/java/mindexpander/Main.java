@@ -30,8 +30,6 @@ public class Main {
     private void start() {
         try {
             this.ui = new TextUi();
-            // Initialise storage and data here as well
-            ui.enterMainMenu();
         } catch (Exception e) {
             ui.printInitFailedMessage();
         }
@@ -53,7 +51,7 @@ public class Main {
                 String commandResult = command.execute();
                 ui.displayResults(commandResult);
 
-                isRunning =command.keepProgramRunning();
+                isRunning = command.keepProgramRunning();
             } catch (IllegalCommandException e) {
                 ui.printToUser(e.getMessage());
             }
