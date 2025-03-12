@@ -1,6 +1,6 @@
 package mindexpander.data;
 
-import mindexpander.data.question.*;
+import mindexpander.data.question.Question;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,5 +28,13 @@ public class QuestionBank {
 
     public void removeQuestion(int index) {
         allQuestions.remove(index);
+    }
+
+    public int getQuestionCount() {
+       return allQuestions.size();
+    }
+
+    public Question getQuestion(int index) {
+        return allQuestions.get(index);
     }
 }

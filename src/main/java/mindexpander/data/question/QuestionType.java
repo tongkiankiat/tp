@@ -1,8 +1,7 @@
 package mindexpander.data.question;
 
 public enum QuestionType {
-    FITB("fitb"),
-    MCQ("mcq");
+    FITB("fitb");
 
     private final String type;
 
