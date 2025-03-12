@@ -23,7 +23,7 @@ public class Main {
     // Run MindExpander
     public void run() {
         start();
-        runUserCommandUntilTermination();
+        runUserCommandUntilTermination(questionBank);
     }
 
     // Start function: Instantiates the TextUI class
@@ -38,7 +38,7 @@ public class Main {
     }
 
     // Runs the program until user enters 'exit'
-    private void runUserCommandUntilTermination() {
+    private void runUserCommandUntilTermination(QuestionBank questionBank) {
         // New command variable
         Command command;
         // Temporary state for exit, before adding in command class
@@ -48,7 +48,7 @@ public class Main {
             String userCommand = ui.getUserCommand();
 
             try {
-                command = new Parser().parseCommand(userCommand);
+                command = new Parser().parseCommand(userCommand, questionBank);
 
                 String commandResult = command.execute();
                 ui.displayResults(commandResult);

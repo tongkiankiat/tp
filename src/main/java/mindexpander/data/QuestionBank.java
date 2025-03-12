@@ -29,4 +29,12 @@ public class QuestionBank {
     public void removeQuestion(int index) {
         allQuestions.remove(index);
     }
+
+    public int getQuestionCount() {
+       return allQuestions.size();
+    }
+
+    public Question getQuestion(int index) {
+        return allQuestions.get(index);
+    }
 }

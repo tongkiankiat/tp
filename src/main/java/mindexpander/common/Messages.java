@@ -3,7 +3,7 @@ package mindexpander.common;
 // This package contains the variables for common strings used in this program
 
 public class Messages {
-    // Attributes
+    // General messages
     public static final String LINE = "==============================";
     public static final String MINDEXPANDERLOGO = "\n" +
             "   _____  .__            .______________                                .___            \n" +
