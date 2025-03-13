@@ -28,10 +28,7 @@ public class StorageFile {
 
     public StorageFile() {
         this.file = new File("./data/MindExpander.txt");
-    }
-
-    public StorageFile(String filePath) {
-        this.file = new File(filePath);
+//        clearFileOnStartup(); // Uncomment to clear MindExpander.txt when StorageFile is initialised
     }
 
     /**
@@ -52,7 +49,6 @@ public class StorageFile {
                 writer.write(formatQuestionForSaving(q));
                 writer.newLine();
             }
-            System.out.println("Questions saved successfully!");
         } catch (IOException e) {
             System.out.println("Error saving data: " + e.getMessage());
         }
@@ -64,4 +60,13 @@ public class StorageFile {
         }
         return "";
     }
+
+    //uncomment to clear MindExpander.txt
+//    private void clearFileOnStartup() {
+//        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, false))) {
+//            writer.write(""); // Uncomment this line to enable clearing
+//        } catch (IOException e) {
+//            System.out.println("Error clearing data file: " + e.getMessage());
+//        }
+//    }
 }

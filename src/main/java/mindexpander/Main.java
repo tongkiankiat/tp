@@ -51,7 +51,7 @@ public class Main {
             String userCommand = ui.getUserCommand();
 
             try {
-                command = new Parser().parseCommand(userCommand, questionBank);
+                command = new Parser().parseCommand(userCommand, questionBank, storage);
                 String commandResult = command.execute();
                 ui.displayResults(commandResult);
 

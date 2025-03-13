@@ -11,7 +11,7 @@ import mindexpander.exceptions.IllegalCommandException;
  */
 public class Command {
     protected String commandMessage;
-    protected boolean isComplete; // To signal completion of multistep commands.
+    protected boolean isComplete = true; // To signal completion of multistep commands.
 
     /**
      * Updates the command message associated with this command.

@@ -15,6 +15,7 @@ import mindexpander.exceptions.IllegalCommandException;
 import mindexpander.data.QuestionBank;
 
 import mindexpander.common.Messages;
+import mindexpander.storage.StorageFile;
 
 /**
  * The {@code Parser} class is responsible for interpreting user commands
@@ -39,7 +40,7 @@ public class Parser {
      * @return The appropriate {@code CommandHandler} object based on the command.
      * @throws IllegalCommandException If the command is invalid or unrecognized.
      */
-    public Command parseCommand (String userEntry, QuestionBank questionBank)
+    public Command parseCommand (String userEntry, QuestionBank questionBank, StorageFile storage)
             throws IllegalCommandException {
         if (ongoingCommand != null && !ongoingCommand.isCommandComplete()) {
             // Continue processing the ongoing multistep command
@@ -59,7 +60,7 @@ public class Parser {
             ongoingCommand = new SolveCommand();
             yield ongoingCommand;
         }
-        case "add" -> new AddCommand();
+        case "add" -> new AddCommand(storage);
 
         default -> throw new IllegalCommandException(Messages.UNKNOWN_COMMAND_MESSAGE);
         };
