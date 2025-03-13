@@ -3,6 +3,7 @@ package mindexpander.commands;
 import mindexpander.data.QuestionBank;
 
 import mindexpander.exceptions.IllegalCommandException;
+import mindexpander.commands.CommandResult;
 
 /**
  * The {@code Command} class represents a generic command that can be executed.
@@ -40,8 +41,8 @@ public class Command {
      * @return the result of the command execution as a string.
      * @throws IllegalCommandException if the command execution is illegal or invalid.
      */
-    public String execute() throws IllegalCommandException {
-        return commandMessage;
+    public CommandResult execute() throws IllegalCommandException {
+        return new CommandResult(commandMessage);
     }
 
     // To handle commands with multiple steps

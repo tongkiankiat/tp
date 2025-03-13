@@ -1,10 +1,15 @@
 package mindexpander.ui;
 
+import mindexpander.commands.Command;
+import mindexpander.commands.CommandResult;
 import mindexpander.common.Messages;
+import mindexpander.data.QuestionBank;
+import mindexpander.data.question.Question;
 
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class TextUi {
     // Attributes
@@ -44,11 +49,6 @@ public class TextUi {
         return input.trim().isEmpty();
     }
 
-    public void enterMainMenu() {
-        in.nextLine();
-        clearUserScreen();
-    }
-
     public String getUserCommand() {
         printToUser(Messages.MENU_MESSAGE);
         String input = in.nextLine();
@@ -73,7 +73,16 @@ public class TextUi {
         }
     }
 
-    public void displayResults(String message) {
-        printToUser(message);
+    public void displayResults(CommandResult commandResult) {
+        QuestionBank questionBank = commandResult.getQuestionBank();
+        if (questionBank == null) {
+            printToUser(commandResult.commandResultToUser);
+        } else {
+          ArrayList<String> formattedQuestionBank = new ArrayList<>();
+          for (int i = 0; i < questionBank.getQuestionCount(); i++) {
+              formattedQuestionBank.add(questionBank.getQuestion(i).toString());
+          }
+          printToUser(formattedQuestionBank.toArray(new String[0]));
+        }
     }
 }
