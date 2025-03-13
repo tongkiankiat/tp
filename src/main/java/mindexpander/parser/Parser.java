@@ -60,7 +60,7 @@ public class Parser {
             yield ongoingCommand;
         }
         case "add" -> new AddCommand(storage);
-        case "list" -> new ListCommand();
+        case "list" -> new ListCommand(questionBank);
 
         default -> throw new IllegalCommandException(Messages.UNKNOWN_COMMAND_MESSAGE);
         };

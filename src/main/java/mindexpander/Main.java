@@ -32,10 +32,8 @@ public class Main {
     private void start() {
         try {
             this.ui = new TextUi();
-            this.questionBank = new QuestionBank();
             this.storage = new StorageFile();
-            // Initialise storage and data here as well
-            ui.enterMainMenu();
+            this.questionBank = storage.load();
         } catch (Exception e) {
             ui.printInitFailedMessage();
         }
