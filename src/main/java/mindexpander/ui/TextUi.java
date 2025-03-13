@@ -92,11 +92,11 @@ public class TextUi {
         if (questionBank == null) {
             printToUser(commandResult.commandResultToUser);
         } else {
-          ArrayList<String> formattedQuestionBank = new ArrayList<>();
-          for (int i = 0; i < questionBank.getQuestionCount(); i++) {
-              formattedQuestionBank.add(questionBank.getQuestion(i).toString());
-          }
-          printToUser(formattedQuestionBank.toArray(new String[0]));
+            ArrayList<String> formattedQuestionBank = new ArrayList<>();
+            for (int i = 0; i < questionBank.getQuestionCount(); i++) {
+                formattedQuestionBank.add(questionBank.getQuestion(i).toString());
+            }
+            printToUser(formattedQuestionBank.toArray(new String[0]));
         }
     }
 }

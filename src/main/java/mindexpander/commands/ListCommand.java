@@ -20,8 +20,8 @@ public class ListCommand extends Command {
     // Methods
     @Override
     public CommandResult execute() {
-//        QuestionBank questionBank = storage.load();
-//        return new CommandResult("", questionBank);
+        // QuestionBank questionBank = storage.load();
+        // return new CommandResult("", questionBank);
         // Temporary return null statement to prevent error
         return null;
     }

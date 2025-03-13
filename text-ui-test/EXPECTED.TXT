@@ -8,9 +8,9 @@
         \/        \/      \/         \/      \/|__|       \/     \/      \/    \/       
 
 Presented by: CS2113-F12-3
-Welcome to MindExpander! Please press enter to continue.
+Welcome to MindExpander!
 ==============================
-==============================
+==============================
 What would you like to do today?
 Type <help> for a list of commands.
 ==============================

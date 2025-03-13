@@ -3,7 +3,6 @@ package mindexpander.commands;
 import mindexpander.data.QuestionBank;
 
 import mindexpander.exceptions.IllegalCommandException;
-import mindexpander.commands.CommandResult;
 
 /**
  * The {@code Command} class represents a generic command that can be executed.
@@ -12,7 +11,7 @@ import mindexpander.commands.CommandResult;
  */
 public class Command {
     protected String commandMessage;
-    protected boolean isComplete; // To signal completion of multistep commands.
+    protected boolean isComplete = true; // To signal completion of multistep commands.
 
     /**
      * Updates the command message associated with this command.

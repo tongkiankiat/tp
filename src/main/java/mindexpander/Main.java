@@ -53,6 +53,7 @@ public class Main {
                 ui.displayResults(commandResult);
 
                 while (!command.isCommandComplete()) {
+                    System.out.println("**********");
                     String input = ui.nextLine();
                     command.handleMultistepCommand(input, questionBank);
                     ui.displayResults(command.execute());

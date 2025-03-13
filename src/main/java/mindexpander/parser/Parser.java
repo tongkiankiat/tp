@@ -1,11 +1,15 @@
 package mindexpander.parser;
 
-import mindexpander.commands.*;
+import mindexpander.commands.Command;
+import mindexpander.commands.AddCommand;
+import mindexpander.commands.HelpCommand;
+import mindexpander.commands.ListCommand;
+import mindexpander.commands.ExitCommand;
+import mindexpander.commands.SolveCommand;
 
 // Commands
 
 // Exceptions
-import mindexpander.data.question.FillInTheBlanks;
 import mindexpander.exceptions.IllegalCommandException;
 
 import mindexpander.data.QuestionBank;

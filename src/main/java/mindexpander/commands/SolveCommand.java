@@ -32,9 +32,10 @@ public class SolveCommand extends Command {
             updateCommandMessage("Correct!");
             isComplete = true;
             return new Command(); // Exit multi-step mode
-        }
 
-        return this; // Default return, should not reach here
+        default:
+            return this; // Default return, should not reach here
+        }
     }
 
     private String getQuestionIndex(String nextInput, QuestionBank questionBank) {
