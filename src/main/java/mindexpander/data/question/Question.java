@@ -31,7 +31,7 @@ public abstract class Question {
 
     public abstract boolean checkAnswer(String input);
 
-    public abstract String showQuestion();
+    public abstract void showQuestion();
 
     public abstract String toString();
 }

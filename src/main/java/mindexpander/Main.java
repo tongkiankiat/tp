@@ -11,14 +11,13 @@ import mindexpander.commands.Command;
 
 public class Main {
     // Attributes
-    private static QuestionBank questionBank;
+    private QuestionBank questionBank;
     private StorageFile storage;
     private TextUi ui;
 
     // Constructor
     public static void main(String[] args) {
         new Main().run();
-        questionBank = new QuestionBank();
     }
 
     // Methods
@@ -32,6 +31,7 @@ public class Main {
     private void start() {
         try {
             this.ui = new TextUi();
+            this.questionBank = new QuestionBank();
             this.storage = new StorageFile();
             // Initialise storage and data here as well
             ui.enterMainMenu();
@@ -52,11 +52,16 @@ public class Main {
 
             try {
                 command = new Parser().parseCommand(userCommand, questionBank);
-
                 String commandResult = command.execute();
                 ui.displayResults(commandResult);
 
-                isRunning =command.keepProgramRunning();
+                while (!command.isCommandComplete()) {
+                    String input = ui.nextLine();
+                    command.handleMultistepCommand(input, questionBank);
+                    ui.displayResults(command.execute());
+                }
+
+                isRunning = command.keepProgramRunning();
             } catch (IllegalCommandException e) {
                 ui.printToUser(e.getMessage());
             }

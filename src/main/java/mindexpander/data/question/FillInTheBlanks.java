@@ -1,6 +1,6 @@
 package mindexpander.data.question;
 
-class FillInTheBlanks extends Question {
+public class FillInTheBlanks extends Question {
     public FillInTheBlanks(String question, String answer) {
         super(question, answer, QuestionType.FITB);
     }
@@ -10,8 +10,8 @@ class FillInTheBlanks extends Question {
         return answer.equalsIgnoreCase(userAnswer.trim());
     }
 
-    public String showQuestion() {
-        return "FITB: " + question;
+    public void showQuestion() {
+        System.out.println("FITB: " + question);
     }
 
     @Override

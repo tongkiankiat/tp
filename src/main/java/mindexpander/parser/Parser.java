@@ -5,9 +5,11 @@ import mindexpander.commands.ExitCommand;
 // Commands
 import mindexpander.commands.Command;
 import mindexpander.commands.HelpCommand;
+import mindexpander.commands.AddCommand;
 
 // Exceptions
 import mindexpander.commands.SolveCommand;
+import mindexpander.data.question.FillInTheBlanks;
 import mindexpander.exceptions.IllegalCommandException;
 
 import mindexpander.data.QuestionBank;
@@ -57,6 +59,8 @@ public class Parser {
             ongoingCommand = new SolveCommand();
             yield ongoingCommand;
         }
+        case "add" -> new AddCommand();
+
         default -> throw new IllegalCommandException(Messages.UNKNOWN_COMMAND_MESSAGE);
         };
     }
