@@ -19,6 +19,8 @@ public class ListCommand extends Command {
     @Override
     public CommandResult execute() {
 //        QuestionBank questionBank = storage.load();
-        return new CommandResult("", questionBank);
+//        return new CommandResult("", questionBank);
+        // Temporary return null statement to prevent error
+        return null;
     }
 }
