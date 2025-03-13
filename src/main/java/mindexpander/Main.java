@@ -4,6 +4,7 @@ import mindexpander.parser.Parser;
 
 import mindexpander.data.QuestionBank;
 import mindexpander.exceptions.IllegalCommandException;
+import mindexpander.storage.StorageFile;
 import mindexpander.ui.TextUi;
 
 import mindexpander.commands.Command;
@@ -11,6 +12,7 @@ import mindexpander.commands.Command;
 public class Main {
     // Attributes
     private static QuestionBank questionBank;
+    private StorageFile storage;
     private TextUi ui;
 
     // Constructor
@@ -30,6 +32,7 @@ public class Main {
     private void start() {
         try {
             this.ui = new TextUi();
+            this.storage = new StorageFile();
             // Initialise storage and data here as well
             ui.enterMainMenu();
         } catch (Exception e) {
