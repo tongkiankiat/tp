@@ -1,14 +1,10 @@
 package mindexpander.parser;
 
-import mindexpander.commands.ExitCommand;
+import mindexpander.commands.*;
 
 // Commands
-import mindexpander.commands.Command;
-import mindexpander.commands.HelpCommand;
-import mindexpander.commands.AddCommand;
 
 // Exceptions
-import mindexpander.commands.SolveCommand;
 import mindexpander.data.question.FillInTheBlanks;
 import mindexpander.exceptions.IllegalCommandException;
 
@@ -60,6 +56,7 @@ public class Parser {
             yield ongoingCommand;
         }
         case "add" -> new AddCommand();
+        case "list" -> new ListCommand();
 
         default -> throw new IllegalCommandException(Messages.UNKNOWN_COMMAND_MESSAGE);
         };
