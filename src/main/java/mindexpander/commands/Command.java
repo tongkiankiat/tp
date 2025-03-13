@@ -1,6 +1,7 @@
 package mindexpander.commands;
 
 import mindexpander.exceptions.IllegalCommandException;
+import mindexpander.commands.CommandResult;
 
 public class Command {
     private String commandMessage;
@@ -13,7 +14,7 @@ public class Command {
         return true;
     }
 
-    public String execute() throws IllegalCommandException {
-        return commandMessage;
+    public CommandResult execute() throws IllegalCommandException {
+        return new CommandResult(commandMessage);
     }
 }
