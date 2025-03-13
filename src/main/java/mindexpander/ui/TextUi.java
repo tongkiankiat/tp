@@ -49,6 +49,10 @@ public class TextUi {
         clearUserScreen();
     }
 
+    public String nextLine() {
+        return in.nextLine();
+    }
+
     public String getUserCommand() {
         printToUser(Messages.MENU_MESSAGE);
         String input = in.nextLine();
