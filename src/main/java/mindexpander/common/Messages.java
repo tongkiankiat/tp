@@ -13,7 +13,7 @@ public class Messages {
             "\\____|__  /__|___|  /\\____ | /_______  /__/\\_ \\|   __(____  /___|  /\\____ |\\___  >__|   \n" +
             "        \\/        \\/      \\/         \\/      \\/|__|       \\/     \\/      \\/    \\/       \n";
     public static final String TEAM_NAME = "Presented by: CS2113-F12-3";
-    public static final String WELCOME_MESSAGE = "Welcome to MindExpander! Please press enter to continue.";
+    public static final String WELCOME_MESSAGE = "Welcome to MindExpander!";
     public static final String FAILED_MESSAGE = "Something went wrong starting MindExpander, exiting program...";
     public static final String GOODBYE_MESSAGE = "Bye! Hope to see you again soon :)";
     public static final String[] MENU_MESSAGE = {"What would you like to do today?",

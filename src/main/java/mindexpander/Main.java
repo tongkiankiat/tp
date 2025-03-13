@@ -1,5 +1,6 @@
 package mindexpander;
 
+import mindexpander.commands.CommandResult;
 import mindexpander.parser.Parser;
 
 import mindexpander.data.QuestionBank;
@@ -30,8 +31,6 @@ public class Main {
         try {
             this.ui = new TextUi();
             this.questionBank = new QuestionBank();
-            // Initialise storage and data here as well
-            ui.enterMainMenu();
         } catch (Exception e) {
             ui.printInitFailedMessage();
         }
@@ -49,10 +48,12 @@ public class Main {
 
             try {
                 command = new Parser().parseCommand(userCommand, questionBank);
-                String commandResult = command.execute();
+
+                CommandResult commandResult = command.execute();
                 ui.displayResults(commandResult);
 
                 while (!command.isCommandComplete()) {
+                    System.out.println("**********");
                     String input = ui.nextLine();
                     command.handleMultistepCommand(input, questionBank);
                     ui.displayResults(command.execute());
