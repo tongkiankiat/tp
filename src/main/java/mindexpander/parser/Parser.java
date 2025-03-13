@@ -1,21 +1,20 @@
 package mindexpander.parser;
 
+import mindexpander.commands.Command;
+import mindexpander.commands.AddCommand;
+import mindexpander.commands.HelpCommand;
+import mindexpander.commands.ListCommand;
 import mindexpander.commands.ExitCommand;
+import mindexpander.commands.SolveCommand;
 
 // Commands
-import mindexpander.commands.Command;
-import mindexpander.commands.HelpCommand;
-import mindexpander.commands.AddCommand;
 
 // Exceptions
-import mindexpander.commands.SolveCommand;
-import mindexpander.data.question.FillInTheBlanks;
 import mindexpander.exceptions.IllegalCommandException;
 
 import mindexpander.data.QuestionBank;
-
-import mindexpander.common.Messages;
 import mindexpander.storage.StorageFile;
+import mindexpander.common.Messages;
 
 /**
  * The {@code Parser} class is responsible for interpreting user commands
@@ -61,6 +60,7 @@ public class Parser {
             yield ongoingCommand;
         }
         case "add" -> new AddCommand(storage);
+        case "list" -> new ListCommand();
 
         default -> throw new IllegalCommandException(Messages.UNKNOWN_COMMAND_MESSAGE);
         };

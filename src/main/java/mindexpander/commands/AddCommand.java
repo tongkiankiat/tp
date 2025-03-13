@@ -43,9 +43,10 @@ public class AddCommand extends Command {
             storage.save(questionBank);
             isComplete = true;
             return this; // Exit multi-step mode
-        }
 
-        return this; // Default return, should not reach here
+        default:
+            return this;  // Default return, should not reach here
+        }
     }
 
     private String getQuestionType(String nextInput) {

@@ -1,5 +1,6 @@
 package mindexpander;
 
+import mindexpander.commands.CommandResult;
 import mindexpander.parser.Parser;
 
 import mindexpander.data.QuestionBank;
@@ -52,7 +53,7 @@ public class Main {
 
             try {
                 command = new Parser().parseCommand(userCommand, questionBank, storage);
-                String commandResult = command.execute();
+                CommandResult commandResult = command.execute();
                 ui.displayResults(commandResult);
 
                 while (!command.isCommandComplete()) {
