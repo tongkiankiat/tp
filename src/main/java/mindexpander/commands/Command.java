@@ -11,7 +11,7 @@ import mindexpander.commands.CommandResult;
  * to determine whether the program should continue running after execution.
  */
 public class Command {
-    private String commandMessage;
+    protected String commandMessage;
     protected boolean isComplete; // To signal completion of multistep commands.
 
     /**
