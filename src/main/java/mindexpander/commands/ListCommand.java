@@ -1,5 +1,7 @@
 package mindexpander.commands;
 
+import mindexpander.data.QuestionBank;
+
 /**
  * The {@code ListCommand} class updates display message
  * to show the list of questions saved in the user's device
@@ -11,18 +13,17 @@ package mindexpander.commands;
 public class ListCommand extends Command {
     // Attributes
     private final String LIST_COMMAND_MESSAGE = "Here are the questions you have currently: ";
+    private final QuestionBank questionBank;
 
     // Constructor
-    public ListCommand() {
+    public ListCommand(QuestionBank questionBank) {
+        this.questionBank = questionBank;
         updateCommandMessage(LIST_COMMAND_MESSAGE);
     }
 
     // Methods
     @Override
     public CommandResult execute() {
-        // QuestionBank questionBank = storage.load();
-        // return new CommandResult("", questionBank);
-        // Temporary return null statement to prevent error
-        return null;
+        return new CommandResult("", questionBank);
     }
 }

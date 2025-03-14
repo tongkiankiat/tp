@@ -4,17 +4,20 @@ import mindexpander.data.QuestionBank;
 import mindexpander.data.question.FillInTheBlanks;
 import mindexpander.data.question.Question;
 import mindexpander.data.question.QuestionType;
+import mindexpander.storage.StorageFile;
 
 
 public class AddCommand extends Command {
     private Question toAdd;
     private String question;
     private String answer;
+    private final StorageFile storage;
 
     private enum Step { GET_TYPE, GET_QUESTION, GET_ANSWER }
     private AddCommand.Step currentStep = AddCommand.Step.GET_TYPE;
 
-    public AddCommand() {
+    public AddCommand(StorageFile storage) {
+        this.storage = storage;
         isComplete = false; // Multistep command
         updateCommandMessage("Please enter the type of the question you would like to add.");
     }
@@ -37,6 +40,7 @@ public class AddCommand extends Command {
             toAdd = new FillInTheBlanks(question, answer);
             questionBank.addQuestion(toAdd);
             updateCommandMessage(String.format("Question %1$s successfully added.", toAdd.toString()));
+            storage.save(questionBank);
             isComplete = true;
             return this; // Exit multi-step mode
 
