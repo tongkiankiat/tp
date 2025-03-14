@@ -1,10 +1,25 @@
 package mindexpander.ui;
 
+import mindexpander.commands.CommandResult;
 import mindexpander.common.Messages;
+import mindexpander.data.QuestionBank;
 
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Scanner;
+import java.util.ArrayList;
+
+/**
+ * The {@code TextUi} class handles user interaction in the MindExpander application.
+ * It manages reading user input and printing output messages to the console.
+ *
+ * <p>This class provides functionalities for displaying messages, retrieving user commands,
+ * validating input, clearing the screen, and showing command execution results.</p>
+ *
+ * @author Kian Kiat
+ * @version 1.0
+ * @since 2025-03-06
+ */
 
 public class TextUi {
     // Attributes
@@ -44,9 +59,8 @@ public class TextUi {
         return input.trim().isEmpty();
     }
 
-    public void enterMainMenu() {
-        in.nextLine();
-        clearUserScreen();
+    public String nextLine() {
+        return in.nextLine();
     }
 
     public String getUserCommand() {
@@ -73,7 +87,16 @@ public class TextUi {
         }
     }
 
-    public void displayResults(String message) {
-        printToUser(message);
+    public void displayResults(CommandResult commandResult) {
+        QuestionBank questionBank = commandResult.getQuestionBank();
+        if (questionBank == null) {
+            printToUser(commandResult.commandResultToUser);
+        } else {
+            ArrayList<String> formattedQuestionBank = new ArrayList<>();
+            for (int i = 0; i < questionBank.getQuestionCount(); i++) {
+                formattedQuestionBank.add(questionBank.getQuestion(i).toString());
+            }
+            printToUser(formattedQuestionBank.toArray(new String[0]));
+        }
     }
 }

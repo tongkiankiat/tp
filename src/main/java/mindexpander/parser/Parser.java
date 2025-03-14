@@ -1,14 +1,19 @@
 package mindexpander.parser;
 
+import mindexpander.commands.Command;
+import mindexpander.commands.AddCommand;
+import mindexpander.commands.HelpCommand;
+import mindexpander.commands.ListCommand;
 import mindexpander.commands.ExitCommand;
+import mindexpander.commands.SolveCommand;
 
 // Commands
-import mindexpander.commands.Command;
-import mindexpander.commands.HelpCommand;
 
 // Exceptions
 import mindexpander.exceptions.IllegalCommandException;
 
+import mindexpander.data.QuestionBank;
+import mindexpander.storage.StorageFile;
 import mindexpander.common.Messages;
 
 /**
@@ -23,6 +28,7 @@ import mindexpander.common.Messages;
  * @since 2025-03-06
  */
 public class Parser {
+    private Command ongoingCommand = null; // Tracks multistep command
 
     /**
      * Parses the user's input command and returns the appropriate {@code CommandHandler} object.
@@ -33,7 +39,13 @@ public class Parser {
      * @return The appropriate {@code CommandHandler} object based on the command.
      * @throws IllegalCommandException If the command is invalid or unrecognized.
      */
-    public Command parseCommand (String userEntry) throws IllegalCommandException {
+    public Command parseCommand (String userEntry, QuestionBank questionBank, StorageFile storage)
+            throws IllegalCommandException {
+        if (ongoingCommand != null && !ongoingCommand.isCommandComplete()) {
+            // Continue processing the ongoing multistep command
+            return ongoingCommand.handleMultistepCommand(userEntry, questionBank);
+        }
+
         // Split into commands and details of task
         String[] stringParts = userEntry.split(" ", 2);
         String userCommand = stringParts[0];
@@ -43,6 +55,13 @@ public class Parser {
         return switch (userCommand.toLowerCase()) {
         case "help" -> new HelpCommand();
         case "exit" -> new ExitCommand();
+        case "solve" -> {
+            ongoingCommand = new SolveCommand();
+            yield ongoingCommand;
+        }
+        case "add" -> new AddCommand(storage);
+        case "list" -> new ListCommand(questionBank);
+
         default -> throw new IllegalCommandException(Messages.UNKNOWN_COMMAND_MESSAGE);
         };
     }

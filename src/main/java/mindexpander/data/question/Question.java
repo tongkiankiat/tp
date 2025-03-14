@@ -19,6 +19,8 @@ public abstract class Question {
         return answer;
     }
 
+    public QuestionType getType() { return this.type; }
+
     public void editQuestion(String newQuestion) {
         this.question = newQuestion;
     }
@@ -29,7 +31,7 @@ public abstract class Question {
 
     public abstract boolean checkAnswer(String input);
 
-    public abstract String showQuestion();
+    public abstract void showQuestion();
 
     public abstract String toString();
 }
