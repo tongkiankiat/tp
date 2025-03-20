@@ -24,7 +24,7 @@ Displays the list of commands, along with the format of the command, and what ea
 
 Format: `help` 
 
-Example of usage: 
+Example usage: 
 
 `help`
 
@@ -41,7 +41,13 @@ Example usage: #TODO
 please do not enter characters from other languages, for example Chinese characters.
 
 ### Listing questions added: `list`
-#TODO
+Lists all the questions currently in the question bank.
+
+Format: `list`
+
+Example usage:
+
+`list`
 
 ### Solving questions: `solve`
 Solves a question that was previously added to the question bank.
