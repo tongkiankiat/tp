@@ -89,12 +89,11 @@ public class TextUi {
 
     public void displayResults(CommandResult commandResult) {
         QuestionBank questionBank = commandResult.getQuestionBank();
-        if (questionBank == null) {
-            printToUser(commandResult.commandResultToUser);
-        } else {
+        printToUser(commandResult.commandResultToUser);
+        if (questionBank != null) {
             ArrayList<String> formattedQuestionBank = new ArrayList<>();
             for (int i = 0; i < questionBank.getQuestionCount(); i++) {
-                formattedQuestionBank.add(questionBank.getQuestion(i).toString());
+                formattedQuestionBank.add((i + 1) + ". " + questionBank.getQuestion(i).toString());
             }
             printToUser(formattedQuestionBank.toArray(new String[0]));
         }
