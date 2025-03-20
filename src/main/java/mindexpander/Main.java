@@ -5,6 +5,7 @@ import mindexpander.parser.Parser;
 
 import mindexpander.data.QuestionBank;
 import mindexpander.exceptions.IllegalCommandException;
+import mindexpander.storage.StorageFile;
 import mindexpander.ui.TextUi;
 
 import mindexpander.commands.Command;
@@ -12,6 +13,7 @@ import mindexpander.commands.Command;
 public class Main {
     // Attributes
     private QuestionBank questionBank;
+    private StorageFile storage;
     private TextUi ui;
 
     // Constructor
@@ -30,7 +32,8 @@ public class Main {
     private void start() {
         try {
             this.ui = new TextUi();
-            this.questionBank = new QuestionBank();
+            this.storage = new StorageFile();
+            this.questionBank = storage.load();
         } catch (Exception e) {
             ui.printInitFailedMessage();
         }
@@ -47,13 +50,11 @@ public class Main {
             String userCommand = ui.getUserCommand();
 
             try {
-                command = new Parser().parseCommand(userCommand, questionBank);
-
+                command = new Parser().parseCommand(userCommand, questionBank, storage);
                 CommandResult commandResult = command.execute();
                 ui.displayResults(commandResult);
 
                 while (!command.isCommandComplete()) {
-                    System.out.println("**********");
                     String input = ui.nextLine();
                     command.handleMultistepCommand(input, questionBank);
                     ui.displayResults(command.execute());
