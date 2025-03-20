@@ -93,7 +93,7 @@ public class TextUi {
         if (questionBank != null) {
             ArrayList<String> formattedQuestionBank = new ArrayList<>();
             for (int i = 0; i < questionBank.getQuestionCount(); i++) {
-                formattedQuestionBank.add(questionBank.getQuestion(i).toString());
+                formattedQuestionBank.add((i + 1) + ". " + questionBank.getQuestion(i).toString());
             }
             printToUser(formattedQuestionBank.toArray(new String[0]));
         }
