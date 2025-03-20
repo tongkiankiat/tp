@@ -1,7 +1,7 @@
 package mindexpander.tests;
 
 import mindexpander.commands.HelpCommand;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -33,4 +33,5 @@ public class HelpCommandTest {
 
         assertEquals(expectedMessage, helpCommand.getCommandMessage(), "Help message does not match expected output.");
     }
+
 }
