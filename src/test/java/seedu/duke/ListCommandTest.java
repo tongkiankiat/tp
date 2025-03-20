@@ -1,12 +1,48 @@
 package seedu.duke;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
+import mindexpander.commands.CommandResult;
+import mindexpander.commands.ListCommand;
+import mindexpander.data.QuestionBank;
+import mindexpander.data.question.FillInTheBlanks;
+import mindexpander.data.question.Question;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class DukeTest {
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+class ListCommandTest extends CommandTest {
+    private QuestionBank questionBank;
+    private ListCommand listCommand;
+    private CommandResult commandResult;
+
+    @BeforeEach
+    void setup() {
+        questionBank = new QuestionBank();
+        questionBank.addQuestion(new FillInTheBlanks("1 + 1 = __", "2"));
+        questionBank.addQuestion(new FillInTheBlanks("__ MRT Station is the closest station to NUS", "Kent Ridge"));
+        listCommand = new ListCommand(questionBank);
+    }
+
     @Test
-    public void sampleTest() {
-        assertTrue(true);
+    public void testListCommandWithNoQuestions() {
+        questionBank = new QuestionBank();
+        listCommand = new ListCommand(questionBank);
+        commandResult = listCommand.execute();
+        assertEquals("You have no questions yet!", commandResult.commandResultToUser);
+    }
+
+    @Test
+    public void testListCommandWithQuestions() {
+        setup();
+        commandResult = listCommand.execute();
+        assertEquals("Here are the questions you have stored:", commandResult.commandResultToUser);
+        ArrayList<String> questionBankStringArray = new ArrayList<String>();
+        for (int i = 0; i < questionBank.getQuestionCount(); i++){
+            questionBankStringArray.add(questionBank.getQuestion(i).toString());
+        }
+        assertEquals(List.of("FITB: 1 + 1 = __ [Answer: 2]", "FITB: __ MRT Station is the closest station to NUS [Answer: Kent Ridge]"), questionBankStringArray);
     }
 }
