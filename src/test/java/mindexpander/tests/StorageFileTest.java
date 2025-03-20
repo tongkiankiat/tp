@@ -10,9 +10,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
 
 /**
  * JUnit test class for {@code StorageFile}.
@@ -81,5 +84,28 @@ class StorageFileTest {
         assertEquals("4", loadedQb.getQuestion(0).getAnswer());
         assertEquals("blue", loadedQb.getQuestion(1).getAnswer());
         assertEquals("0", loadedQb.getQuestion(2).getAnswer());
+    }
+
+    @Test
+    void testLoadFromNonExistentFile() {
+        // Ensure file does not exist
+        deleteFileIfExists();
+
+        QuestionBank loadedQb = storageFile.load();
+        assertEquals(0, loadedQb.getQuestionCount(), "Loading from non-existent file should return empty QuestionBank.");
+    }
+
+    @Test
+    void testLoadWithInvalidDataLine() throws IOException {
+        // Create file with one valid and one invalid line
+        file.getParentFile().mkdirs(); // Ensure directory exists
+        try (FileWriter writer = new FileWriter(file)) {
+            writer.write("FITB|The capital of Japan is ___|Tokyo\n");
+            writer.write("INVALID DATA LINE WITHOUT DELIMITER\n");
+        }
+
+        QuestionBank loadedQb = storageFile.load();
+        assertEquals(1, loadedQb.getQuestionCount(), "Only valid lines should be loaded.");
+        assertEquals("Tokyo", loadedQb.getQuestion(0).getAnswer());
     }
 }
