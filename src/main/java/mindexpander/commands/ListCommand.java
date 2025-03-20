@@ -24,7 +24,9 @@ public class ListCommand extends Command {
     // Methods
     @Override
     public CommandResult execute() {
-        String messageToUser = questionBank.getQuestionCount() == 0 ? "You have no questions yet!" : "Here are the questions you have stored:";
+        String messageToUser = questionBank.getQuestionCount() == 0
+                ? "You have no questions yet!"
+                : "Here are the questions you have stored:";
         return new CommandResult(messageToUser, questionBank);
     }
 }

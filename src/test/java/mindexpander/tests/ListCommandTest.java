@@ -42,6 +42,9 @@ class ListCommandTest extends DefaultTest {
         for (int i = 0; i < questionBank.getQuestionCount(); i++){
             questionBankStringArray.add(questionBank.getQuestion(i).toString());
         }
-        assertEquals(List.of("FITB: 1 + 1 = __ [Answer: 2]", "FITB: __ MRT Station is the closest station to NUS [Answer: Kent Ridge]"), questionBankStringArray);
+        assertEquals(List.of(
+                "FITB: 1 + 1 = __ [Answer: 2]",
+                "FITB: __ MRT Station is the closest station to NUS [Answer: Kent Ridge]"
+        ), questionBankStringArray);
     }
 }
