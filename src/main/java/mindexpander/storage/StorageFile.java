@@ -44,9 +44,12 @@ public class StorageFile {
      * @param questionBank The {@code QuestionBank} instance to be saved.
      */
     public void save(QuestionBank questionBank) {
-        boolean directoryCreated = file.getParentFile().mkdirs();
-        if (!directoryCreated) {
-            System.out.println("Warning: Failed to create directory for storage file.");
+        File parentDir = file.getParentFile();
+        if (!parentDir.exists()) {
+            boolean directoryCreated = parentDir.mkdirs();
+            if (!directoryCreated) {
+                System.out.println("Warning: Failed to create directory for storage file.");
+            }
         }
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
@@ -120,11 +123,11 @@ public class StorageFile {
     }
 
     //uncomment to clear MindExpander.txt
-    //    private void clearFileOnStartup() {
-    //        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, false))) {
-    //            writer.write(""); // Uncomment this line to enable clearing
-    //        } catch (IOException e) {
-    //            System.out.println("Error clearing data file: " + e.getMessage());
-    //        }
-    //    }
+//        private void clearFileOnStartup() {
+//            try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, false))) {
+//                writer.write(""); // Uncomment this line to enable clearing
+//            } catch (IOException e) {
+//                System.out.println("Error clearing data file: " + e.getMessage());
+//            }
+//        }
 }
