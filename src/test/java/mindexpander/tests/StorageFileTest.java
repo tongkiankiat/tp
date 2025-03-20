@@ -92,7 +92,8 @@ class StorageFileTest {
         deleteFileIfExists();
 
         QuestionBank loadedQb = storageFile.load();
-        assertEquals(0, loadedQb.getQuestionCount(), "Loading from non-existent file should return empty QuestionBank.");
+        assertEquals(0, loadedQb.getQuestionCount(),
+                "Loading from non-existent file should return empty QuestionBank.");
     }
 
     @Test
