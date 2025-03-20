@@ -11,7 +11,7 @@ import mindexpander.exceptions.IllegalCommandException;
  */
 public class Command {
     protected String commandMessage;
-    protected boolean isComplete; // To signal completion of multistep commands.
+    protected boolean isComplete = true; // To signal completion of multistep commands.
 
     /**
      * Updates the command message associated with this command.
@@ -20,6 +20,15 @@ public class Command {
      */
     protected void updateCommandMessage(String commandMessage) {
         this.commandMessage = commandMessage;
+    }
+
+    /**
+     * Returns the command message associated with this command. Useful for testing commands.
+     *
+     * @return {@code commandMessage} the command message associated with this command.
+     */
+    public String getCommandMessage() {
+        return commandMessage;
     }
 
     /**
@@ -40,8 +49,8 @@ public class Command {
      * @return the result of the command execution as a string.
      * @throws IllegalCommandException if the command execution is illegal or invalid.
      */
-    public String execute() throws IllegalCommandException {
-        return commandMessage;
+    public CommandResult execute() throws IllegalCommandException {
+        return new CommandResult(commandMessage);
     }
 
     // To handle commands with multiple steps

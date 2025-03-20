@@ -31,7 +31,7 @@ public class QuestionBank {
     }
 
     public int getQuestionCount() {
-       return allQuestions.size();
+        return allQuestions.size();
     }
 
     public Question getQuestion(int index) {
