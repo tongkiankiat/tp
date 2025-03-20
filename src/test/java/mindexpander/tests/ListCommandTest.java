@@ -1,10 +1,9 @@
-package seedu.duke;
+package mindexpander.tests;
 
 import mindexpander.commands.CommandResult;
 import mindexpander.commands.ListCommand;
 import mindexpander.data.QuestionBank;
 import mindexpander.data.question.FillInTheBlanks;
-import mindexpander.data.question.Question;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -13,7 +12,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class ListCommandTest extends CommandTest {
+class ListCommandTest extends DefaultTest {
     private QuestionBank questionBank;
     private ListCommand listCommand;
     private CommandResult commandResult;
