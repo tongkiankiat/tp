@@ -66,4 +66,20 @@ class StorageFileTest {
         assertEquals("Capital of France is ___", loadedQ.getQuestion());
         assertEquals("Paris", loadedQ.getAnswer());
     }
+
+    @Test
+    void testSaveAndLoadMultipleQuestions() {
+        QuestionBank qb = new QuestionBank();
+        qb.addQuestion(new FillInTheBlanks("What is 2+2?", "4"));
+        qb.addQuestion(new FillInTheBlanks("The sky is ___", "blue"));
+        qb.addQuestion(new FillInTheBlanks("Water freezes at ___ degrees Celsius", "0"));
+
+        storageFile.save(qb);
+        QuestionBank loadedQb = storageFile.load();
+
+        assertEquals(3, loadedQb.getQuestionCount(), "Loaded question count should be 3.");
+        assertEquals("4", loadedQb.getQuestion(0).getAnswer());
+        assertEquals("blue", loadedQb.getQuestion(1).getAnswer());
+        assertEquals("0", loadedQb.getQuestion(2).getAnswer());
+    }
 }
