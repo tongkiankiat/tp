@@ -12,7 +12,7 @@ import mindexpander.data.QuestionBank;
  */
 public class ListCommand extends Command {
     // Attributes
-    private final String LIST_COMMAND_MESSAGE = "Here are the questions you have currently: ";
+    private static final String LIST_COMMAND_MESSAGE = "Here are the questions you have currently: ";
     private final QuestionBank questionBank;
 
     // Constructor
