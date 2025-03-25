@@ -77,8 +77,8 @@ Format: `exit`
 Example usage: `exit`
 
 ### Additional notes
-Inputting unrecognised commands will result in an error message.
-
+* Inputting unrecognised commands will result in an error message.
+* Saving and Loading: The question bank is automatically saved to a file named MindExpander.txt in the ./data/ folder. 
 ## FAQ
 
 **Q**: How do I transfer my data to another computer? 
