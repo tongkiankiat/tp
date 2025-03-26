@@ -57,8 +57,8 @@ class SolveCommandOneStepTest {
         IllegalCommandException exception = assertThrows(IllegalCommandException.class, () -> {
             new SolveCommandOneStep("/q 1 /", questionBank);
         });
-        assertEquals(
-            "Invalid command format. Use: solve /q [QUESTION_INDEX] /a [ANSWER]", exception.getMessage());
+        assertEquals("Invalid command format. Use: 'solve /q [QUESTION_INDEX] /a [ANSWER]' OR 'solve'",
+            exception.getMessage());
     }
 
     @Test

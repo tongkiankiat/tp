@@ -45,7 +45,7 @@ public class SolveCommandOneStep extends Command {
             String[] parts = input.split("/q ");
             if (parts.length != 2 || !parts[1].contains(" /a ")) {
                 throw new IllegalCommandException(
-                    "Invalid command format. Use: solve /q [QUESTION_INDEX] /a [ANSWER]");
+                    "Invalid command format. Use: 'solve /q [QUESTION_INDEX] /a [ANSWER]' OR 'solve'");
             }
             String[] subParts = parts[1].split(" /a ", 2);
             if (subParts[0].trim().isEmpty()) {
