@@ -45,6 +45,7 @@ public class Command {
      * Executes the command and returns the result as a string.
      * This method can throw an {@code IllegalCommandException} if the command execution
      * encounters an error or violates any rules.
+     * Note: Do not change this for multistep commands, use the handleMultistepCommand method instead.
      *
      * @return the result of the command execution as a string.
      * @throws IllegalCommandException if the command execution is illegal or invalid.
