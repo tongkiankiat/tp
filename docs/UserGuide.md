@@ -1,16 +1,53 @@
-# User Guide
+# MindExpander User Guide
+
+## Table of Contents
+
+1. **[Introduction](#introduction)**
+2. **[Quick Start](#quick-start)**
+3. **[Features](#features)**
+    - [Viewing the help sheet: `help`](#viewing-the-help-sheet-help)
+    - [Adding a question: `add`](#adding-a-question-add)
+    - [Listing questions added: `list`](#listing-questions-added-list)
+    - [Solving questions: `solve`](#solving-questions-solve)
+        - [Multistep usage](#multistep-usage)
+        - [One-step usage](#one-step-usage)
+    - [Exiting the program: `exit`](#exiting-the-program-exit)
+4. **[Additional Notes](#additional-notes)**
+5. **[FAQ](#faq)**
+6. **[Command Summary](#command-summary)**
 
 ## Introduction
 
-MindExpander is a desktop app for Primary School students to practice questions in Mathematics, Sciences and English.
-It is designed for use via a Command Line Interface.
+MindExpander is a desktop application designed for Primary School students to practice Mathematics, Science and English
+questions. It features a simple Command Line Interface (CLI), allowing users to efficiently add, list, and solve 
+questions. The app provides a structured and interactive way for students to reinforce their learning through guided 
+commands. With built-in saving and loading capabilities, users can seamlessly continue their practice sessions anytime.
 
 ## Quick Start
 
-{Give steps to get started quickly}
-
 1. Ensure that you have Java 17 or above installed.
-2. Down the latest version of `MindExpander` from [here](http://link.to/duke).
+2. Down the latest version of `MindExpander` from [here](https://github.com/AY2425S2-CS2113-F12-3/tp/releases/tag/v1.0).
+3. Open a command terminal
+4. `cd` into the folder containing the jar file
+5. Use the command `java -jar MindExpander.jar` to run the application. Upon start up, you should see:
+```
+==============================
+
+_____  .__            .______________                                .___            
+/     \ |__| ____    __| _/\_   _____/__  ______________    ____    __| _/___________
+/  \ /  \|  |/    \  / __ |  |    __)_\  \/  /\____ \__  \  /    \  / __ |/ __ \_  __ \
+/    Y    \  |   |  \/ /_/ |  |        \>    < |  |_> > __ \|   |  \/ /_/ \  ___/|  | \/
+\____|__  /__|___|  /\____ | /_______  /__/\_ \|   __(____  /___|  /\____ |\___  >__|   
+\/        \/      \/         \/      \/|__|       \/     \/      \/    \/
+
+Presented by: CS2113-F12-3
+Welcome to MindExpander!
+==============================
+==============================
+What would you like to do today?
+Type <help> for a list of commands.
+==============================
+```
 
 ## Features
 The list of features and how to use them can be found below.
