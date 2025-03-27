@@ -2,7 +2,6 @@ package mindexpander.tests;
 
 import mindexpander.commands.CommandResult;
 import mindexpander.commands.FindCommand;
-import mindexpander.commands.ListCommand;
 import mindexpander.common.Messages;
 import mindexpander.data.QuestionBank;
 import mindexpander.data.question.FillInTheBlanks;

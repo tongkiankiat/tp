@@ -1,7 +1,6 @@
 package mindexpander;
 
 import mindexpander.commands.CommandResult;
-import mindexpander.data.question.Question;
 import mindexpander.parser.Parser;
 
 import mindexpander.data.QuestionBank;
