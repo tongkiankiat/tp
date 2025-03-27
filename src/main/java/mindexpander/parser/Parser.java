@@ -1,12 +1,7 @@
 package mindexpander.parser;
 
 // Commands
-import mindexpander.commands.Command;
-import mindexpander.commands.AddCommand;
-import mindexpander.commands.HelpCommand;
-import mindexpander.commands.ListCommand;
-import mindexpander.commands.ExitCommand;
-import mindexpander.commands.SolveCommand;
+import mindexpander.commands.*;
 
 // Exceptions
 import mindexpander.exceptions.IllegalCommandException;
