@@ -10,6 +10,7 @@ import mindexpander.commands.SolveCommand;
 // Commands
 
 // Exceptions
+import mindexpander.commands.SolveCommandOneStep;
 import mindexpander.exceptions.IllegalCommandException;
 
 import mindexpander.data.QuestionBank;
@@ -56,8 +57,11 @@ public class Parser {
         case "help" -> new HelpCommand();
         case "exit" -> new ExitCommand();
         case "solve" -> {
-            ongoingCommand = new SolveCommand();
-            yield ongoingCommand;
+            if (taskDetails.isEmpty()) {
+                ongoingCommand = new SolveCommand();
+                yield ongoingCommand;
+            }
+            yield new SolveCommandOneStep(taskDetails, questionBank);
         }
         case "add" -> new AddCommand(storage);
         case "list" -> new ListCommand(questionBank);
