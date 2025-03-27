@@ -1,8 +1,8 @@
 # About us
 
-Display |      Name      |              Github Profile               | Portfolio 
---------|:--------------:|:-----------------------------------------:|:---------:
-![](https://via.placeholder.com/100.png?text=Photo) | Tong Kian Kiat | [Github](https://github.com/tongkiankiat) | [Portfolio](docs/team/tongkiankiat.md)
-![](https://via.placeholder.com/100.png?text=Photo) | Jensen Kuok | [Github](https://github.com/) | [Portfolio](docs/team/JensenKuok.md)
-![](https://via.placeholder.com/100.png?text=Photo) | Liu Xuyan | [Github](https://github.com/Flaaaash) | flaaaash
-![](https://via.placeholder.com/100.png?text=Photo) | Liu Wenyi | [lwenyi1](https://github.com/lwenyi1) | [Portfolio](docs/team/liuwenyi.md)
+| Display                |      Name      |                 Github Profile                  |               Portfolio                |
+|------------------------|:--------------:|:-----------------------------------------------:|:--------------------------------------:|
+| ![](pics/kiankiat.jpg) | Tong Kian Kiat | [tongkiankiat](https://github.com/tongkiankiat) | [Portfolio](docs/team/tongkiankiat.md) |
+| ![](pics/jensen.jpg)   |  Jensen Kuok   |   [Jensenkuok](https://github.com/Jensenkuok)   |  [Portfolio](docs/team/jensenkuok.md)  |
+| ![](pics/xuyan.jpg)    |   Liu Xuyan    |     [Flaaaash](https://github.com/Flaaaash)     |   [Portfolio](docs/team/liuxuyan.md)   |
+| ![](pics/wenyi.JPG)    |   Liu Wenyi    |      [lwenyi1](https://github.com/lwenyi1)      |   [Portfolio](docs/team/liuwenyi.md)   |

@@ -13,7 +13,7 @@ public class HelpCommand extends Command {
      * NOTE for future devs: update the HELP_MESSAGE string with
      * whatever new features are implemented.
      */
-    private final String HELP_MESSAGE = """
+    private static final String HELP_MESSAGE = """
             Welcome to MindExpander!
             
             List of commands:

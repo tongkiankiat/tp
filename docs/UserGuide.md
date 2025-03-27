@@ -24,7 +24,7 @@ Displays the list of commands, along with the format of the command, and what ea
 
 Format: `help` 
 
-Example of usage: 
+Example usage: 
 
 `help`
 
@@ -41,10 +41,20 @@ Example usage: #TODO
 please do not enter characters from other languages, for example Chinese characters.
 
 ### Listing questions added: `list`
-#TODO
+Lists all the questions currently in the question bank.
+
+Format: `list`
+
+Example usage:
+
+`list`
 
 ### Solving questions: `solve`
 Solves a question that was previously added to the question bank.
+
+**Multistep usage**
+`solve` can be used in a "one command at a time" manner. This method is easier for new users and guides the user
+through the process.
 
 Format: `solve` | `[QUESTION INDEX]` | `[QUESTION ANSWER]`
 `[QUESTION_INDEX]`: The question number of the question to be solved.
@@ -54,14 +64,28 @@ Example usage:
 1. `solve`
     > Please enter the question number you would like to solve.
 2. `2`
-    > Attempting question 2, enter your answer:
+    > Attempting question 2: What are fries made of? Enter your answer:
 3. `Potato`
     > Correct!
 
 **Note**:
 * It is recommended to run `list` before `solve` to check the index of the question you intend to solve.
-* Entering the wrong answer will result in the following message until the correct answer is entered:
-   > Wrong answer, please try again.
+* Entering the wrong answer will result in the below message, enter Y to try again and N to give up and exit:
+   > Wrong answer, would you like to try again? [Y/N]
+
+**One-step usage**
+`solve` can also be used by entering all the arguments in one line, this method is faster but must follow the format
+correctly.
+
+Format: `solve /q [QUESTION_INDEX] /a [QUESTION_ANSWER]`
+
+Example usage:
+`solve /q 2 /q Potato`
+
+**Note**:
+* It is recommended to run `list` before `solve` to check the index of the question you intend to solve.
+* Follow the command format as specified above and ensure that question indexes are within 1 to the number of questions,
+entering otherwise will result in errors.
 
 ### Exiting the program: `exit`
 Exits the program.
@@ -71,8 +95,8 @@ Format: `exit`
 Example usage: `exit`
 
 ### Additional notes
-Inputting unrecognised commands will result in an error message.
-
+* Inputting unrecognised commands will result in an error message.
+* Saving and Loading: The question bank is automatically saved to a file named MindExpander.txt in the ./data/ folder. 
 ## FAQ
 
 **Q**: How do I transfer my data to another computer? 
@@ -84,5 +108,7 @@ Inputting unrecognised commands will result in an error message.
 * View help sheet `help`
 * Add question `add` | `[QUESTION_TYPE]` | `[QUESTION_DETAILS]` | `[QUESTION_ANSWER]`
 * List question bank `list`
-* Solve question `solve` | `[QUESTION_INDEX]` | `[QUESTION_ANSWER]`
+* Solve question
+  * Multistep `solve` | `[QUESTION_INDEX]` | `[QUESTION_ANSWER]`
+  * One-step `solve /q [QUESTION__INDEX] /a [QUESTION_ANSWER]`
 * Exit program `exit`
