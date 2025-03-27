@@ -10,10 +10,10 @@ import mindexpander.commands.SolveCommand;
 import mindexpander.commands.FindCommand;
 
 // Exceptions
+import mindexpander.commands.SolveCommandOneStep;
 import mindexpander.exceptions.IllegalCommandException;
 
 import mindexpander.data.QuestionBank;
-import mindexpander.storage.StorageFile;
 import mindexpander.common.Messages;
 
 /**
@@ -39,7 +39,7 @@ public class Parser {
      * @return The appropriate {@code CommandHandler} object based on the command.
      * @throws IllegalCommandException If the command is invalid or unrecognized.
      */
-    public Command parseCommand (String userEntry, QuestionBank questionBank, StorageFile storage)
+    public Command parseCommand (String userEntry, QuestionBank questionBank)
             throws IllegalCommandException {
         if (ongoingCommand != null && !ongoingCommand.isCommandComplete()) {
             // Continue processing the ongoing multistep command
@@ -56,10 +56,13 @@ public class Parser {
         case "help" -> new HelpCommand();
         case "exit" -> new ExitCommand();
         case "solve" -> {
-            ongoingCommand = new SolveCommand();
-            yield ongoingCommand;
+            if (taskDetails.isEmpty()) {
+                ongoingCommand = new SolveCommand();
+                yield ongoingCommand;
+            }
+            yield new SolveCommandOneStep(taskDetails, questionBank);
         }
-        case "add" -> new AddCommand(storage);
+        case "add" -> new AddCommand();
         case "list" -> {
             if (taskDetails.trim().equalsIgnoreCase("answer")) {
                 yield new ListCommand(questionBank, true);
@@ -93,7 +96,6 @@ public class Parser {
             }
             yield new FindCommand(questionBank, questionType, keyword);
         }
-
         default -> throw new IllegalCommandException(Messages.UNKNOWN_COMMAND_MESSAGE);
         };
     }
