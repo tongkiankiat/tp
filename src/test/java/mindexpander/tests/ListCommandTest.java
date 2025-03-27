@@ -86,7 +86,7 @@ class ListCommandTest extends DefaultTest {
     public void testListCommandWithWrongArgument() {
         String userInput = "list banana";
         IllegalCommandException thrown = assertThrows(IllegalCommandException.class
-                , () -> new Parser().parseCommand(userInput, questionBank, storage));
+                , () -> new Parser().parseCommand(userInput, questionBank));
         assertEquals("You have entered an unknown command." +
                 " Please refer to the user guide, or type <help> to display the available commands"
                 , thrown.getMessage());
