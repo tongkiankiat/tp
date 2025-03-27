@@ -4,8 +4,6 @@ import mindexpander.data.QuestionBank;
 import mindexpander.data.question.FillInTheBlanks;
 import mindexpander.data.question.Question;
 import mindexpander.data.question.QuestionType;
-import mindexpander.storage.StorageFile;
-
 
 public class AddCommand extends Command {
     private Question toAdd;

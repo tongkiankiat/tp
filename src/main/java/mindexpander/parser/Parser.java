@@ -14,7 +14,6 @@ import mindexpander.commands.SolveCommandOneStep;
 import mindexpander.exceptions.IllegalCommandException;
 
 import mindexpander.data.QuestionBank;
-import mindexpander.storage.StorageFile;
 import mindexpander.common.Messages;
 
 /**

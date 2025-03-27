@@ -23,7 +23,7 @@ public class AddCommandTest {
     public void addCommand_invalidType() {
         AddCommand addCommand = new AddCommand();
         QuestionBank questionBank = new QuestionBank();
-        final String[] invalidTypes = { "", " ", "[]\\[;]", "question" };
+        final String[] invalidTypes = {"", " ", "[]\\[;]", "question"};
         for (String type : invalidTypes) {
             addCommand.handleMultistepCommand(type, questionBank);
             assertEquals("Invalid input. Please enter a correct question type.", addCommand.getCommandMessage());
