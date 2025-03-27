@@ -36,7 +36,7 @@ public class Main {
             this.ui = new TextUi();
             this.storage = new StorageFile();
             this.questionBank = storage.load();
-            this.lastShownQuestionBank = new QuestionBank();
+            this.lastShownQuestionBank = questionBank;
         } catch (Exception e) {
             ui.printInitFailedMessage();
         }
