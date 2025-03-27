@@ -1,6 +1,7 @@
 package mindexpander;
 
 import mindexpander.commands.CommandResult;
+import mindexpander.data.question.Question;
 import mindexpander.parser.Parser;
 
 import mindexpander.data.QuestionBank;
@@ -13,6 +14,7 @@ import mindexpander.commands.Command;
 public class Main {
     // Attributes
     private QuestionBank questionBank;
+    private QuestionBank lastShownQuestionBank;
     private StorageFile storage;
     private TextUi ui;
 
@@ -34,6 +36,7 @@ public class Main {
             this.ui = new TextUi();
             this.storage = new StorageFile();
             this.questionBank = storage.load();
+            this.lastShownQuestionBank = new QuestionBank();
         } catch (Exception e) {
             ui.printInitFailedMessage();
         }
@@ -52,6 +55,7 @@ public class Main {
             try {
                 command = new Parser().parseCommand(userCommand, questionBank, storage);
                 CommandResult commandResult = command.execute();
+                recordResult(commandResult);
                 ui.displayResults(commandResult);
 
                 while (!command.isCommandComplete()) {
@@ -66,5 +70,13 @@ public class Main {
             }
 
         } while (isRunning);
+    }
+
+    // Records the last shown list
+    private void recordResult(CommandResult commandResult) {
+        final QuestionBank questionBank = commandResult.getQuestionBank();
+        if (questionBank != null) {
+            lastShownQuestionBank = questionBank;
+        }
     }
 }
