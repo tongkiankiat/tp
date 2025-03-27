@@ -14,7 +14,6 @@ import mindexpander.commands.SolveCommandOneStep;
 import mindexpander.exceptions.IllegalCommandException;
 
 import mindexpander.data.QuestionBank;
-import mindexpander.storage.StorageFile;
 import mindexpander.common.Messages;
 
 /**
@@ -40,7 +39,7 @@ public class Parser {
      * @return The appropriate {@code CommandHandler} object based on the command.
      * @throws IllegalCommandException If the command is invalid or unrecognized.
      */
-    public Command parseCommand (String userEntry, QuestionBank questionBank, StorageFile storage)
+    public Command parseCommand (String userEntry, QuestionBank questionBank)
             throws IllegalCommandException {
         if (ongoingCommand != null && !ongoingCommand.isCommandComplete()) {
             // Continue processing the ongoing multistep command
@@ -63,7 +62,7 @@ public class Parser {
             }
             yield new SolveCommandOneStep(taskDetails, questionBank);
         }
-        case "add" -> new AddCommand(storage);
+        case "add" -> new AddCommand();
         case "list" -> new ListCommand(questionBank);
 
         default -> throw new IllegalCommandException(Messages.UNKNOWN_COMMAND_MESSAGE);
