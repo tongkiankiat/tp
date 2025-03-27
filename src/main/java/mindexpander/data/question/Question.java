@@ -34,4 +34,6 @@ public abstract class Question {
     public abstract void showQuestion();
 
     public abstract String toString();
+
+    public abstract String toStringNoAnswer();
 }
