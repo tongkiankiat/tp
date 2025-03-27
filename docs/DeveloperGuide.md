@@ -12,18 +12,23 @@
 ## Product scope
 ### Target user profile
 
-{Describe the target user profile}
+The product is designed for younger students. 
+Their level of education is at the point where examination questions come in simpler forms such as fill in the blanks or multiple choice questions.
 
 ### Value proposition
 
-{Describe the value proposition: what problem does it solve?}
+This product aims to solve the problem of students not having a convenient place to store questions they would like to practice or refer to again in the future.
 
 ## User Stories
 
-|Version| As a ... | I want to ... | So that I can ...|
-|--------|----------|---------------|------------------|
-|v1.0|new user|see usage instructions|refer to them when I forget how to use the application|
-|v2.0|user|find a to-do item by name|locate a to-do without having to go through the entire list|
+|Version| As a ... | I want to ...                          | So that I can ...                                           |
+|--------|----------|----------------------------------------|-------------------------------------------------------------|
+|v1.0|new user| view a list of commands and their uses | refer to them to understand how to use the program          |
+|v1.0|user| <todo> story for add                   |                                                             |
+|v1.0|user| <todo> story for list                  |                                                             |
+|v1.0|user| <todo> story for store                  |                                                             |
+|v1.0|user| have my answer inputs evaluated        | practice the questions previously added                     |
+|v2.0|user| find a to-do item by name              | locate a to-do without having to go through the entire list |
 
 ## Non-Functional Requirements
 
