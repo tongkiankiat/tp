@@ -52,9 +52,10 @@ public class Main {
             String userCommand = ui.getUserCommand();
 
             try {
-                command = new Parser().parseCommand(userCommand, questionBank, storage);
+                command = new Parser().parseCommand(userCommand, questionBank);
                 CommandResult commandResult = command.execute();
                 recordResult(commandResult);
+                storage.save(questionBank);
                 ui.displayResults(commandResult);
 
                 while (!command.isCommandComplete()) {
