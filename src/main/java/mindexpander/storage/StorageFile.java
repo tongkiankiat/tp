@@ -122,12 +122,4 @@ public class StorageFile {
         return null; // Ignore unsupported types for now
     }
 
-    //uncomment to clear MindExpander.txt
-    //        private void clearFileOnStartup() {
-    //            try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, false))) {
-    //                writer.write(""); // Uncomment this line to enable clearing
-    //            } catch (IOException e) {
-    //                System.out.println("Error clearing data file: " + e.getMessage());
-    //            }
-    //        }
 }
