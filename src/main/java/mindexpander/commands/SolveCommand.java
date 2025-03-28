@@ -105,6 +105,7 @@ public class SolveCommand extends Command {
 
             currentStep = Step.GET_ANSWER;
             String questionDetails = questionBank.getQuestion(questionIndex).getQuestion();
+            assert questionDetails != null : "There should be some question details.";
             return "Attempting question " + (questionIndex + 1) + ": " + questionDetails + "\nEnter your answer:";
         } catch (NumberFormatException e) {
             return "Invalid input. Please enter a number." ;
