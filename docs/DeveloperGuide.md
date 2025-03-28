@@ -2,7 +2,9 @@
 
 ## Acknowledgements
 
-{list here sources of all reused/adapted ideas, code, documentation, and third-party libraries -- include links to the original source as well}
+MindExpander uses the following tools for development:
+1. [JUnit 5](https://junit.org/junit5/) - Used for JUnit testing.
+2. [Gradle](https://gradle.org/) - Used for build automation.
 
 ## Design & implementation
 

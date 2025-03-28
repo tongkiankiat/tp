@@ -138,7 +138,8 @@ Example usage: `exit`
 
 **Q**: How do I transfer my data to another computer? 
 
-**A**: #TODO
+**A**: Data can be transferred by copying over the `data` folder containing `MindExpander.txt` and pasting it in the
+same folder where the .jar file is installed on the new computer.
 
 ## Command Summary
 
