@@ -1,19 +1,21 @@
-package mindexpander.commands;
+package mindexpander.tests;
+
+import mindexpander.commands.HelpCommand;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Test;
 
 /**
- * The {@code HelpCommand} class updates display message
- * to show the list of commands and their functions.
+ * Unit test for {@code HelpCommand} class.
  *
  * @author Wenyi
- * @version v0.2
- * @since 2025-03-06
  */
-public class HelpCommand extends Command {
-    /*
-     * NOTE for future devs: update the HELP_MESSAGE string with
-     * whatever new features are implemented.
-     */
-    private static final String HELP_MESSAGE = """
+public class HelpCommandTest {
+
+    @Test
+    public void testHelpCommandMessage() {
+        HelpCommand helpCommand = new HelpCommand();
+
+        String expectedMessage = """
             Welcome to MindExpander!
             
             List of commands:
@@ -31,7 +33,7 @@ public class HelpCommand extends Command {
                 - Find a question in the list that contains a specific keyword.
             """;
 
-    public HelpCommand() {
-        updateCommandMessage(HELP_MESSAGE);
+        assertEquals(expectedMessage, helpCommand.getCommandMessage(), "Help message does not match expected output.");
     }
+
 }

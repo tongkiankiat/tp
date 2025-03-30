@@ -37,4 +37,8 @@ public class QuestionBank {
     public Question getQuestion(int index) {
         return allQuestions.get(index);
     }
+
+    public boolean isEmpty() {
+        return getQuestionCount() == 0;
+    }
 }
