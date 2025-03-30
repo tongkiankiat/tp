@@ -1,7 +1,8 @@
 package mindexpander.data.question;
 
 public enum QuestionType {
-    FITB("fitb");
+    FITB("fitb"),
+    MCQ("mcq");
 
     private final String type;
 
@@ -20,5 +21,14 @@ public enum QuestionType {
             }
         }
         return false;
+    }
+
+    public static QuestionType fromString(String input) {
+        for (QuestionType qt : values()) {
+            if (qt.getType().equalsIgnoreCase(input)) {
+                return qt;
+            }
+        }
+        throw new IllegalArgumentException("Invalid question type: " + input);
     }
 }

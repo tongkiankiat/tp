@@ -16,11 +16,11 @@ public class QuestionBank {
         this.allQuestions = allQuestions;
     }
 
-    public void list() {
-        for (Question q : allQuestions) {
-            q.showQuestion();
-        }
-    }
+//    public void list() {
+//        for (Question q : allQuestions) {
+//            q.showQuestion();
+//        }
+//    }
 
     public void addQuestion(Question toAdd) {
         allQuestions.add(toAdd);
