@@ -90,7 +90,7 @@ public class TextUi {
     public void displayResults(CommandResult commandResult) {
         QuestionBank questionBank = commandResult.getQuestionBank();
         printToUser(commandResult.commandResultToUser);
-        if (questionBank != null) {
+        if (!questionBank.isEmpty()) {
             ArrayList<String> formattedQuestionBank = new ArrayList<>();
             for (int i = 0; i < questionBank.getQuestionCount(); i++) {
                 String question = commandResult.showAnswer

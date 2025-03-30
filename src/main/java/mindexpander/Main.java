@@ -75,7 +75,7 @@ public class Main {
     // Records the last shown list
     private void recordResult(CommandResult commandResult) {
         final QuestionBank questionBank = commandResult.getQuestionBank();
-        if (questionBank != null) {
+        if (!questionBank.isEmpty()) {
             lastShownQuestionBank = questionBank;
         }
     }

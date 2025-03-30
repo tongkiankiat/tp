@@ -15,7 +15,7 @@ public class CommandResult {
 
     public CommandResult(String commandResultToUser) {
         this.commandResultToUser = commandResultToUser;
-        this.questionBank = null;
+        this.questionBank = new QuestionBank();
         this.showAnswer = false;
     }
 
