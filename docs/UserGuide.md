@@ -124,6 +124,30 @@ Example usage:
 * Follow the command format as specified above and ensure that question indexes are within 1 to the number of questions,
 entering otherwise will result in errors.
 
+### Deleting a question: `delete`
+Removes a question from the question bank. The question index should refer to the index displayed by the most recent `list` or `find` command.
+
+Format: `delete [QUESTION_INDEX]`
+
+- `[QUESTION_INDEX]`: The number of the question to be deleted, as seen in the last shown list.
+
+Example usage:
+
+```
+list
+==============================
+1. FITB: 1 + 1 = __
+2. FITB: The capital of France is __
+==============================
+delete 1
+Deleted question: FITB: 1 + 1 = __
+```
+
+**Notes:**
+* The question index is based on the most recently displayed question list (via `list` or `find`).
+* Attempting to delete an index that does not exist in the last shown list will result in an error.
+* This command is **single-step** and does not support multi-step usage.
+
 ### Exiting the program: `exit`
 Exits the program.
 
@@ -149,4 +173,5 @@ same folder where the .jar file is installed on the new computer.
 * Solve question
   * Multistep `solve` | `[QUESTION_INDEX]` | `[QUESTION_ANSWER]`
   * One-step `solve /q [QUESTION__INDEX] /a [QUESTION_ANSWER]`
+* Delete question: `delete [QUESTION_INDEX]`
 * Exit program `exit`
