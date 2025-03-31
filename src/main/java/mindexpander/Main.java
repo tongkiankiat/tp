@@ -35,7 +35,7 @@ public class Main {
             this.ui = new TextUi();
             this.storage = new StorageFile();
             this.questionBank = storage.load();
-            this.lastShownQuestionBank = questionBank;
+            this.lastShownQuestionBank = new QuestionBank();
         } catch (Exception e) {
             ui.printInitFailedMessage();
         }
@@ -75,7 +75,7 @@ public class Main {
     // Records the last shown list
     private void recordResult(CommandResult commandResult) {
         final QuestionBank questionBank = commandResult.getQuestionBank();
-        if (!questionBank.isEmpty()) {
+        if (questionBank != null) {
             lastShownQuestionBank = questionBank;
         }
     }
