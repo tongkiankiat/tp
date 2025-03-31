@@ -58,8 +58,13 @@ These are implemented through the use of a finite state machine (FSM), where the
    1. The individual commands manage their own FSM logic, handling the transition from one state to the next and when to exit the state machine.
    2. Manages the program logic of the command itself, updating the program output.
 
-The FSM logic is transparent to Main and Parser, as such new steps or states can be added to multistep commands without changing
+**Note**
+* The FSM logic is transparent to Main and Parser, as such new steps or states can be added to multistep commands without changing
 Parser or main.
+* The different states are defined in an enum inside the multistep command's class.
+* Multistep commands should only override `handleMultistepCommand()` from the `Command` class and not the `execute()` method.
+The command's messages for the user can be updated using `updateCommandMessage()` within `handleMultistepCommand` instead of returning a `CommandResult`.
+The returning of a `CommandResult` instance will be handled automatically by the parent `Command` class.
 
 The class diagram for the example multistep command `SolveCommand`:
 ![](diagrams/class/CommandHandling.png)
