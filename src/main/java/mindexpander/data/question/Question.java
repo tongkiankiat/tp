@@ -33,8 +33,6 @@ public abstract class Question {
 
     public abstract boolean checkAnswer(String input);
 
-    public abstract void showQuestion();
-
     public abstract String toString();
 
     public abstract String toStringNoAnswer();
