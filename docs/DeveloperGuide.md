@@ -8,8 +8,46 @@ MindExpander uses the following tools for development:
 
 ## Design & implementation
 
-{Describe the design and implementation of the product. Use UML diagrams and short code snippets where applicable.}
+### Overall design
 
+The project is designed using a hybrid architecture with elements from Command Pattern in the request handling and
+Layered Architectures in the organisation of code into presentation (UI), application (parser, commands) and data access.
+This gives developers some flexibility in implementing more complex features such as the multistep commands or even quizzes
+in the future while still maintaining some layers for scalability.
+
+The project consists of the following main components:
+1. Main: Acts as the interface between the UI, command, data and storage layers.
+2. UI: Interface between the user and the program, handling printing to CLI and user input.
+3. Parser: Parses the user inputs into commands for the program to execute.
+4. Commands: Programme's logic for the respective commands.
+5. Exceptions: Custom exception class to handle exception messages for the program.
+6. Question: Objects to store data for question details and answers.
+7. Question bank: Handle question storing in the list, contains the list of questions.
+8. Storage handler: Handles the reading and writing to a .txt file.
+
+The overall relations between the components and classes is as follows:
+
+{Insert class diagram here}
+
+The overall flow of interaction between the user and program is as follows:
+
+{Insert sequence diagram here}
+
+### User Interface
+
+{Describe how the UI works}
+
+### Command handling
+
+{Describe how the parser, commands and multistep commands work}
+
+### Data
+
+{Describe the questions and question bank}
+
+### Storage
+
+{Describe the storage mechanism}
 
 ## Product scope
 ### Target user profile
