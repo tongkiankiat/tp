@@ -10,10 +10,6 @@ public class FillInTheBlanks extends Question {
         return answer.equalsIgnoreCase(userAnswer.trim());
     }
 
-    public void showQuestion() {
-        System.out.println("FITB: " + question);
-    }
-
     @Override
     public String toString() {
         return "FITB: " + question + " [Answer: " + answer + "]";

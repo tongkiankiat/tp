@@ -1,0 +1,80 @@
+@startuml
+' Main Classes
+class Main {
+  - questionBank: QuestionBank
+  - storage: StorageFile
+  - ui: TextUi
+  + run()
+  + runUserCommandUntilTermination()
+}
+
+class TextUi {
+  + getUserCommand(): String
+  + displayResults(CommandResult)
+  + printToUser(String)
+}
+
+class Parser {
+  - ongoingCommand: Command
+  + parseCommand(String, QuestionBank, StorageFile): Command
+}
+
+' Command Hierarchy
+interface Command {
+  + execute(): CommandResult
+  + handleMultistepCommand(String, QuestionBank): Command
+  + isCommandComplete(): boolean
+  + keepProgramRunning(): boolean
+}
+
+class SolveCommand {
+  - currentStep: Step
+  - questionIndex: int
+  - getQuestionIndex(String, QuestionBank): String
+  # updateCommandMessage(String)
+  + handleMultistepCommand(String, QuestionBank): Command
+}
+
+' Enums
+enum Step {
+  GET_INDEX
+  GET_ANSWER
+  GET_TRY_AGAIN_RESPONSE
+}
+
+' Data Classes
+class QuestionBank {
+  + getQuestion(int): Question
+  + getQuestionCount(): int
+}
+
+' Relationships
+Main --> TextUi
+Main --> Parser
+Main --> QuestionBank
+
+Parser --> Command
+Parser ..> SolveCommand
+
+Command <|-- SolveCommand
+
+SolveCommand --> Step
+SolveCommand --> QuestionBank
+
+TextUi ..> CommandResult : displays
+
+' Notes
+note top of SolveCommand
+  State Machine Flow:
+  1. GET_INDEX → GET_ANSWER
+  2. GET_ANSWER → GET_TRY_AGAIN (if wrong)
+  3. GET_TRY_AGAIN → GET_ANSWER (if 'Y')
+  4. Completes when correct or 'N'
+end note
+
+note right of Command
+  Command Pattern:
+  - execute() handles single-step
+  - handleMultistepCommand() manages state
+end note
+@enduml
