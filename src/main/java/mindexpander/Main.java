@@ -52,7 +52,7 @@ public class Main {
             String userCommand = ui.getUserCommand();
 
             try {
-                command = new Parser().parseCommand(userCommand, questionBank);
+                command = new Parser().parseCommand(userCommand, questionBank, lastShownQuestionBank);
                 CommandResult commandResult = command.execute();
                 recordResult(commandResult);
                 storage.save(questionBank);
@@ -60,7 +60,7 @@ public class Main {
 
                 while (!command.isCommandComplete()) {
                     String input = ui.nextLine();
-                    command.handleMultistepCommand(input, questionBank);
+                    manageMultistepCommand(input, command, questionBank, lastShownQuestionBank); // TODO check this
                     ui.displayResults(command.execute());
                 }
 
@@ -77,6 +77,15 @@ public class Main {
         final QuestionBank questionBank = commandResult.getQuestionBank();
         if (!questionBank.isEmpty()) {
             lastShownQuestionBank = questionBank;
+        }
+    }
+
+    private void manageMultistepCommand(String input, Command command, QuestionBank questionBank,
+        QuestionBank lastShownQuestionBank) {
+        if (command.isUsingLastShownQuestionBank()) {
+            command.handleMultistepCommand(input, lastShownQuestionBank);
+        } else {
+            command.handleMultistepCommand(input, questionBank);
         }
     }
 }
