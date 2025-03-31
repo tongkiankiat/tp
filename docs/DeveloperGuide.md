@@ -41,6 +41,29 @@ The overall flow of interaction between the user and program is as follows:
 
 {Describe how the parser, commands and multistep commands work}
 
+**Parser**
+
+**Commands**
+
+**Multistep commands**
+These are implemented through the use of a finite state machine (FSM), where the different states are defined in a command's
+`handleMultistepCommand()` method. The components of the program work together in the following manner:
+
+1. `Main`: Focuses on the loop. 
+    1. Orchestrates the command loop, continues looping until the command's `isCommandComplete` flag is set.
+2. `Parser`: Command creation and management
+   1. If no command is ongoing, parse the new command based on the user's input.
+   2. Else, manage the ongoing command by forwarding the new user input to it.
+3. `Command`: Handles the command logic. 
+   1. The individual commands manage their own FSM logic, handling the transition from one state to the next and when to exit the state machine.
+   2. Manages the program logic of the command itself, updating the program output.
+
+The FSM logic is transparent to Main and Parser, as such new steps or states can be added to multistep commands without changing
+Parser or main.
+
+The class diagram for the multistep command `SolveCommand` is as follows:
+![](diagrams/class/CommandHandling.png)
+
 ### Data
 
 {Describe the questions and question bank}
@@ -77,7 +100,7 @@ This product aims to solve the problem of students not having a convenient place
 
 ## Glossary
 
-* *glossary item* - Definition
+* *Multistep command* - A feature which requires the user to go through several steps to complete.
 
 ## Instructions for manual testing
 
