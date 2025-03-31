@@ -1,0 +1,44 @@
+@startuml
+'For reference:
+'https://se-education.org/guides/tutorials/plantUml.html
+!include Style.puml
+hide footbox
+
+actor User
+participant "Main" as Main
+participant "TextUi" as TextUi
+participant "Storage" as Storage
+participant "Parser" as Parser
+participant "Command" as Command
+participant "QuestionBank" as QuestionBank
+
+activate Main
+Main -> TextUi : new TextUi()
+Main -> Storage : new StorageFile()
+Main -> Storage : load()
+Storage --> Main : questionBank
+
+loop until user exits
+    User -> TextUi : \t\tgetUserCommand()
+    TextUi --> Main : userCommand
+    Main -> Parser : parseCommand(userCommand, questionBank, storage)
+    Parser --> Main : command
+    Main -> Command : execute()
+    activate Command
+    Command --> Main : commandResult
+    Command -> QuestionBank : (if needed, e.g. SolveCommand)
+    Command -> Storage : (if needed, e.g. AddCommand)
+    deactivate Command
+    Main -> TextUi : displayResults(commandResult)
+
+    loop until command complete
+      User -> TextUi : \t\tnextLine()
+      TextUi --> Main : input
+      Main -> Command : handleMultistepCommand(input, questionBank)
+      Main -> Command : execute()
+      Command --> Main : commandResult
+      Main -> TextUi : displayResults(commandResult)
+    end
+end
+
+@enduml
