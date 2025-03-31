@@ -28,6 +28,8 @@ public class DeleteCommand extends Command {
 
     @Override
     public CommandResult execute() throws IllegalCommandException {
+        assert lastShownBank != null : "lastShownBank must not be null";
+
         if (indexToDelete < 0 || indexToDelete >= lastShownBank.getQuestionCount()) {
             throw new IllegalCommandException("Invalid question index.");
         }
