@@ -6,10 +6,12 @@ import java.util.List;
 
 public class MultipleChoice extends Question {
     private final List<String> options;
+    private String answerOption;
 
     public MultipleChoice(String question, String answer, List<String> options) {
         super(question, answer, QuestionType.MCQ);
         this.options = new ArrayList<>(options);
+        this.answerOption = "A";
     }
 
     public MultipleChoice editOption(int index, String newOption) {
@@ -23,7 +25,7 @@ public class MultipleChoice extends Question {
 
     @Override
     public boolean checkAnswer(String userAnswer) {
-        return answer.equalsIgnoreCase(userAnswer.trim());
+        return answerOption.equalsIgnoreCase(userAnswer.trim());
     }
 
     @Override
@@ -40,11 +42,21 @@ public class MultipleChoice extends Question {
     public String toStringNoAnswer() {
         List<String> shuffledOptions = new ArrayList<>(options);
         Collections.shuffle(shuffledOptions);
+        updateAnswerOption(shuffledOptions);
         StringBuilder sb = new StringBuilder();
         sb.append("MCQ: ").append(question).append("\n");
         for (int i = 0; i < shuffledOptions.size(); i += 1) {
             sb.append((char) ('A' + i)).append(". ").append(shuffledOptions.get(i)).append("\n");
         }
         return sb.toString();
+    }
+
+    private void updateAnswerOption(List<String> shuffledOptions) {
+        for (int i = 0; i < 4; i += 1) {
+            if (shuffledOptions.get(i).equals(answer)) {
+                answerOption = String.valueOf((char) ('A' + i));
+                return;
+            }
+        }
     }
 }
