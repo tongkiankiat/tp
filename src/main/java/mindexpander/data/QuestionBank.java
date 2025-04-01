@@ -32,6 +32,15 @@ public class QuestionBank {
         return allQuestions.get(index);
     }
 
+    public int findQuestionIndex(Question q) {
+        for (int i = 0; i < allQuestions.size(); i++) {
+            if (allQuestions.get(i).equals(q)) {
+                return i;
+            }
+        }
+        return -1; // not found
+    }
+
     public boolean isEmpty() {
         return getQuestionCount() == 0;
     }
