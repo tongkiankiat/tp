@@ -33,6 +33,7 @@ public class SolveCommand extends Command {
         updateCommandMessage("Please enter the question number you would like to solve.");
     }
 
+
     /**
      * Handles user input at different stages of solving a question.
      *
