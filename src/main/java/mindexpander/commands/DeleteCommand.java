@@ -44,6 +44,16 @@ public class DeleteCommand extends Command {
         mainBank.removeQuestion(targetIndex);
         return new CommandResult("Deleted question: " + deletedQuestion);
     }
+
+    public static DeleteCommand parseFromUserInput(String taskDetails, QuestionBank main, QuestionBank lastShown) {
+        if (taskDetails.isEmpty()) {
+            throw new IllegalCommandException("Please provide a question index to delete.");
+        }
+        try {
+            int index = Integer.parseInt(taskDetails.trim());
+            return new DeleteCommand(index, main, lastShown);
+        } catch (NumberFormatException e) {
+            throw new IllegalCommandException("Invalid number format. Please enter a valid index.");
+        }
+    }
 }
-
-

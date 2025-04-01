@@ -97,18 +97,7 @@ public class Parser {
             }
             yield new FindCommand(questionBank, questionType, keyword);
         }
-        case "delete" -> {
-            if (taskDetails.isEmpty()) {
-                throw new IllegalCommandException("Please provide a question index to delete.");
-            }
-
-            try {
-                int index = Integer.parseInt(taskDetails.trim());
-                yield new DeleteCommand(index, questionBank, lastShownQuestionBank);
-            } catch (NumberFormatException e) {
-                throw new IllegalCommandException("Invalid number format. Please enter a valid index.");
-            }
-        }
+        case "delete" -> DeleteCommand.parseFromUserInput(taskDetails, questionBank, lastShownQuestionBank);
         default -> throw new IllegalCommandException(Messages.UNKNOWN_COMMAND_MESSAGE);
         };
     }
