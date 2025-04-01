@@ -12,6 +12,34 @@ import mindexpander.common.Messages;
  * @since 2025-03-06
  */
 public class HelpCommand extends Command {
+
+    public HelpCommand(String taskDetails) {
+        if (taskDetails.isEmpty()) {
+            updateCommandMessage(DEFAULT_HELP_MESSAGE);
+        } else {
+            String helpMessage = chooseHelpMessage(taskDetails);
+            updateCommandMessage(helpMessage);
+        }
+    }
+
+    /*
+     * NOTE for future devs: when a new feature is added, add the detailed help string here.
+     */
+
+    private String chooseHelpMessage(String taskDetails) {
+        return switch(taskDetails.toLowerCase()) {
+        case "help" -> HELP_HELP_MESSAGE;
+        case "add" -> ADD_HELP_MESSAGE;
+        case "list" -> LIST_HELP_MESSAGE;
+        case "solve" -> SOLVE_HELP_MESSAGE;
+        case "edit" -> EDIT_HELP_MESSAGE;
+        case "find" -> FIND_HELP_MESSAGE;
+        case "delete" -> DELETE_HELP_MESSAGE;
+        case "exit" -> EXIT_HELP_MESSAGE;
+        default -> throw new IllegalCommandException(Messages.UNKNOWN_COMMAND_MESSAGE + "\nNo help available.");
+        };
+    }
+
     /*
      * NOTE for future devs: update the HELP_MESSAGE string with
      * whatever new features are implemented.
@@ -34,37 +62,9 @@ public class HelpCommand extends Command {
                 - Find a question in the list that contains a specific keyword.
             7. delete
                 - Delete a question in the list.
-            8. edit
-                - Edit a question in the list.
-            9. exit
+            8. exit
                 - Exit the program.
             To get detailed information on a specific command, use `help [COMMAND]`, e.g. `help add`.""";
-
-    public HelpCommand(String taskDetails) {
-        if (taskDetails.isEmpty()) {
-            updateCommandMessage(DEFAULT_HELP_MESSAGE);
-        } else {
-            String helpMessage = chooseHelpMessage(taskDetails);
-            updateCommandMessage(helpMessage);
-        }
-    }
-
-    /*
-     * NOTE for future devs: when a new feature is added, add the detailed help string here.
-     */
-
-    private String chooseHelpMessage(String taskDetails) {
-        return switch(taskDetails.toLowerCase()) {
-        case "help" -> HELP_HELP_MESSAGE;
-        case "add" -> ADD_HELP_MESSAGE;
-        case "list" -> LIST_HELP_MESSAGE;
-        case "solve" -> SOLVE_HELP_MESSAGE;
-        case "find" -> FIND_HELP_MESSAGE;
-        case "delete" -> DELETE_HELP_MESSAGE;
-        case "exit" -> EXIT_HELP_MESSAGE;
-        default -> throw new IllegalCommandException(Messages.UNKNOWN_COMMAND_MESSAGE + "\nNo help available.");
-        };
-    }
 
     private static final String HELP_HELP_MESSAGE = """
             *The `help` command*
@@ -130,6 +130,17 @@ public class HelpCommand extends Command {
              2. 1
              3. yes
             - One-step: solve /q 1 /a yes""";
+
+    private static final String EDIT_HELP_MESSAGE = """
+            *The `edit` command*
+            
+            Edits a question's details.
+            
+            Usage:
+             - TODO
+            
+            Example:
+             - TODO""";
 
     // Haha, "find help", get it?
     private static final String FIND_HELP_MESSAGE = """
