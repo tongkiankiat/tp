@@ -40,25 +40,149 @@ List of commands:
 9. exit
     - Exit the program.
 To get detailed information on a specific command, use `help [COMMAND]`, e.g. `help add`.
+==============================
+==============================
+What would you like to do today?
+Type <help> for a list of commands.
+==============================
+==============================
+[Command you entered: help add]
+==============================
+==============================
+*The `add` command*
 
+Adds a question to the question bank by following a series of steps.
+Possible question types (abbreviation in the brackets [] are how the type should be entered):
+Fill in the Blanks - [FITB]
+Multiple Choice Question - [MCQ]
+
+Usage:
+ - Follow the steps below:
+ 1. `add`
+ 2. [QUESTION_TYPE]
+ 3. [QUESTION_DETAILS]
+ 4. [QUESTION_ANSWER]
+
+Example:
+- To add a FITB question, "What is 1 + 1?", with the answer "2".
+ 1. add
+ 2. FITB
+ 3. What is 1+1?
+ 4. 2
 ==============================
 ==============================
 What would you like to do today?
 Type <help> for a list of commands.
 ==============================
 ==============================
-[Command you entered: potato]
+[Command you entered: add]
 ==============================
 ==============================
-You have entered an unknown command. Please refer to the user guide, or type <help> to display the available commands
+Please enter the type of the question you would like to add.
+==============================
+==============================
+Enter your question:
+==============================
+==============================
+Enter the answer:
+==============================
+==============================
+Question FITB: what is 1+1? [Answer: 2] successfully added.
 ==============================
 ==============================
 What would you like to do today?
 Type <help> for a list of commands.
 ==============================
 ==============================
-[Command you entered: exit]
+[Command you entered: add]
 ==============================
 ==============================
-Bye! Hope to see you again soon :)
+Please enter the type of the question you would like to add.
+==============================
+==============================
+Enter your question:
+==============================
+==============================
+Enter the answer:
+==============================
+==============================
+Question FITB: what is 1+2? [Answer: 3] successfully added.
+==============================
+==============================
+What would you like to do today?
+Type <help> for a list of commands.
+==============================
+==============================
+[Command you entered: list]
+==============================
+==============================
+Here are the questions you have stored:
+==============================
+==============================
+1. FITB: what is 1+1?
+2. FITB: what is 1+2?
+==============================
+==============================
+What would you like to do today?
+Type <help> for a list of commands.
+==============================
+==============================
+[Command you entered: find 1+1]
+==============================
+==============================
+Here are the questions with 1+1:
+==============================
+==============================
+1. FITB: what is 1+1?
+==============================
+==============================
+What would you like to do today?
+Type <help> for a list of commands.
+==============================
+==============================
+[Command you entered: solve /q 1 /a 2]
+==============================
+==============================
+Correct!
+==============================
+==============================
+What would you like to do today?
+Type <help> for a list of commands.
+==============================
+==============================
+[Command you entered: find 1+2]
+==============================
+==============================
+Here are the questions with 1+2:
+==============================
+==============================
+1. FITB: what is 1+2?
+==============================
+==============================
+What would you like to do today?
+Type <help> for a list of commands.
+==============================
+==============================
+[Command you entered: solve]
+==============================
+==============================
+Please enter the question number you would like to solve.
+==============================
+==============================
+Invalid question number. Please enter a valid index.
+==============================
+==============================
+Invalid question number. Please enter a valid index.
+==============================
+==============================
+Invalid input. Please enter a number.
+==============================
+==============================
+Invalid input. Please enter a number.
+==============================
+==============================
+Invalid input. Please enter a number.
+==============================
+==============================
+Invalid input. Please enter a number.
 ==============================

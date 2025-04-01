@@ -38,8 +38,7 @@ public class HelpCommand extends Command {
                 - Edit a question in the list.
             9. exit
                 - Exit the program.
-            To get detailed information on a specific command, use `help [COMMAND]`, e.g. `help add`.
-            """;
+            To get detailed information on a specific command, use `help [COMMAND]`, e.g. `help add`.""";
 
     public HelpCommand(String taskDetails) {
         if (taskDetails.isEmpty()) {
@@ -79,8 +78,7 @@ public class HelpCommand extends Command {
             
             Example:
              - `help`
-             - `help add`
-            """;
+             - `help add`""";
 
     private static final String ADD_HELP_MESSAGE = """
             *The `add` command*
@@ -102,8 +100,7 @@ public class HelpCommand extends Command {
              1. add
              2. FITB
              3. What is 1+1?
-             4. 2
-            """;
+             4. 2""";
 
     private static final String LIST_HELP_MESSAGE = """
             *The `list` command*
@@ -112,8 +109,7 @@ public class HelpCommand extends Command {
             
             Usage:
              - 'list': print the list of questions currently stored in the question bank without answers.
-             - 'list answer': print the list of questions currently stored in the question bank with answers.
-            """;
+             - 'list answer': print the list of questions currently stored in the question bank with answers.""";
 
     private static final String SOLVE_HELP_MESSAGE = """
             *The `solve` command*
@@ -133,8 +129,7 @@ public class HelpCommand extends Command {
              1. 'solve'
              2. 1
              3. yes
-            - One-step: solve /q 1 /a yes
-            """;
+            - One-step: solve /q 1 /a yes""";
 
     // Haha, "find help", get it?
     private static final String FIND_HELP_MESSAGE = """
@@ -151,8 +146,7 @@ public class HelpCommand extends Command {
             Example:
             - 'find hello'
             - 'find mcq hello'
-            - 'find fitb hello'
-            """;
+            - 'find fitb hello'""";
 
     private static final String DELETE_HELP_MESSAGE = """
             *The `delete` command*
@@ -163,8 +157,7 @@ public class HelpCommand extends Command {
              - 'delete [QUESTION_INDEX]': Delete the question at [QUESTION_INDEX].
             
             Example:
-            - 'delete 1'
-            """;
+            - 'delete 1'""";
 
     private static final String EXIT_HELP_MESSAGE = """
             *The `exit` command*
@@ -172,7 +165,6 @@ public class HelpCommand extends Command {
             Exits the program.
             
             Usage:
-            - 'exit': exit the program.
-            """;
+            - 'exit': exit the program.""";
 
 }
