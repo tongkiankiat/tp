@@ -1,7 +1,6 @@
 package mindexpander.tests;
 
 import mindexpander.commands.HelpCommand;
-import mindexpander.common.Messages;
 import mindexpander.exceptions.IllegalCommandException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -213,7 +212,7 @@ public class HelpCommandTest {
 
     @Test
     public void testDeleteHelpCommandMessage() {
-        HelpCommand helpCommand = new HelpCommand("Delete");
+        HelpCommand helpCommand = new HelpCommand("delete");
 
         assertEquals(DELETE_HELP_MESSAGE, helpCommand.getCommandMessage(),
                 "Help message does not match expected output.");
