@@ -75,6 +75,10 @@ public class HelpCommandTest {
                 "Help message does not match expected output.");
     }
 
+    /*
+     * NOTE for future devs: update the HELP_MESSAGE string with
+     * whatever new features are implemented.
+     */
     private static final String DEFAULT_HELP_MESSAGE = """
             Welcome to MindExpander!
             
@@ -93,12 +97,9 @@ public class HelpCommandTest {
                 - Find a question in the list that contains a specific keyword.
             7. delete
                 - Delete a question in the list.
-            8. edit
-                - Edit a question in the list.
-            9. exit
+            8. exit
                 - Exit the program.
-            To get detailed information on a specific command, use `help [COMMAND]`, e.g. `help add`.
-            """;
+            To get detailed information on a specific command, use `help [COMMAND]`, e.g. `help add`.""";
 
     private static final String HELP_HELP_MESSAGE = """
             *The `help` command*
@@ -112,8 +113,7 @@ public class HelpCommandTest {
             
             Example:
              - `help`
-             - `help add`
-            """;
+             - `help add`""";
 
     private static final String ADD_HELP_MESSAGE = """
             *The `add` command*
@@ -135,8 +135,7 @@ public class HelpCommandTest {
              1. add
              2. FITB
              3. What is 1+1?
-             4. 2
-            """;
+             4. 2""";
 
     private static final String LIST_HELP_MESSAGE = """
             *The `list` command*
@@ -145,8 +144,7 @@ public class HelpCommandTest {
             
             Usage:
              - 'list': print the list of questions currently stored in the question bank without answers.
-             - 'list answer': print the list of questions currently stored in the question bank with answers.
-            """;
+             - 'list answer': print the list of questions currently stored in the question bank with answers.""";
 
     private static final String SOLVE_HELP_MESSAGE = """
             *The `solve` command*
@@ -166,8 +164,18 @@ public class HelpCommandTest {
              1. 'solve'
              2. 1
              3. yes
-            - One-step: solve /q 1 /a yes
-            """;
+            - One-step: solve /q 1 /a yes""";
+
+    private static final String EDIT_HELP_MESSAGE = """
+            *The `edit` command*
+            
+            Edits a question's details.
+            
+            Usage:
+             - TODO
+            
+            Example:
+             - TODO""";
 
     // Haha, "find help", get it?
     private static final String FIND_HELP_MESSAGE = """
@@ -184,8 +192,7 @@ public class HelpCommandTest {
             Example:
             - 'find hello'
             - 'find mcq hello'
-            - 'find fitb hello'
-            """;
+            - 'find fitb hello'""";
 
     private static final String DELETE_HELP_MESSAGE = """
             *The `delete` command*
@@ -196,8 +203,7 @@ public class HelpCommandTest {
              - 'delete [QUESTION_INDEX]': Delete the question at [QUESTION_INDEX].
             
             Example:
-            - 'delete 1'
-            """;
+            - 'delete 1'""";
 
     private static final String EXIT_HELP_MESSAGE = """
             *The `exit` command*
@@ -205,6 +211,5 @@ public class HelpCommandTest {
             Exits the program.
             
             Usage:
-            - 'exit': exit the program.
-            """;
+            - 'exit': exit the program.""";
 }

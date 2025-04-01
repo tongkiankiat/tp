@@ -35,9 +35,7 @@ List of commands:
     - Find a question in the list that contains a specific keyword.
 7. delete
     - Delete a question in the list.
-8. edit
-    - Edit a question in the list.
-9. exit
+8. exit
     - Exit the program.
 To get detailed information on a specific command, use `help [COMMAND]`, e.g. `help add`.
 ==============================
@@ -169,20 +167,53 @@ Type <help> for a list of commands.
 Please enter the question number you would like to solve.
 ==============================
 ==============================
-Invalid question number. Please enter a valid index.
+Attempting question 1: what is 1+2?
+Enter your answer:
 ==============================
 ==============================
-Invalid question number. Please enter a valid index.
+Correct!
 ==============================
 ==============================
-Invalid input. Please enter a number.
+What would you like to do today?
+Type <help> for a list of commands.
 ==============================
 ==============================
-Invalid input. Please enter a number.
+[Command you entered: list]
 ==============================
 ==============================
-Invalid input. Please enter a number.
+Here are the questions you have stored:
 ==============================
 ==============================
-Invalid input. Please enter a number.
+1. FITB: what is 1+1?
+2. FITB: what is 1+2?
+==============================
+==============================
+What would you like to do today?
+Type <help> for a list of commands.
+==============================
+==============================
+[Command you entered: delete 2]
+==============================
+==============================
+Deleted question: FITB: what is 1+2? [Answer: 3]
+==============================
+==============================
+What would you like to do today?
+Type <help> for a list of commands.
+==============================
+==============================
+[Command you entered: potato]
+==============================
+==============================
+You have entered an unknown command. Please refer to the user guide, or type <help> to display the available commands
+==============================
+==============================
+What would you like to do today?
+Type <help> for a list of commands.
+==============================
+==============================
+[Command you entered: exit]
+==============================
+==============================
+Bye! Hope to see you again soon :)
 ==============================
