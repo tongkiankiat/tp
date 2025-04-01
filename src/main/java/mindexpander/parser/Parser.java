@@ -44,7 +44,7 @@ public class Parser {
             throws IllegalCommandException {
         if (ongoingCommand != null && !ongoingCommand.isCommandComplete()) {
             // Continue processing the ongoing multistep command
-            return ongoingCommand.handleMultistepCommand(userEntry, questionBank);
+            return manageMultistepCommand(userEntry, questionBank, lastShownQuestionBank);
         }
 
         // Split into commands and details of task
@@ -54,15 +54,9 @@ public class Parser {
 
         // Handle commands
         return switch (userCommand.toLowerCase()) {
-        case "help" -> new HelpCommand();
+        case "help" -> new HelpCommand(taskDetails);
         case "exit" -> new ExitCommand();
-        case "solve" -> {
-            if (taskDetails.isEmpty()) {
-                ongoingCommand = new SolveCommand();
-                yield ongoingCommand;
-            }
-            yield new SolveCommandOneStep(taskDetails, questionBank);
-        }
+        case "solve" -> handleSolve(taskDetails, lastShownQuestionBank);
         case "add" -> new AddCommand();
         case "list" -> {
             if (taskDetails.trim().equalsIgnoreCase("answer")) {
@@ -100,5 +94,36 @@ public class Parser {
         case "delete" -> DeleteCommand.parseFromUserInput(taskDetails, questionBank, lastShownQuestionBank);
         default -> throw new IllegalCommandException(Messages.UNKNOWN_COMMAND_MESSAGE);
         };
+    }
+
+    /**
+     * Feeds in the userEntry and the correct question bank to the ongoing command.
+     *
+     * @param userEntry the user entry to feed into the ongoing command
+     * @param questionBank the full question bank for commands that need it
+     * @param lastShownQuestionBank the last shown question bank for commands that need it
+     * @return the ongoing command to run again
+     */
+    protected Command manageMultistepCommand(String userEntry, QuestionBank questionBank,
+        QuestionBank lastShownQuestionBank) {
+        if (ongoingCommand.isUsingLastShownQuestionBank()) {
+            return ongoingCommand.handleMultistepCommand(userEntry, lastShownQuestionBank);
+        }
+        return ongoingCommand.handleMultistepCommand(userEntry, questionBank);
+    }
+
+    /**
+     * Handles the solve command by choosing the one-step or multistep version.
+     *
+     * @param taskDetails the user input string after the solve command.
+     * @param lastShownQuestionBank the last shown question bank.
+     * @return either the multistep or one-step version of the solve command.
+     */
+    protected Command handleSolve(String taskDetails, QuestionBank lastShownQuestionBank) {
+        if (taskDetails.isEmpty()) {
+            ongoingCommand = new SolveCommand();
+            return ongoingCommand;
+        }
+        return new SolveCommandOneStep(taskDetails, lastShownQuestionBank);
     }
 }

@@ -29,6 +29,7 @@ public class SolveCommand extends Command {
 
     public SolveCommand() {
         isComplete = false; // Multistep command
+        isUsingLastShownQuestionBank = true; // Uses the last shown one
         updateCommandMessage("Please enter the question number you would like to solve.");
     }
 

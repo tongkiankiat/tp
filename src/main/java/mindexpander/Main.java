@@ -35,7 +35,7 @@ public class Main {
             this.ui = new TextUi();
             this.storage = new StorageFile();
             this.questionBank = storage.load();
-            this.lastShownQuestionBank = new QuestionBank();
+            this.lastShownQuestionBank = questionBank;
         } catch (Exception e) {
             ui.printInitFailedMessage();
         }
@@ -60,7 +60,7 @@ public class Main {
 
                 while (!command.isCommandComplete()) {
                     String input = ui.nextLine();
-                    command.handleMultistepCommand(input, questionBank);
+                    manageMultistepCommand(input, command, questionBank, lastShownQuestionBank);
                     ui.displayResults(command.execute());
                 }
 
@@ -75,8 +75,17 @@ public class Main {
     // Records the last shown list
     private void recordResult(CommandResult commandResult) {
         final QuestionBank questionBank = commandResult.getQuestionBank();
-        if (questionBank != null) {
+        if (!questionBank.isEmpty()) {
             lastShownQuestionBank = questionBank;
+        }
+    }
+
+    private void manageMultistepCommand(String input, Command command, QuestionBank questionBank,
+        QuestionBank lastShownQuestionBank) {
+        if (command.isUsingLastShownQuestionBank()) {
+            command.handleMultistepCommand(input, lastShownQuestionBank);
+        } else {
+            command.handleMultistepCommand(input, questionBank);
         }
     }
 }

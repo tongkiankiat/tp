@@ -43,7 +43,17 @@ The overall flow of interaction between the user and program is as follows:
 
 **Parser**
 
+{Describe how the parser works}
+
 **Commands**
+
+{Describe how commands work}
+
+**Note**
+* When adding new single line commands in the future, they should return an instance of the `CommandResult` result class
+in the overridden `execute()` method.
+  * The only exception to this is the `HelpCommand` class as all it has to do is print the correct help message,
+  managed in its constructor.
 
 **Multistep commands**
 These are implemented through the use of a finite state machine (FSM), where the different states are defined in a command's
@@ -62,7 +72,7 @@ These are implemented through the use of a finite state machine (FSM), where the
 * The FSM logic is transparent to Main and Parser, as such new steps or states can be added to multistep commands without changing
 Parser or main.
 * The different states are defined in an enum inside the multistep command's class.
-* Multistep commands should only override `handleMultistepCommand()` from the `Command` class and not the `execute()` method.
+* Multistep commands **should only override** `handleMultistepCommand()` from the `Command` class and **not the** `execute()` method.
 The command's messages for the user can be updated using `updateCommandMessage()` within `handleMultistepCommand` instead of returning a `CommandResult`.
 The returning of a `CommandResult` instance will be handled automatically by the parent `Command` class.
 
