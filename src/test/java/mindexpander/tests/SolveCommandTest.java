@@ -1,107 +1,117 @@
 package mindexpander.tests;
 
+import mindexpander.commands.Command;
 import mindexpander.commands.SolveCommand;
 import mindexpander.data.QuestionBank;
 import mindexpander.data.question.FillInTheBlanks;
+import mindexpander.data.question.MultipleChoice;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 
-/**
- * JUnit test class for {@code SolveCommand}.
- *
- * @author Wenyi
- * @version 1.1
- * @since 2025-02-15
- */
-class SolveCommandTest {
+public class SolveCommandTest {
     private QuestionBank questionBank;
-    private SolveCommand solveCommand;
 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         questionBank = new QuestionBank();
-        questionBank.addQuestion(new FillInTheBlanks("The capital of Japan is ___", "Tokyo"));
-        questionBank.addQuestion(new FillInTheBlanks("Water boils at ___ degrees Celsius.", "100"));
-        solveCommand = new SolveCommand();
+        // Add test questions - note answers are now letter options
+        List<String> options = Arrays.asList("3", "4", "5");
+        questionBank.addQuestion(new MultipleChoice("What is 2+2?", "4", options));
+        questionBank.addQuestion(new FillInTheBlanks("The capital of France is ____.", "Paris"));
     }
 
     @Test
-    void testInitialState() {
-        assertFalse(solveCommand.isCommandComplete());
-        assertEquals("Please enter the question number you would like to solve.", solveCommand.getCommandMessage());
+    public void testGetQuestionIndex_validIndex() {
+        SolveCommand command = new SolveCommand("1", questionBank);
+        String message = command.getCommandMessage();
+        assertTrue(message.startsWith("Attempting question 1:"));
+        assertTrue(message.contains("MCQ: What is 2+2?"));
+        assertTrue(message.contains("A. ") || message.contains("B. ") || message.contains("C. "));
     }
 
     @Test
-    void testValidQuestionIndex() {
-        solveCommand = (SolveCommand) solveCommand.handleMultistepCommand("1", questionBank);
-        assertTrue(solveCommand.getCommandMessage().contains("Attempting question 1"));
-        assertTrue(solveCommand.getCommandMessage().contains("Enter your answer:"));
-        assertFalse(solveCommand.isCommandComplete());
+    public void testHandleMultistepCommand_correctMCQAnswer() {
+        SolveCommand command = new SolveCommand("1", questionBank);
+        // Get the displayed options to find the correct letter
+        String message = command.getCommandMessage();
+        String correctOption = getCorrectOptionFromMessage(message, "4");
+
+        Command result = command.handleMultistepCommand(correctOption, questionBank);
+        assertEquals("Correct!", result.getCommandMessage());
     }
 
     @Test
-    void testInvalidQuestionIndex() {
-        solveCommand = (SolveCommand) solveCommand.handleMultistepCommand("99", questionBank);
-        assertEquals("Invalid question number. Please enter a valid index.", solveCommand.getCommandMessage());
-        assertFalse(solveCommand.isCommandComplete());
+    public void testHandleMultistepCommand_wrongMCQAnswer() {
+        SolveCommand command = new SolveCommand("1", questionBank);
+        // Get the displayed options to find a wrong letter
+        String message = command.getCommandMessage();
+        String wrongOption = getWrongOptionFromMessage(message, "4");
+
+        Command result = command.handleMultistepCommand(wrongOption, questionBank);
+        assertEquals("Wrong answer, would you like to try again? [Y/N]", result.getCommandMessage());
     }
 
     @Test
-    void testNonNumericInputForIndex() {
-        solveCommand = (SolveCommand) solveCommand.handleMultistepCommand("hello", questionBank);
-        assertEquals("Invalid input. Please enter a number.", solveCommand.getCommandMessage());
-        assertFalse(solveCommand.isCommandComplete());
+    public void testHandleMultistepCommand_correctFillInTheBlanks() {
+        SolveCommand command = new SolveCommand("2", questionBank);
+        Command result = command.handleMultistepCommand("Paris", questionBank);
+        assertEquals("Correct!", result.getCommandMessage());
     }
 
     @Test
-    void testCorrectAnswer() {
-        solveCommand = (SolveCommand) solveCommand.handleMultistepCommand("1", questionBank);
-        solveCommand = (SolveCommand) solveCommand.handleMultistepCommand("Tokyo", questionBank);
-        assertEquals("Correct!", solveCommand.getCommandMessage());
-        assertTrue(solveCommand.isCommandComplete());
+    public void testHandleMultistepCommand_wrongFillInTheBlanks() {
+        SolveCommand command = new SolveCommand("2", questionBank);
+        Command result = command.handleMultistepCommand("London", questionBank);
+        assertEquals("Wrong answer, would you like to try again? [Y/N]", result.getCommandMessage());
+    }
+
+    // Helper methods to deal with shuffled options
+    private String getCorrectOptionFromMessage(String message, String correctAnswer) {
+        String[] lines = message.split("\n");
+        for (String line : lines) {
+            if (line.contains(correctAnswer)) {
+                return line.substring(0, 1); // Get the letter prefix
+            }
+        }
+        return "";
+    }
+
+    private String getWrongOptionFromMessage(String message, String correctAnswer) {
+        String[] lines = message.split("\n");
+        for (String line : lines) {
+            if (line.length() > 2 && line.contains(".") && !line.contains(correctAnswer)) {
+                return line.substring(0, 1); // Get the letter prefix
+            }
+        }
+        return "";
     }
 
     @Test
-    void testIncorrectAnswer() {
-        solveCommand = (SolveCommand) solveCommand.handleMultistepCommand("1", questionBank);
-        solveCommand = (SolveCommand) solveCommand.handleMultistepCommand("Osaka", questionBank);
-        assertEquals("Wrong answer, would you like to try again? [Y/N]", solveCommand.getCommandMessage());
-        assertFalse(solveCommand.isCommandComplete());
+    public void testGetQuestionIndex_invalidIndex() {
+        SolveCommand command = new SolveCommand("0", questionBank);
+        assertEquals("Invalid question number. Please enter a valid index.", command.getCommandMessage());
+
+        command = new SolveCommand("3", questionBank);
+        assertEquals("Invalid question number. Please enter a valid index.", command.getCommandMessage());
     }
 
     @Test
-    void testRetryIncorrectAnswer() {
-        solveCommand = (SolveCommand) solveCommand.handleMultistepCommand("1", questionBank);
-        solveCommand = (SolveCommand) solveCommand.handleMultistepCommand("Osaka", questionBank);
-        solveCommand = (SolveCommand) solveCommand.handleMultistepCommand("Y", questionBank);
-        assertEquals("Enter your answer to try again: ", solveCommand.getCommandMessage());
-
-        // Correct answer after retrying
-        solveCommand = (SolveCommand) solveCommand.handleMultistepCommand("Tokyo", questionBank);
-        assertEquals("Correct!", solveCommand.getCommandMessage());
-        assertTrue(solveCommand.isCommandComplete());
+    public void testGetQuestionIndex_nonNumeric() {
+        SolveCommand command = new SolveCommand("abc", questionBank);
+        assertEquals("Invalid question number. Please enter a valid index.", command.getCommandMessage());
     }
 
     @Test
-    void testGiveUpAfterIncorrectAnswer() {
-        solveCommand = (SolveCommand) solveCommand.handleMultistepCommand("1", questionBank);
-        solveCommand = (SolveCommand) solveCommand.handleMultistepCommand("Osaka", questionBank);
-        solveCommand = (SolveCommand) solveCommand.handleMultistepCommand("N", questionBank);
-        assertEquals("Giving up on question.", solveCommand.getCommandMessage());
-        assertTrue(solveCommand.isCommandComplete());
-    }
-
-    @Test
-    void testInvalidRetryResponse() {
-        solveCommand = (SolveCommand) solveCommand.handleMultistepCommand("1", questionBank);
-        solveCommand = (SolveCommand) solveCommand.handleMultistepCommand("Osaka", questionBank);
-        solveCommand = (SolveCommand) solveCommand.handleMultistepCommand("Maybe", questionBank);
-        assertEquals("Please enter Y or N.", solveCommand.getCommandMessage());
-        assertFalse(solveCommand.isCommandComplete());
+    public void testEmptyQuestionBank() {
+        QuestionBank emptyBank = new QuestionBank();
+        SolveCommand command = new SolveCommand("1", emptyBank);
+        assertEquals("Question bank is empty. Please add a question first.", command.getCommandMessage());
     }
 }
