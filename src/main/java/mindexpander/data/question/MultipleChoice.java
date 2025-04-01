@@ -31,10 +31,7 @@ public class MultipleChoice extends Question {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("MCQ: ").append(question).append(" [Answer: A]").append("\n");
-        for (int i = 0; i < options.size(); i += 1) {
-            sb.append((char) ('A' + i)).append(". ").append(options.get(i)).append("\n");
-        }
+        sb.append("MCQ: ").append(question).append(" [Answer: ").append(answer).append("]").append("\n");
         return sb.toString();
     }
 
