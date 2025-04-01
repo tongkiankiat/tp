@@ -2,9 +2,10 @@
 
 ## Acknowledgements
 
-MindExpander uses the following tools for development:
+MindExpander uses the following tools in the development process:
 1. [JUnit 5](https://junit.org/junit5/) - Used for JUnit testing.
 2. [Gradle](https://gradle.org/) - Used for build automation.
+3. [PlantUML] (https://plantuml.com/) - Used for diagram generation in this guide.
 
 ## Design & implementation
 

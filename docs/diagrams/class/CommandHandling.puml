@@ -37,7 +37,6 @@ class SolveCommand {
 
 ' Enums
 enum Step {
-  GET_INDEX
   GET_ANSWER
   GET_TRY_AGAIN_RESPONSE
 }
@@ -66,10 +65,9 @@ TextUi ..> CommandResult : displays
 ' Notes
 note top of SolveCommand
   State Machine Flow:
-  1. GET_INDEX → GET_ANSWER
-  2. GET_ANSWER → GET_TRY_AGAIN (if wrong)
-  3. GET_TRY_AGAIN → GET_ANSWER (if 'Y')
-  4. Completes when correct or 'N'
+  1. GET_ANSWER → GET_TRY_AGAIN (if wrong)
+  2. GET_TRY_AGAIN → GET_ANSWER (if 'Y')
+  3. Completes when correct or 'N'
 end note
 
 note right of Command

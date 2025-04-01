@@ -11,7 +11,7 @@
     - [Finding questions with a specified string: `find`](#finding-questions-with-a-specified-string-find)
     - [Solving questions: `solve`](#solving-questions-solve)
     - [Exiting the program: `exit`](#exiting-the-program-exit)
-4. **[Additional Notes](#additional-notes)**
+4. **[Additional Notes](#additional-notes-for-program-features-and-usage)**
 5. **[FAQ](#faq)**
 6. **[Command Summary](#command-summary)**
 
@@ -26,8 +26,8 @@ commands. With built-in saving and loading capabilities, users can seamlessly co
 
 1. Ensure that you have Java 17 or above installed.
 2. Down the latest version of `MindExpander` from [here](https://github.com/AY2425S2-CS2113-F12-3/tp/releases/tag/v1.0).
-3. Open a command terminal
-4. `cd` into the folder containing the jar file
+3. Open a command terminal.
+4. `cd` into the folder containing the jar file.
 5. Use the command `java -jar MindExpander.jar` to run the application. Upon start up, you should see:
 ```
 ==============================
@@ -92,11 +92,16 @@ Format: `add` | `[QUESTION_TYPE]` | `[QUESTION_DETAILS]` | `[QUESTION_ANSWER]`
 
 Question types (as of this version): `FITB`, `MCQ`
 
-Example usage: #TODO
+Example usage:
+
+Adding an FITB question:
+
+Adding an MCQ question:
 
 **Note**
-* **DO NOT** use the '|' character when adding question details or the question answers as that is the character
-used for delimitting in the save file.
+* **DO NOT** use the '|' character when adding question contents or the question answers as that is the character
+used for delimiting in the save file.
+* MCQ questions have 4 options including the correct answer.
 
 ### Listing questions added: `list`
 Lists all the questions currently in the question bank. Running this will change the last shown list to be the full list
@@ -126,51 +131,66 @@ questions which match the user's search query in the question bank.
 Solves a question that was previously added to the question bank.
 It is recommended to run `list` before `solve` to check the index of the question you intend to solve.
 If one runs `find` before `solve`, the list used for the available questions and question indexes will be what is
-displayed by the `find` command.
+displayed by the `find` command, i.e. the last shown list.
     
 * For example, if `find 1+` displays
   > 1. FITB: What is 1+1?
   > 2. FITB: What is 1+2?
 * Question Index 1 will be the question "What is 1+1?".
 
-**Multistep usage**
-`solve` can be used in a "one command at a time" manner. This method is easier for new users and guides the user
-through the process.
-
-Format: `solve` | `[QUESTION INDEX]` | `[QUESTION ANSWER]`
+Format: `solve [QUESTION INDEX]` | `[QUESTION ANSWER]` | `[Y/N]` (only if wrong)
 `[QUESTION_INDEX]`: The question number of the question to be solved, according to the last shown list.
 `[QUESTION_ANSWER]`: The answer to the question.
+`[Y/N`: Y or N depending on whether you want to keep attempting the question or not.
 
 Example usage:
-1. `solve`
-    > Please enter the question number you would like to solve.
-2. `2`
-    > Attempting question 2: What are fries made of? Enter your answer:
-3. `Potato`
+These examples are for a FITB question 2, "What are fries made of?" with the correct answer "Potato".
+
+Correct answer example
+1. `solve 2`
+    > Attempting question 2: FITB: What are fries made of? Enter your answer:
+2. `Potato`
     > Correct!
 
-This solves question 2, "What are fries made of?" by entering the correct answer "Potato".
-
-**Note**:
-* Entering the wrong answer will result in the below message, enter Y to try again and N to give up and exit:
+Wrong answer example
+1. `solve 2`
+   > Attempting question 2: FITB: What are fries made of? Enter your answer:
+2. `Cheese`
    > Wrong answer, would you like to try again? [Y/N]
+3. `N`
+   > Giving up on question.
 
-**One-step usage**
-`solve` can also be used by entering all the arguments in one line, this method is faster but must follow the format
-correctly.
+OR
 
-Format: `solve /q [QUESTION_INDEX] /a [QUESTION_ANSWER]`
-`[QUESTION_INDEX]`: The question number of the question to be solved, according to the last shown list.
-`[QUESTION_ANSWER]`: The answer to the question.
+4. `Y`
+   > Enter your answer to try again:
 
-Example usage:
-`solve /q 2 /q Potato`
+These examples are for an MCQ question 2 "What are fries made of?" with the correct answer "Potato" and other options
+"Cheese", "Ham" and "Bread". Instead of entering the answer contents, enter the answer's option instead. E.g. for the
+option `A. Potato`, enter 'A'.
 
-This solves question 2,  "What are fries made of?" by entering the correct answer "Potato".
+1. `solve 2`
+   > Attempting question 4: MCQ: What are fries made of? 
+   > A. Bread  
+   > B. Ham  
+   > C. Potato  
+   > D. Cheese  
+   > 
+   > Enter your answer:
+
+2. `C`
+   > Correct!
+
+The wrong answer sequence follows that of the FITB questions.
 
 **Note**:
-* Follow the command format as specified above and ensure that question indexes are within 1 to the number of questions,
-entering otherwise will result in errors.
+* The MCQ question options are randomised each time to aid remembering the right answer contents instead of remembering
+the right letter.
+* If the question bank is empty (refers to the last shown list as well), the program will ask you to add a question.
+* Follow the command format as specified above, incorrect formats will result in errors.
+* Ensure that question indexes are within 1 to the number of questions, entering otherwise will result in errors.
+* Entering other strings that are neither Y nor N to try again will result in the program continuously asking for Y 
+or N until one of them is entered. This is to give the user a chance to actually enter Y or N.
 
 ### Deleting a question: `delete`
 Removes a question from the question bank. The question index should refer to the index displayed by the most recent `list` or `find` command.
@@ -205,11 +225,12 @@ Example usage:
 
 `exit`
 
-### Additional notes
+## Additional notes for program features and usage
 * This program is designed to take inputs in **Roman Alphabet** (i.e. English characters),
 please do not enter characters from other languages, for example Chinese characters.
 * Inputting unrecognised commands will result in an error message.
 * Saving and Loading: The question bank is automatically saved to a file named MindExpander.txt in the ./data/ folder.
+* Do not edit the save file while the program is running.
 
 ## FAQ
 
@@ -218,13 +239,21 @@ please do not enter characters from other languages, for example Chinese charact
 **A**: Data can be transferred by copying over the `data` folder containing `MindExpander.txt` and pasting it in the
 same folder where the .jar file is installed on the new computer.
 
+**Q**: Can I add questions to the question bank while the program is running?
+
+**A**: No, the new questions will not be recorded. Do not edit the save file while the program is running.
+
+**Q**: Will questions I add to the save file before running the program be added to the list?
+
+**A**: Yes, provided that the questions are in the correct format. However, this is highly not recommended due to risk
+of getting the format wrong.
+
 ## Command Summary
 
 * View help sheet `help`
+* View help for a specific command `help [COMMAND]`
 * Add question `add` | `[QUESTION_TYPE]` | `[QUESTION_DETAILS]` | `[QUESTION_ANSWER]`
 * List question bank `list`
-* Solve question
-  * Multistep `solve` | `[QUESTION_INDEX]` | `[QUESTION_ANSWER]`
-  * One-step `solve /q [QUESTION__INDEX] /a [QUESTION_ANSWER]`
+* Solve question `solve [QUESTION_INDEX]` | `[QUESTION_ANSWER]` | `[Y/N]` (only if wrong)
 * Delete question: `delete [QUESTION_INDEX]`
 * Exit program `exit`
