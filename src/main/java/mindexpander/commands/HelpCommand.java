@@ -26,7 +26,7 @@ public class HelpCommand extends Command {
      * NOTE for future devs: when a new feature is added, add the detailed help string here.
      */
 
-    private String chooseHelpMessage(String taskDetails) {
+    private String chooseHelpMessage(String taskDetails) throws IllegalCommandException {
         return switch(taskDetails.toLowerCase()) {
         case "help" -> HELP_HELP_MESSAGE;
         case "add" -> ADD_HELP_MESSAGE;

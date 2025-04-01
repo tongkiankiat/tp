@@ -73,6 +73,17 @@ What would you like to do today?
 Type <help> for a list of commands.
 ==============================
 ==============================
+[Command you entered: help me]
+==============================
+==============================
+You have entered an unknown command. Please refer to the user guide, or type <help> to display the available commands
+No help available.
+==============================
+==============================
+What would you like to do today?
+Type <help> for a list of commands.
+==============================
+==============================
 [Command you entered: add]
 ==============================
 ==============================

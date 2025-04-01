@@ -1,7 +1,12 @@
 package mindexpander.tests;
 
 import mindexpander.commands.HelpCommand;
+import mindexpander.common.Messages;
+import mindexpander.exceptions.IllegalCommandException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.Test;
 
 /**
@@ -73,6 +78,20 @@ public class HelpCommandTest {
 
         assertEquals(DELETE_HELP_MESSAGE, helpCommand.getCommandMessage(),
                 "Help message does not match expected output.");
+    }
+
+    @Test
+    public void testInvalidCommandThrowsException() {
+        String invalidCommand = "bogus_command";
+
+        IllegalCommandException exception = assertThrows(
+                IllegalCommandException.class,
+                () -> new HelpCommand(invalidCommand),
+                "Expected an IllegalCommandException for an unknown command."
+        );
+
+        assertTrue(exception.getMessage().contains("No help available"),
+                "Error message should indicate no help is available for unknown commands.");
     }
 
     /*
