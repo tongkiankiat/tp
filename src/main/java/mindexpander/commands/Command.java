@@ -13,6 +13,12 @@ public class Command {
     protected String commandMessage;
     protected boolean isComplete = true; // To signal completion of multistep commands.
 
+    // Decides whether a command should use the last shown question bank or the full question bank.
+    // Used by multistep commands, onestep commands can immediately take in the question bank it needs.
+    // This is false by default, i.e. use the full question bank by default. Set to true in the constructors of
+    // Commands which need to use the last shown question bank (e.g. SolveCommand).
+    protected boolean isUsingLastShownQuestionBank = false;
+
     /**
      * Updates the command message associated with this command.
      *
@@ -65,6 +71,15 @@ public class Command {
      */
     public boolean isCommandComplete() {
         return isComplete;
+    }
+
+    /**
+     * Checks if a command uses the full question bank or the last shown one.
+     *
+     * @return whether to use lastShowQuestionBank or not
+     */
+    public boolean isUsingLastShownQuestionBank() {
+        return isUsingLastShownQuestionBank;
     }
 
     /**

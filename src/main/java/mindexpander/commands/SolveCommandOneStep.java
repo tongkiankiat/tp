@@ -21,16 +21,16 @@ import mindexpander.exceptions.IllegalCommandException;
 public class SolveCommandOneStep extends Command {
     private int questionIndex = -1;
     private String userAnswer = "";
-    private final QuestionBank questionBank;
+    private final QuestionBank lastShownQuestionBank;
 
     /**
      * Constructs a {@code SolveCommandOneStep} and parses the given input string.
      *
      * @param questionDetails A string in the format "/q [QUESTION_INDEX] /a [ANSWER]".
      */
-    public SolveCommandOneStep(String questionDetails, QuestionBank questionBank) {
+    public SolveCommandOneStep(String questionDetails, QuestionBank lastShownQuestionBank) {
         isComplete = true; // Single-step command
-        this.questionBank = questionBank;
+        this.lastShownQuestionBank = lastShownQuestionBank;
         parseInput(questionDetails);
     }
 
@@ -66,11 +66,11 @@ public class SolveCommandOneStep extends Command {
      */
     @Override
     public CommandResult execute() {
-        if (questionIndex < 0 || questionIndex >= questionBank.getQuestionCount()) {
+        if (questionIndex < 0 || questionIndex >= lastShownQuestionBank.getQuestionCount()) {
             throw new IllegalCommandException("Invalid question number. Please enter a valid index.");
         }
 
-        Question question = questionBank.getQuestion(questionIndex);
+        Question question = lastShownQuestionBank.getQuestion(questionIndex);
         String correctAnswer = question.getAnswer();
 
         if (userAnswer.equalsIgnoreCase(correctAnswer.trim())) {

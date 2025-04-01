@@ -15,13 +15,7 @@ public class QuestionBank {
     public QuestionBank(List<Question> allQuestions) {
         this.allQuestions = allQuestions;
     }
-
-    public void list() {
-        for (Question q : allQuestions) {
-            q.showQuestion();
-        }
-    }
-
+    
     public void addQuestion(Question toAdd) {
         allQuestions.add(toAdd);
     }
@@ -36,6 +30,15 @@ public class QuestionBank {
 
     public Question getQuestion(int index) {
         return allQuestions.get(index);
+    }
+
+    public int findQuestionIndex(Question q) {
+        for (int i = 0; i < allQuestions.size(); i++) {
+            if (allQuestions.get(i).equals(q)) {
+                return i;
+            }
+        }
+        return -1; // not found
     }
 
     public boolean isEmpty() {
