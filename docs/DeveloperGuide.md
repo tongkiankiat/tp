@@ -75,7 +75,32 @@ The class diagram for the example multistep command `SolveCommand`:
 
 ### Storage
 
-{Describe the storage mechanism}
+The `StorageFile` class is responsible for saving and loading questions from a local `.txt` file to ensure data persistence across sessions.
+
+#### **File Format**
+
+* Each line in the file represents a single question, with components separated by the `|` delimiter.  
+
+* The general format is: <QUESTION_TYPE>|<QUESTION_TEXT>|<ANSWER>
+
+* Example: FITB|Water boils at __ degrees Celsius|100 FITB|The capital of France is __|Paris
+
+#### **Saving Logic**
+
+* The method `save(QuestionBank questionBank)` writes all current questions in the question bank to a text file located at `./data/MindExpander.txt`.
+* If the `data/` directory does not exist, it is created.
+* Each question is converted to a string using `formatQuestionForSaving(Question q)` and written line-by-line.
+
+#### **Loading Logic**
+
+* The method `load()` reads the `MindExpander.txt` file line-by-line and reconstructs each question.
+* Currently, only `FITB`-type questions are parsed and added back to the `QuestionBank`.
+
+#### **Limitations**
+
+* Only **FITB** questions are supported for now.
+* `MCQ` (Multiple Choice Questions) and other types will be added in future updates.
+* Unsupported question types are ignored during loading.
 
 ## Product scope
 ### Target user profile
@@ -95,12 +120,12 @@ This product aims to solve the problem of students not having a convenient place
 |v1.0| user             | <todo> story for add                                                                          |                                                                       |
 |v1.0| user             | list the questions I have previously added in the question bank                               | check what questions I have added previously                          |
 |v1.0| user             | list the questions I have previously added in the question bank with their respective answers | check what questions I have added previously along with their answers |
-|v1.0| user             | <todo> story for store                                                                        |                                                                       |
+|v1.0| user             | store my questions permanently                                                                | retrieve them even after closing and reopening the application                                                                      |
 |v1.0| user             | have my answer inputs evaluated                                                               | practice the questions previously added                               |
 |v2.0| user             | find a question in the question bank by name                                                  | locate whether I have previously added a similar question             |
 |v2.0| experienced user | solve questions by typing everything in one command                                           | answer questions faster without going through the multiple steps      |
 |v2.0| user             | <todo> story for edit                                                                         |                                                                       |
-|v2.0| user             | <todo> story for delete                                                                       |                                                                |
+|v2.0| user             | delete a question from the question bank                                                                       | remove outdated or incorrect questions                                                                |
 
 ## Non-Functional Requirements
 

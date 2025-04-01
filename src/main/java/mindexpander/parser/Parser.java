@@ -3,6 +3,7 @@ package mindexpander.parser;
 // Commands
 import mindexpander.commands.Command;
 import mindexpander.commands.AddCommand;
+import mindexpander.commands.DeleteCommand;
 import mindexpander.commands.HelpCommand;
 import mindexpander.commands.ListCommand;
 import mindexpander.commands.ExitCommand;
@@ -39,7 +40,7 @@ public class Parser {
      * @return The appropriate {@code CommandHandler} object based on the command.
      * @throws IllegalCommandException If the command is invalid or unrecognized.
      */
-    public Command parseCommand (String userEntry, QuestionBank questionBank)
+    public Command parseCommand (String userEntry, QuestionBank questionBank, QuestionBank lastShownQuestionBank)
             throws IllegalCommandException {
         if (ongoingCommand != null && !ongoingCommand.isCommandComplete()) {
             // Continue processing the ongoing multistep command
@@ -96,6 +97,7 @@ public class Parser {
             }
             yield new FindCommand(questionBank, questionType, keyword);
         }
+        case "delete" -> DeleteCommand.parseFromUserInput(taskDetails, questionBank, lastShownQuestionBank);
         default -> throw new IllegalCommandException(Messages.UNKNOWN_COMMAND_MESSAGE);
         };
     }

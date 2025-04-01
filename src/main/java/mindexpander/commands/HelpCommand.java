@@ -29,6 +29,8 @@ public class HelpCommand extends Command {
                 - Edit a question in the list.
             6. find
                 - Find a question in the list that contains a specific keyword.
+            7. delete
+                - Delete a question in the list.
             """;
 
     public HelpCommand() {
