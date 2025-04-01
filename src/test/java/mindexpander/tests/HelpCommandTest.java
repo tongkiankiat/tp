@@ -16,83 +16,6 @@ import org.junit.jupiter.api.Test;
  */
 public class HelpCommandTest {
 
-    @Test
-    public void testHelpCommandMessage() {
-        HelpCommand helpCommand = new HelpCommand("");
-
-        assertEquals(DEFAULT_HELP_MESSAGE, helpCommand.getCommandMessage(),
-            "Help message does not match expected output.");
-    }
-
-    @Test
-    public void testHelpHelpCommandMessage() {
-        HelpCommand helpCommand = new HelpCommand("help");
-
-        assertEquals(HELP_HELP_MESSAGE, helpCommand.getCommandMessage(),
-                "Help message does not match expected output.");
-    }
-
-    @Test
-    public void testAddHelpCommandMessage() {
-        HelpCommand helpCommand = new HelpCommand("add");
-
-        assertEquals(ADD_HELP_MESSAGE, helpCommand.getCommandMessage(),
-                "Help message does not match expected output.");
-    }
-
-    @Test
-    public void testListHelpCommandMessage() {
-        HelpCommand helpCommand = new HelpCommand("list");
-
-        assertEquals(LIST_HELP_MESSAGE, helpCommand.getCommandMessage(),
-                "Help message does not match expected output.");
-    }
-
-    @Test
-    public void testSolveHelpCommandMessage() {
-        HelpCommand helpCommand = new HelpCommand("solve");
-
-        assertEquals(SOLVE_HELP_MESSAGE, helpCommand.getCommandMessage(),
-                "Help message does not match expected output.");
-    }
-
-    @Test
-    public void testFindHelpCommandMessage() {
-        HelpCommand helpCommand = new HelpCommand("find");
-
-        assertEquals(FIND_HELP_MESSAGE, helpCommand.getCommandMessage(),
-                "Help message does not match expected output.");
-    }
-
-    @Test
-    public void testExitHelpCommandMessage() {
-        HelpCommand helpCommand = new HelpCommand("exit");
-
-        assertEquals(EXIT_HELP_MESSAGE, helpCommand.getCommandMessage(),
-                "Help message does not match expected output.");
-    }
-
-    @Test
-    public void testDeleteHelpCommandMessage() {
-        HelpCommand helpCommand = new HelpCommand("Delete");
-
-        assertEquals(DELETE_HELP_MESSAGE, helpCommand.getCommandMessage(),
-                "Help message does not match expected output.");
-    }
-
-    @Test
-    public void testInvalidCommandThrowsException() {
-        String invalidCommand = "bogus_command";
-
-        IllegalCommandException exception = assertThrows(
-                IllegalCommandException.class,
-                () -> new HelpCommand(invalidCommand),
-                "Expected an IllegalCommandException for an unknown command."
-        );
-
-        assertTrue(exception.getMessage().contains("No help available"),
-                "Error message should indicate no help is available for unknown commands.");
-    }
 
     /*
      * NOTE for future devs: update the HELP_MESSAGE string with
@@ -231,4 +154,83 @@ public class HelpCommandTest {
             
             Usage:
             - 'exit': exit the program.""";
+
+    @Test
+    public void testHelpCommandMessage() {
+        HelpCommand helpCommand = new HelpCommand("");
+
+        assertEquals(DEFAULT_HELP_MESSAGE, helpCommand.getCommandMessage(),
+            "Help message does not match expected output.");
+    }
+
+    @Test
+    public void testHelpHelpCommandMessage() {
+        HelpCommand helpCommand = new HelpCommand("help");
+
+        assertEquals(HELP_HELP_MESSAGE, helpCommand.getCommandMessage(),
+                "Help message does not match expected output.");
+    }
+
+    @Test
+    public void testAddHelpCommandMessage() {
+        HelpCommand helpCommand = new HelpCommand("add");
+
+        assertEquals(ADD_HELP_MESSAGE, helpCommand.getCommandMessage(),
+                "Help message does not match expected output.");
+    }
+
+    @Test
+    public void testListHelpCommandMessage() {
+        HelpCommand helpCommand = new HelpCommand("list");
+
+        assertEquals(LIST_HELP_MESSAGE, helpCommand.getCommandMessage(),
+                "Help message does not match expected output.");
+    }
+
+    @Test
+    public void testSolveHelpCommandMessage() {
+        HelpCommand helpCommand = new HelpCommand("solve");
+
+        assertEquals(SOLVE_HELP_MESSAGE, helpCommand.getCommandMessage(),
+                "Help message does not match expected output.");
+    }
+
+    @Test
+    public void testFindHelpCommandMessage() {
+        HelpCommand helpCommand = new HelpCommand("find");
+
+        assertEquals(FIND_HELP_MESSAGE, helpCommand.getCommandMessage(),
+                "Help message does not match expected output.");
+    }
+
+    @Test
+    public void testExitHelpCommandMessage() {
+        HelpCommand helpCommand = new HelpCommand("exit");
+
+        assertEquals(EXIT_HELP_MESSAGE, helpCommand.getCommandMessage(),
+                "Help message does not match expected output.");
+    }
+
+    @Test
+    public void testDeleteHelpCommandMessage() {
+        HelpCommand helpCommand = new HelpCommand("Delete");
+
+        assertEquals(DELETE_HELP_MESSAGE, helpCommand.getCommandMessage(),
+                "Help message does not match expected output.");
+    }
+
+    @Test
+    public void testInvalidCommandThrowsException() {
+        String invalidCommand = "bogus_command";
+
+        IllegalCommandException exception = assertThrows(
+                IllegalCommandException.class,
+                () -> new HelpCommand(invalidCommand),
+                "Expected an IllegalCommandException for an unknown command."
+        );
+
+        assertTrue(exception.getMessage().contains("No help available"),
+                "Error message should indicate no help is available for unknown commands.");
+    }
+
 }

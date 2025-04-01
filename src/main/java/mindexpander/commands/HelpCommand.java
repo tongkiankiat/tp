@@ -13,33 +13,6 @@ import mindexpander.common.Messages;
  */
 public class HelpCommand extends Command {
 
-    public HelpCommand(String taskDetails) {
-        if (taskDetails.isEmpty()) {
-            updateCommandMessage(DEFAULT_HELP_MESSAGE);
-        } else {
-            String helpMessage = chooseHelpMessage(taskDetails);
-            updateCommandMessage(helpMessage);
-        }
-    }
-
-    /*
-     * NOTE for future devs: when a new feature is added, add the detailed help string here.
-     */
-
-    private String chooseHelpMessage(String taskDetails) throws IllegalCommandException {
-        return switch(taskDetails.toLowerCase()) {
-        case "help" -> HELP_HELP_MESSAGE;
-        case "add" -> ADD_HELP_MESSAGE;
-        case "list" -> LIST_HELP_MESSAGE;
-        case "solve" -> SOLVE_HELP_MESSAGE;
-        case "edit" -> EDIT_HELP_MESSAGE;
-        case "find" -> FIND_HELP_MESSAGE;
-        case "delete" -> DELETE_HELP_MESSAGE;
-        case "exit" -> EXIT_HELP_MESSAGE;
-        default -> throw new IllegalCommandException(Messages.UNKNOWN_COMMAND_MESSAGE + "\nNo help available.");
-        };
-    }
-
     /*
      * NOTE for future devs: update the HELP_MESSAGE string with
      * whatever new features are implemented.
@@ -177,5 +150,32 @@ public class HelpCommand extends Command {
             
             Usage:
             - 'exit': exit the program.""";
+
+    public HelpCommand(String taskDetails) {
+        if (taskDetails.isEmpty()) {
+            updateCommandMessage(DEFAULT_HELP_MESSAGE);
+        } else {
+            String helpMessage = chooseHelpMessage(taskDetails);
+            updateCommandMessage(helpMessage);
+        }
+    }
+
+    /*
+     * NOTE for future devs: when a new feature is added, add the detailed help string here.
+     */
+
+    private String chooseHelpMessage(String taskDetails) throws IllegalCommandException {
+        return switch(taskDetails.toLowerCase()) {
+        case "help" -> HELP_HELP_MESSAGE;
+        case "add" -> ADD_HELP_MESSAGE;
+        case "list" -> LIST_HELP_MESSAGE;
+        case "solve" -> SOLVE_HELP_MESSAGE;
+        case "edit" -> EDIT_HELP_MESSAGE;
+        case "find" -> FIND_HELP_MESSAGE;
+        case "delete" -> DELETE_HELP_MESSAGE;
+        case "exit" -> EXIT_HELP_MESSAGE;
+        default -> throw new IllegalCommandException(Messages.UNKNOWN_COMMAND_MESSAGE + "\nNo help available.");
+        };
+    }
 
 }
