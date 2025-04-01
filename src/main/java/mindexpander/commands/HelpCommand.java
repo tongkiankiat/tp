@@ -13,15 +13,6 @@ import mindexpander.common.Messages;
  */
 public class HelpCommand extends Command {
 
-    public HelpCommand(String taskDetails) {
-        if (taskDetails.isEmpty()) {
-            updateCommandMessage(DEFAULT_HELP_MESSAGE);
-        } else {
-            String helpMessage = chooseHelpMessage(taskDetails);
-            updateCommandMessage(helpMessage);
-        }
-    }
-
     /*
      * NOTE for future devs: update the HELP_MESSAGE string with
      * whatever new features are implemented.
@@ -159,6 +150,15 @@ public class HelpCommand extends Command {
             
             Usage:
             - 'exit': exit the program.""";
+
+    public HelpCommand(String taskDetails) {
+        if (taskDetails.isEmpty()) {
+            updateCommandMessage(DEFAULT_HELP_MESSAGE);
+        } else {
+            String helpMessage = chooseHelpMessage(taskDetails);
+            updateCommandMessage(helpMessage);
+        }
+    }
 
     /*
      * NOTE for future devs: when a new feature is added, add the detailed help string here.
