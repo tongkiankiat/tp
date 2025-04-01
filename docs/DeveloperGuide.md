@@ -35,19 +35,50 @@ The overall flow of interaction between the user and program is as follows:
 
 ### User Interface
 
-{Describe how the UI works}
+The MindExpander UI is implemented through the TextUi class, 
+which handles user interaction via console-based input and output. 
+The Main class orchestrates the application flow, 
+ensuring commands are processed and displayed correctly.
+
+The UI component,
+- Displays system messages (welcome, errors, results, etc.).
+
+- Receives and validates user input.
+
+- Formats and prints command execution results.
 
 ### Command handling
 
-{Describe how the parser, commands and multistep commands work}
+The MindExpander application follows a structured approach to handle user input, 
+process commands, and execute actions accordingly. The Parser class is responsible 
+for interpreting user input and mapping it to a corresponding Command object, 
+which then executes the required action.
+
+The system consists of two primary components:
 
 **Parser**
 
-{Describe how the parser works}
+- Converts raw user input into command objects.
+
+- Manages multi-step commands (e.g., SolveCommand).
+
+- Validates input and throws IllegalCommandException for invalid commands.
 
 **Commands**
 
-{Describe how commands work}
+- Serves as a base class for all command types.
+
+- Implements execute() method, which performs the command action.
+
+- Handles multi-step user interaction when necessary.
+
+
+  ![](diagrams/class/Parser_diagram.png)
+
+How the parsing works:
+When called upon to parse a user command, the Main class creates a parser which receives user input from ui 
+class to parse the user command and create a XYZCommand object (e.g., AddCommand) which the parser returns back 
+to main as a Command object.
 
 **Note**
 * When adding new single line commands in the future, they should return an instance of the `CommandResult` result class
@@ -80,9 +111,39 @@ The class diagram for the example multistep command `SolveCommand`:
 ![](diagrams/class/CommandHandling.png)
 
 ### Data
+![](diagrams/class/Data_diagram.png)
+The QuestionBank component 
+- is responsible for managing the storage and retrieval of data (all `Question` objects) within the MindExpander application,
+- does not depend on any of the other three components (as the `QuestionBank` and `Question` represent data entities of the domain, they should make 
+sense on their own without depending on other components)
 
-{Describe the questions and question bank}
+The system maintains two instances of QuestionBank to efficiently manage questions and enhance user experience when retrieving and modifying data. These two instances are:
 
+- Main `questionBank` – Stores all questions logged into the system.
+
+- `lastShownQuestionBank` – Stores a filtered subset of questions, updated when the user invokes specific commands (e.g., list or find).
+
+This dual-QuestionBank approach improves usability by allowing users to interact with a focused subset of questions before modifying the main dataset.
+
+**QuestionBank Management and Modification Workflow**
+
+- Command Execution and lastShownQuestionBank Updates
+
+  - When the user executes the list command, lastShownQuestionBank is updated to contain all questions from the main QuestionBank.
+
+  - When the user executes the find command, lastShownQuestionBank is updated to contain only the questions matching the search criteria.
+
+- Referencing lastShownQuestionBank for Modifications
+
+    - If a user attempts to modify (e.g., edit, delete) a question, the system first references lastShownQuestionBank.
+
+  - This ensures that users can modify questions based on their last viewed subset without needing to manually find their index in the full question bank.
+
+- Synchronizing Changes with the Main QuestionBank
+
+    - Once a modification is applied (e.g., a deletion or an edit), the Command class updates the main QuestionBank accordingly.
+
+  - This maintains data consistency and ensures that all logged questions remain up to date.
 ### Storage
 
 The `StorageFile` class is responsible for saving and loading questions from a local `.txt` file to ensure data persistence across sessions.

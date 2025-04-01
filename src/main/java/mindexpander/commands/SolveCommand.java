@@ -22,7 +22,7 @@ import mindexpander.data.QuestionBank;
  * @version 1.1
  * @since 2025-03-21
  */
-public class SolveCommand extends Command {
+public class SolveCommand extends Command implements Multistep {
     private enum Step { GET_INDEX, GET_ANSWER, GET_TRY_AGAIN_RESPONSE }
     private Step currentStep = Step.GET_INDEX;
     private int questionIndex = -1;
