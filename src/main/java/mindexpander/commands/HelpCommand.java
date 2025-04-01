@@ -91,18 +91,13 @@ public class HelpCommand extends Command {
             The command can be used in two ways, shown below.
             
             Usage:
-             - Multi-step (recommended for newer users), follow the steps below:
-               1. `solve`
-               2. [QUESTION_INDEX]
-               3. [ANSWER]
-             - One-step (faster): 'solve /q [QUESTION_INDEX] /a [ANSWER]'
+               1. 'solve [QUESTION_INDEX]'
+               3. '[ANSWER]'
             
             Example, for "Q1. Are the developers of MindExpander cool?":
             - Multi-step:
-             1. 'solve'
-             2. 1
-             3. yes
-            - One-step: solve /q 1 /a yes""";
+             1. 'solve 1'
+             2. 'yes'""";
 
     private static final String EDIT_HELP_MESSAGE = """
             *The `edit` command*

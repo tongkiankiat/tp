@@ -11,7 +11,6 @@ import mindexpander.commands.SolveCommand;
 import mindexpander.commands.FindCommand;
 
 // Exceptions
-import mindexpander.commands.SolveCommandOneStep;
 import mindexpander.exceptions.IllegalCommandException;
 
 import mindexpander.data.QuestionBank;
@@ -121,9 +120,9 @@ public class Parser {
      */
     protected Command handleSolve(String taskDetails, QuestionBank lastShownQuestionBank) {
         if (taskDetails.isEmpty()) {
-            ongoingCommand = new SolveCommand();
-            return ongoingCommand;
+            throw new IllegalCommandException("Invalid format. Use the format 'solve [QUESTION_INDEX]'");
         }
-        return new SolveCommandOneStep(taskDetails, lastShownQuestionBank);
+        ongoingCommand = new SolveCommand(taskDetails, lastShownQuestionBank);
+        return ongoingCommand;
     }
 }
