@@ -33,6 +33,7 @@ public class SolveCommand extends Command {
         updateCommandMessage("Please enter the question number you would like to solve.");
     }
 
+
     /**
      * Handles user input at different stages of solving a question.
      *
@@ -56,9 +57,8 @@ public class SolveCommand extends Command {
 
         case GET_ANSWER:
             Question question = questionBank.getQuestion(questionIndex);
-            String correctAnswer = question.getAnswer();
 
-            if (!nextInput.trim().equalsIgnoreCase(correctAnswer.trim())) {
+            if (!question.checkAnswer(nextInput)) {
                 updateCommandMessage("Wrong answer, would you like to try again? [Y/N]");
                 currentStep = Step.GET_TRY_AGAIN_RESPONSE;
                 return this; // Try again
@@ -105,7 +105,7 @@ public class SolveCommand extends Command {
             }
 
             currentStep = Step.GET_ANSWER;
-            String questionDetails = questionBank.getQuestion(questionIndex).getQuestion();
+            String questionDetails = questionBank.getQuestion(questionIndex).toStringNoAnswer();
             assert questionDetails != null : "There should be some question details.";
             return "Attempting question " + (questionIndex + 1) + ": " + questionDetails + "\nEnter your answer:";
         } catch (NumberFormatException e) {

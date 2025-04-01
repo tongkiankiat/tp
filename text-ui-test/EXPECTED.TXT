@@ -178,7 +178,7 @@ Type <help> for a list of commands.
 Please enter the question number you would like to solve.
 ==============================
 ==============================
-Attempting question 1: what is 1+2?
+Attempting question 1: FITB: what is 1+2?
 Enter your answer:
 ==============================
 ==============================
