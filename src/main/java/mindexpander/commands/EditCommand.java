@@ -3,7 +3,6 @@ package mindexpander.commands;
 import mindexpander.data.QuestionBank;
 import mindexpander.data.question.MultipleChoice;
 import mindexpander.data.question.Question;
-import mindexpander.data.question.QuestionType;
 import mindexpander.exceptions.IllegalCommandException;
 
 public class EditCommand extends Command implements Multistep {
