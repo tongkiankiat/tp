@@ -53,7 +53,7 @@ public class Parser {
 
         // Handle commands
         return switch (userCommand.toLowerCase()) {
-        case "help" -> new HelpCommand();
+        case "help" -> new HelpCommand(taskDetails);
         case "exit" -> new ExitCommand();
         case "solve" -> handleSolve(taskDetails, lastShownQuestionBank);
         case "add" -> new AddCommand();

@@ -1,5 +1,8 @@
 package mindexpander.commands;
 
+import mindexpander.exceptions.IllegalCommandException;
+import mindexpander.common.Messages;
+
 /**
  * The {@code HelpCommand} class updates display message
  * to show the list of commands and their functions.
@@ -13,7 +16,7 @@ public class HelpCommand extends Command {
      * NOTE for future devs: update the HELP_MESSAGE string with
      * whatever new features are implemented.
      */
-    private static final String HELP_MESSAGE = """
+    private static final String DEFAULT_HELP_MESSAGE = """
             Welcome to MindExpander!
             
             List of commands:
@@ -29,9 +32,147 @@ public class HelpCommand extends Command {
                 - Edit a question in the list.
             6. find
                 - Find a question in the list that contains a specific keyword.
+            7. delete
+                - Delete a question in the list.
+            8. edit
+                - Edit a question in the list.
+            9. exit
+                - Exit the program.
+            To get detailed information on a specific command, use `help [COMMAND]`, e.g. `help add`.
             """;
 
-    public HelpCommand() {
-        updateCommandMessage(HELP_MESSAGE);
+    public HelpCommand(String taskDetails) {
+        if (taskDetails.isEmpty()) {
+            updateCommandMessage(DEFAULT_HELP_MESSAGE);
+        } else {
+            String helpMessage = chooseHelpMessage(taskDetails);
+            updateCommandMessage(helpMessage);
+        }
     }
+
+    /*
+     * NOTE for future devs: when a new feature is added, add the detailed help string here.
+     */
+
+    private String chooseHelpMessage(String taskDetails) {
+        return switch(taskDetails.toLowerCase()) {
+        case "help" -> HELP_HELP_MESSAGE;
+        case "add" -> ADD_HELP_MESSAGE;
+        case "list" -> LIST_HELP_MESSAGE;
+        case "solve" -> SOLVE_HELP_MESSAGE;
+        case "find" -> FIND_HELP_MESSAGE;
+        case "delete" -> DELETE_HELP_MESSAGE;
+        case "exit" -> EXIT_HELP_MESSAGE;
+        default -> throw new IllegalCommandException(Messages.UNKNOWN_COMMAND_MESSAGE + "\nNo help available.");
+        };
+    }
+
+    private static final String HELP_HELP_MESSAGE = """
+            *The `help` command*
+            
+            Print a full list of commands or append a specific command to get detailed information on it.
+            The command can be used in two ways, shown below.
+            
+            Usage:
+             - `help`: print the list of commands.
+             - `help [COMMAND]`: print the detailed information of a specific command.
+            
+            Example:
+             - `help`
+             - `help add`
+            """;
+
+    private static final String ADD_HELP_MESSAGE = """
+            *The `add` command*
+            
+            Adds a question to the question bank by following a series of steps.
+            Possible question types (abbreviation in the brackets [] are how the type should be entered): 
+            Fill in the Blanks - [FITB]
+            Multiple Choice Question - [MCQ]
+            
+            Usage:
+             - Follow the steps below:
+             1. `add`
+             2. [QUESTION_TYPE]
+             3. [QUESTION_DETAILS]
+             4. [QUESTION_ANSWER]
+            
+            Example:
+            - To add a FITB question, "What is 1 + 1?", with the answer "2".
+             1. add
+             2. FITB
+             3. What is 1+1?
+             4. 2
+            """;
+
+    private static final String LIST_HELP_MESSAGE = """
+            *The `list` command*
+            
+            Displays all the questions currently stored in the question bank.
+            
+            Usage:
+             - 'list': print the list of questions currently stored in the question bank without answers.
+             - 'list answer': print the list of questions currently stored in the question bank with answers.
+            """;
+
+    private static final String SOLVE_HELP_MESSAGE = """
+            *The `solve` command*
+            
+            Allows the user to attempt answering a stored question in the question bank.
+            The command can be used in two ways, shown below.
+            
+            Usage:
+             - Multi-step (recommended for newer users), follow the steps below:
+               1. `solve`
+               2. [QUESTION_INDEX]
+               3. [ANSWER]
+             - One-step (faster): 'solve /q [QUESTION_INDEX] /a [ANSWER]'
+            
+            Example, for "Q1. Are the developers of MindExpander cool?":
+            - Multi-step:
+             1. 'solve'
+             2. 1
+             3. yes
+            - One-step: solve /q 1 /a yes
+            """;
+
+    // Haha, "find help", get it?
+    private static final String FIND_HELP_MESSAGE = """
+            *The `find` command*
+            
+            Allows the user to find a question previously added to the question bank.
+            The command can be used in two ways, shown below.
+            
+            Usage:
+             - 'find [QUESTION_DETAILS]': search for all question types with details matching [QUESTION_DETAILS].
+             - 'find mcq [QUESTION_DETAILS]': search for mcq questions with details matching [QUESTION_DETAILS].
+             - 'find fitb [QUESTION_DETAILS]': search for fitb questions with details matching [QUESTION_DETAILS].
+            
+            Example:
+            - 'find hello'
+            - 'find mcq hello'
+            - 'find fitb hello'
+            """;
+
+    private static final String DELETE_HELP_MESSAGE = """
+            *The `delete` command*
+            
+            Deletes a question from the question bank.
+            
+            Usage:
+             - 'delete [QUESTION_INDEX]': Delete the question at [QUESTION_INDEX].
+            
+            Example:
+            - 'delete 1'
+            """;
+
+    private static final String EXIT_HELP_MESSAGE = """
+            *The `exit` command*
+            
+            Exits the program.
+            
+            Usage:
+            - 'exit': exit the program.
+            """;
+
 }
