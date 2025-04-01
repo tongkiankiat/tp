@@ -10,6 +10,7 @@ import mindexpander.commands.ListCommand;
 import mindexpander.commands.ExitCommand;
 import mindexpander.commands.SolveCommand;
 import mindexpander.commands.FindCommand;
+import mindexpander.data.question.QuestionType;
 
 import mindexpander.exceptions.IllegalCommandException;
 
