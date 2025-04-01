@@ -33,7 +33,6 @@ public class StorageFile {
 
     public StorageFile() {
         this.file = new File("./data/MindExpander.txt");
-        //clearFileOnStartup(); // Uncomment to clear MindExpander.txt when StorageFile is initialised
     }
 
     /**
