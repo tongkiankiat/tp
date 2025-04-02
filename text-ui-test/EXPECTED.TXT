@@ -149,7 +149,11 @@ What would you like to do today?
 Type <help> for a list of commands.
 ==============================
 ==============================
-[Command you entered: solve /q 1 /a 2]
+[Command you entered: solve 1]
+==============================
+==============================
+Attempting question 1: FITB: what is 1+1?
+Enter your answer:
 ==============================
 ==============================
 Correct!
@@ -172,17 +176,27 @@ What would you like to do today?
 Type <help> for a list of commands.
 ==============================
 ==============================
-[Command you entered: solve]
-==============================
-==============================
-Please enter the question number you would like to solve.
+[Command you entered: solve 1]
 ==============================
 ==============================
 Attempting question 1: FITB: what is 1+2?
 Enter your answer:
 ==============================
 ==============================
-Correct!
+Wrong answer, would you like to try again? [Y/N]
+==============================
+==============================
+Giving up on question.
+==============================
+==============================
+What would you like to do today?
+Type <help> for a list of commands.
+==============================
+==============================
+[Command you entered: solve 0]
+==============================
+==============================
+Invalid question number. Please enter a valid index.
 ==============================
 ==============================
 What would you like to do today?
@@ -207,6 +221,19 @@ Type <help> for a list of commands.
 ==============================
 ==============================
 Deleted question: FITB: what is 1+2? [Answer: 3]
+==============================
+==============================
+What would you like to do today?
+Type <help> for a list of commands.
+==============================
+==============================
+[Command you entered: list]
+==============================
+==============================
+Here are the questions you have stored:
+==============================
+==============================
+1. FITB: what is 1+1?
 ==============================
 ==============================
 What would you like to do today?

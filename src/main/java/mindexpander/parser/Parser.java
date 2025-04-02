@@ -4,14 +4,14 @@ package mindexpander.parser;
 import mindexpander.commands.Command;
 import mindexpander.commands.AddCommand;
 import mindexpander.commands.DeleteCommand;
+import mindexpander.commands.EditCommand;
 import mindexpander.commands.HelpCommand;
 import mindexpander.commands.ListCommand;
 import mindexpander.commands.ExitCommand;
 import mindexpander.commands.SolveCommand;
 import mindexpander.commands.FindCommand;
+import mindexpander.data.question.QuestionType;
 
-// Exceptions
-import mindexpander.commands.SolveCommandOneStep;
 import mindexpander.exceptions.IllegalCommandException;
 
 import mindexpander.data.QuestionBank;
@@ -91,6 +91,7 @@ public class Parser {
             }
             yield new FindCommand(questionBank, questionType, keyword);
         }
+        case "edit" -> handleEdit(taskDetails, questionBank, lastShownQuestionBank);
         case "delete" -> DeleteCommand.parseFromUserInput(taskDetails, questionBank, lastShownQuestionBank);
         default -> throw new IllegalCommandException(Messages.UNKNOWN_COMMAND_MESSAGE);
         };
@@ -121,9 +122,42 @@ public class Parser {
      */
     protected Command handleSolve(String taskDetails, QuestionBank lastShownQuestionBank) {
         if (taskDetails.isEmpty()) {
-            ongoingCommand = new SolveCommand();
-            return ongoingCommand;
+            throw new IllegalCommandException("Invalid format. Use the format 'solve [QUESTION_INDEX]'");
         }
-        return new SolveCommandOneStep(taskDetails, lastShownQuestionBank);
+        ongoingCommand = new SolveCommand(taskDetails, lastShownQuestionBank);
+        return ongoingCommand;
+    }
+
+    private Command handleEdit(String taskDetails, QuestionBank questionBank, QuestionBank lastShownQuestionBank) {
+        try {
+            String[] commandArguments = taskDetails.split(" ", 2);
+
+            if (commandArguments.length < 2) {
+                throw new IllegalCommandException(Messages.UNKNOWN_COMMAND_MESSAGE);
+            }
+
+            int indexToEdit = Integer.parseInt(commandArguments[0]);
+            String toEdit = commandArguments[1];
+
+            if (indexToEdit < 1 || indexToEdit > lastShownQuestionBank.getQuestionCount()) {
+                throw new IllegalCommandException("Invalid question index.");
+            }
+
+            switch (toEdit) {
+            case "q":
+                return new EditCommand(indexToEdit, "question", questionBank, lastShownQuestionBank);
+            case "a":
+                return new EditCommand(indexToEdit, "answer", questionBank, lastShownQuestionBank);
+            case "o":
+                if (lastShownQuestionBank.getQuestion(indexToEdit - 1).getType() == QuestionType.MCQ) {
+                    return new EditCommand(indexToEdit, "option", questionBank, lastShownQuestionBank);
+                }
+                throw new IllegalCommandException("Editing options is only valid for multiple choice question.");
+            default:
+                throw new IllegalCommandException(Messages.UNKNOWN_COMMAND_MESSAGE);
+            }
+        } catch (NumberFormatException e) {
+            throw new IllegalCommandException("Invalid number format. Please enter a valid index.");
+        }
     }
 }
