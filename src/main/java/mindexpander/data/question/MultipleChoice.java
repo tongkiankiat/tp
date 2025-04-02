@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class MultipleChoice extends Question {
-    private final List<String> options;
+    private List<String> options;
     private String answerOption;
 
     public MultipleChoice(String question, String answer, List<String> options) {
@@ -14,13 +14,14 @@ public class MultipleChoice extends Question {
         this.answerOption = "A";
     }
 
-    public MultipleChoice editOption(int index, String newOption) {
-        List<String> list = new ArrayList<>();
-        for (int i = 0; i < 4; i += 1) {
-            list.add(options.get(i));
-        }
-        list.set(index, newOption);
-        return new MultipleChoice(question, answer, list);
+    public void editOption(int index, String newOption) {
+        options.set(index, newOption);
+    }
+
+    @Override
+    public void editAnswer(String newAnswer) {
+        this.answer = newAnswer;
+        options.set(0, newAnswer);
     }
 
     @Override
@@ -31,7 +32,7 @@ public class MultipleChoice extends Question {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("MCQ: ").append(question).append(" [Answer: ").append(answer).append("]").append("\n");
+        sb.append("MCQ: ").append(question).append(" [Answer: ").append(answer).append("]");
         return sb.toString();
     }
 

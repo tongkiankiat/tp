@@ -9,7 +9,7 @@ import mindexpander.data.question.QuestionType;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AddCommand extends Command {
+public class AddCommand extends Command implements Multistep {
     private Question toAdd;
     private QuestionType type;
     private String question;

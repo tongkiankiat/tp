@@ -21,9 +21,11 @@ import mindexpander.data.QuestionBank;
  * @version 2.0
  * @since 2025-03-21
  */
-public class SolveCommand extends Command {
-    private enum Step { GET_ANSWER, GET_TRY_AGAIN_RESPONSE }
-    private Step currentStep = Step.GET_ANSWER;
+
+public class SolveCommand extends Command implements Multistep {
+    private enum Step { GET_INDEX, GET_ANSWER, GET_TRY_AGAIN_RESPONSE }
+    private Step currentStep = Step.GET_INDEX;
+
     private int questionIndex = -1;
 
     public SolveCommand(String taskDetails, QuestionBank questionBank) {
