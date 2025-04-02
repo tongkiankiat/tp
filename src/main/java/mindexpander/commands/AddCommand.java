@@ -9,7 +9,7 @@ import mindexpander.data.question.QuestionType;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AddCommand extends Command {
+public class AddCommand extends Command implements Multistep {
     private Question toAdd;
     private QuestionType type;
     private String question;
@@ -61,13 +61,13 @@ public class AddCommand extends Command {
 
     private Command addQuestionHandler(String nextInput, QuestionBank questionBank) {
         if (this.type == QuestionType.FITB) {
-            return addFillinTheBlank(questionBank);
+            return addFillInTheBlank(questionBank);
         } else {
             return addMultipleChoice(nextInput, questionBank);
         }
     }
 
-    private Command addFillinTheBlank(QuestionBank questionBank) {
+    private Command addFillInTheBlank(QuestionBank questionBank) {
         toAdd = new FillInTheBlanks(question, answer);
         questionBank.addQuestion(toAdd);
         updateCommandMessage(String.format("Question %1$s successfully added.", toAdd.toString()));

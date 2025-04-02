@@ -5,34 +5,34 @@ import java.util.Collections;
 import java.util.List;
 
 public class MultipleChoice extends Question {
-    private final List<String> options;
+    private List<String> options;
+    private String answerOption;
 
     public MultipleChoice(String question, String answer, List<String> options) {
         super(question, answer, QuestionType.MCQ);
         this.options = new ArrayList<>(options);
+        this.answerOption = "A";
     }
 
-    public MultipleChoice editOption(int index, String newOption) {
-        List<String> list = new ArrayList<>();
-        for (int i = 0; i < 4; i += 1) {
-            list.add(options.get(i));
-        }
-        list.set(index, newOption);
-        return new MultipleChoice(question, answer, list);
+    public void editOption(int index, String newOption) {
+        options.set(index, newOption);
+    }
+
+    @Override
+    public void editAnswer(String newAnswer) {
+        this.answer = newAnswer;
+        options.set(0, newAnswer);
     }
 
     @Override
     public boolean checkAnswer(String userAnswer) {
-        return answer.equalsIgnoreCase(userAnswer.trim());
+        return answerOption.equalsIgnoreCase(userAnswer.trim());
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("MCQ: ").append(question).append(" [Answer: A]").append("\n");
-        for (int i = 0; i < options.size(); i += 1) {
-            sb.append((char) ('A' + i)).append(". ").append(options.get(i)).append("\n");
-        }
+        sb.append("MCQ: ").append(question).append(" [Answer: ").append(answer).append("]");
         return sb.toString();
     }
 
@@ -40,11 +40,21 @@ public class MultipleChoice extends Question {
     public String toStringNoAnswer() {
         List<String> shuffledOptions = new ArrayList<>(options);
         Collections.shuffle(shuffledOptions);
+        updateAnswerOption(shuffledOptions);
         StringBuilder sb = new StringBuilder();
         sb.append("MCQ: ").append(question).append("\n");
         for (int i = 0; i < shuffledOptions.size(); i += 1) {
             sb.append((char) ('A' + i)).append(". ").append(shuffledOptions.get(i)).append("\n");
         }
         return sb.toString();
+    }
+
+    private void updateAnswerOption(List<String> shuffledOptions) {
+        for (int i = 0; i < 4; i += 1) {
+            if (shuffledOptions.get(i).equals(answer)) {
+                answerOption = String.valueOf((char) ('A' + i));
+                return;
+            }
+        }
     }
 }

@@ -10,7 +10,6 @@ import mindexpander.data.QuestionBank;
  *
  * <p>This command prompts the user to:
  * <ol>
- *   <li>Enter a question number to attempt</li>
  *   <li>Submit an answer</li>
  *   <li>Retry if the answer is incorrect (optional)</li>
  * </ol>
@@ -19,25 +18,31 @@ import mindexpander.data.QuestionBank;
  * or gives up on the question.
  *
  * @author Wenyi
- * @version 1.1
+ * @version 2.0
  * @since 2025-03-21
  */
-public class SolveCommand extends Command {
+
+public class SolveCommand extends Command implements Multistep {
     private enum Step { GET_INDEX, GET_ANSWER, GET_TRY_AGAIN_RESPONSE }
     private Step currentStep = Step.GET_INDEX;
+
     private int questionIndex = -1;
 
-    public SolveCommand() {
+    public SolveCommand(String taskDetails, QuestionBank questionBank) {
         isComplete = false; // Multistep command
-        updateCommandMessage("Please enter the question number you would like to solve.");
+        isUsingLastShownQuestionBank = true; // Uses the last shown one, set this to ensure correct bank is fed in
+
+        String solveMessage = getQuestionIndex(taskDetails, questionBank);
+
+        updateCommandMessage(solveMessage);
     }
+
 
     /**
      * Handles user input at different stages of solving a question.
      *
      * <p>The method transitions through the following steps:
      * <ul>
-     *   <li>Retrieving a valid question index</li>
      *   <li>Checking the user's answer</li>
      *   <li>Prompting for retry if the answer is incorrect</li>
      * </ul>
@@ -48,28 +53,24 @@ public class SolveCommand extends Command {
      */
     @Override
     public Command handleMultistepCommand(String nextInput, QuestionBank questionBank) {
-        switch (currentStep) {
-        case GET_INDEX:
-            updateCommandMessage(getQuestionIndex(nextInput, questionBank));
-            return this; // Stay in SolveCommand
-
-        case GET_ANSWER:
+        if (currentStep == Step.GET_ANSWER) {
             Question question = questionBank.getQuestion(questionIndex);
-            String correctAnswer = question.getAnswer();
 
-            if (!nextInput.trim().equalsIgnoreCase(correctAnswer.trim())) {
+            if (!question.checkAnswer(nextInput)) {
                 updateCommandMessage("Wrong answer, would you like to try again? [Y/N]");
                 currentStep = Step.GET_TRY_AGAIN_RESPONSE;
-                return this; // Try again
+                return this;
             }
             updateCommandMessage("Correct!");
             isComplete = true;
-            return this; // Exit multi-step mode
-        case GET_TRY_AGAIN_RESPONSE:
+            return this;
+        }
+
+        if (currentStep == Step.GET_TRY_AGAIN_RESPONSE) {
             if (nextInput.trim().equalsIgnoreCase("Y")) {
                 updateCommandMessage("Enter your answer to try again: ");
                 currentStep = Step.GET_ANSWER;
-                return this; // Try again
+                return this;
             }
             if (nextInput.trim().equalsIgnoreCase("N")) {
                 updateCommandMessage("Giving up on question.");
@@ -77,11 +78,9 @@ public class SolveCommand extends Command {
                 return this;
             }
             updateCommandMessage("Please enter Y or N.");
-            return this;
-
-        default:
-            return this; // Default return, should not reach here
         }
+
+        return this;
     }
 
     /**
@@ -99,16 +98,23 @@ public class SolveCommand extends Command {
         try {
             questionIndex = Integer.parseInt(nextInput) - 1; // Convert to 0-based index
 
+            if (questionBank.getQuestionCount() == 0) {
+                isComplete = true;
+                return "Question bank is empty. Please add a question first.";
+            }
+
             if (questionIndex < 0 || questionIndex >= questionBank.getQuestionCount()) {
+                isComplete = true;
                 return "Invalid question number. Please enter a valid index.";
             }
 
             currentStep = Step.GET_ANSWER;
-            String questionDetails = questionBank.getQuestion(questionIndex).getQuestion();
+            String questionDetails = questionBank.getQuestion(questionIndex).toStringNoAnswer();
             assert questionDetails != null : "There should be some question details.";
             return "Attempting question " + (questionIndex + 1) + ": " + questionDetails + "\nEnter your answer:";
         } catch (NumberFormatException e) {
-            return "Invalid input. Please enter a number." ;
+            isComplete = true;
+            return "Invalid question number. Please enter a valid index." ;
         }
     }
 }
