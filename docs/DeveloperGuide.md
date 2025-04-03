@@ -5,14 +5,14 @@
 MindExpander uses the following tools in the development process:
 1. [JUnit 5](https://junit.org/junit5/) - Used for JUnit testing.
 2. [Gradle](https://gradle.org/) - Used for build automation.
-3. [PlantUML] (https://plantuml.com/) - Used for diagram generation in this guide.
+3. [PlantUML](https://plantuml.com/) - Used for diagram generation in this guide.
 
 ## Design & implementation
 
 ### Overall design
 
 The project is designed using a hybrid architecture with elements from Command Pattern in the request handling and
-Layered Architectures in the organisation of code into presentation (UI), application (parser, commands) and data access.
+Layered Architectures in the organisation of code, roughly categorised into presentation (UI), application (parser, commands) and data access.
 This gives developers some flexibility in implementing more complex features such as the multistep commands or even quizzes
 in the future while still maintaining some layers for scalability.
 
@@ -29,11 +29,14 @@ The project consists of the following main components:
 
 The overall relations between the components and classes is as follows:
 
-{Insert class diagram here}
+![](diagrams/class/Main.png)
 
 The overall flow of interaction between the user and program is as follows:
 
 ![](diagrams/sequence/Main.png)
+
+**Note**: Certain elements such as exceptions and enums have been left out for brevity. More details can be found in the
+segments below.
 
 ### User Interface
 
@@ -75,7 +78,7 @@ The system consists of two primary components:
 - Handles multi-step user interaction when necessary.
 
 
-  ![](diagrams/class/Parser_diagram.png)
+  ![](diagrams/class/ParserDiagram.png)
 
 How the parsing works:
 When called upon to parse a user command, the Main class creates a parser which receives user input from ui 
@@ -113,7 +116,7 @@ The class diagram for the example multistep command `SolveCommand`:
 ![](diagrams/class/CommandHandling.png)
 
 ### Data
-![](diagrams/class/Data_diagram.png)
+![](diagrams/class/DataDiagram.png)
 The QuestionBank component 
 - is responsible for managing the storage and retrieval of data (all `Question` objects) within the MindExpander application,
 - does not depend on any of the other three components (as the `QuestionBank` and `Question` represent data entities of the domain, they should make 
@@ -221,14 +224,25 @@ This product aims to solve the problem of students not having a convenient place
 
 ## Non-Functional Requirements
 
-* Should work on any _mainstream_ OS as long as it has Java `17` or above installed
-* A user with above average typing speed for regular English text should be able to complete more questions faster when solving questions in one line
-
-(More to be added)
+* Should work on any _mainstream_ OS as long as it has Java `17` or above installed.
+* Should support future question types without major architectural changes.
+* Text output should be readable in standard terminals (no reliance on special colours or fonts e.g. Nerd fonts)
+* Programs should train users' understanding and memory of concepts (default list command should not give away answers,
+MCQ should not be the same options tagged to the same answers each time, etc.).
+* Error messages should be clear and actionable (e.g. Please enter a valid ___).
+* Number of questions added should not be limited by the program.
 
 ## Glossary
 
 * *Multistep command* - A feature which requires the user to go through several steps to complete.
+* *FITB* - Fill in the Blanks question type, where the answer is a string entered by the user.
+* *MCQ* - Multiple Choice Question question type, where the answer is one of the options A, B, C or D.
+* *FSM* - Finite State Machine, used in multistep command handling.
+* *CLI* - Command Line Interface.
+* *Command Pattern* - A behavioral design pattern that encapsulates requests as objects, allowing parameterization and 
+queuing of operations. The design pattern used for command handling.
+* *Layered Architecture* - A software design approach that organizes components into hierarchical layers, where each
+layer has a specific responsibility and interacts only with adjacent layers. The architectural style used in the design.
 
 ## Instructions for manual testing
 
@@ -289,3 +303,26 @@ This product aims to solve the problem of students not having a convenient place
    4. Test Case: `find fitb MRT`
     
       Expected: Displays all `fitb` questions that contain `MRT` in the question. If there are no such questions with the `MRT` keyword, UI will print `No questions with MRT found!`.
+
+## Future Enhancements
+
+### Test paper generation
+*Description*
+Generate a test paper with a randomly selected list of questions.
+
+*Tentative implementation plans*
+* Create a new `QuestionBank` instance called `testQuestions`, which will have questions previously added to the main
+`questionBank` chosen randomly and added in, based on how many the user wants.
+* Number of questions that can be added in <= total number of questions in `questionBank`.
+* The test question bank can be generated with a `CreateTestBankCommand`.
+* The test can be started with a `StartTestCommand` and ended with an `EndTestCommand`.
+* Commands such as `find` and `solve` will use this new test question bank instead during the test duration while commands
+like `add` and `edit` will be disabled.
+
+### True/False questions
+*Description*
+True or false question types, e.g. "Is F12-3 a fire CS2113 team? [Answer: True]".
+
+*Tentative implementation plans*
+* Extend the `Question` class, answer will be a "True" or "False" string.
+* Add, edit and solve commands should reject answer strings that are not either "True" or "False".

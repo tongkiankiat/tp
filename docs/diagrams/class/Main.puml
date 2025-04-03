@@ -1,0 +1,89 @@
+@startuml
+hide circle
+skinparam classAttributeIconSize 0
+
+' === Layers ===
+package "Presentation Layer" {
+  class TextUi {
+    + getUserCommand(): String
+    + displayResults(CommandResult)
+    + printToUser(String)
+  }
+}
+
+package "Application Layer" {
+  class Main {
+    + run()
+    + runUserCommandUntilTermination()
+  }
+
+  class Parser {
+    - ongoingCommand: Command
+    + parseCommand(String): Command
+  }
+
+  interface Command {
+    + execute(): CommandResult
+  }
+
+  class SolveCommand {
+    + handleMultistepCommand()
+  }
+
+  class AddCommand
+  class ListCommand
+}
+
+package "Data Access Layer" {
+  class QuestionBank {
+    + getQuestion(int): Question
+    + addQuestion(Question)
+  }
+
+  class StorageFile {
+    + load(): QuestionBank
+    + save(QuestionBank)
+  }
+
+   class Question {
+     - questionText: String
+     - answer: String
+   }
+}
+
+' === Relationships ===
+Main --> TextUi
+Main --> Parser
+Main --> QuestionBank
+Main --> StorageFile
+
+Parser --> Command
+Command <|-- SolveCommand
+Command <|-- AddCommand
+Command <|-- ListCommand
+
+QuestionBank "1" *-- "0..*" Question
+StorageFile ..> QuestionBank : loads/saves
+
+' === Notes ===
+note top of Main
+  Coordinates flow between:
+  - UI (Presentation)
+  - Parser/Commands (Application)
+  - Storage/QuestionBank (Data)
+end note
+
+note left of Command
+  <<interface>>\n
+  Command Pattern enables:
+  - Single-step commands
+  - Multistep commands (quizzes)
+  - Easy extension
+end note
+
+note top of StorageFile
+  Adapter Pattern:
+  Bridges between QuestionBank
+  and .txt file storage
+end note
+@enduml
