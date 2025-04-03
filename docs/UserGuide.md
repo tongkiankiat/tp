@@ -202,69 +202,6 @@ Here are the questions with MRT:
 ==============================
 ```
 
-### Editing questions: `edit`
-
-Edits a question that was previously added to the question bank.
-It is recommended to run `list` before `solve` to check the index of the question you intend to edit.
-If one runs `find` before `edit`, the list used for editing questions and question indexes will be what is
-displayed by the `find` command, i.e. the last shown list.
-
-Format: `edit [QUESTION_INDEX] [QUESTION_ATTRIBUTES]` | `[NEW_QUESTION_ATTRIBUTES]`
-
-`[QUESTION_INDEX]`: The question number of the question to be solved, according to the last shown list.
-`[QUESTION_ATTRIBUTES]`: The specific part of the question to modify:
- - q - question content
- - a - question answer
- - o - incorrect options *(only applicable to multiple-choice questions)*
-
-`NEW_QUESTION_ATTRIBUTE`: The updated content for the specified attribute.
-
-Example usage:
-
-These examples are for a FITB question 2, "Where is Singapore located?" with a stored answer "North America".
-
-1. `edit 2 q`
-```
-==============================
-Editing FITB: Where is Siingapore located? [Answer: North America] 
- Please enter the new answer:
-==============================
-```
-2. `Asia`
-```
-==============================
-Question successfully edited: FITB: Where is Singapore located? [Answer: Asia]
-==============================
-```
-
-These examples are for a MCQ question 1, "What are fries made of?" with answer "Potato" and incorrect options "Tomato" "Cheese" and "Apple".
-
-1. `edit 1 o`
-```
-==============================
-Editing MCQ: What are fries made of? [Answer: Potato] 
- Please enter the new option:
-==============================
-```
-2. `Banana`
-```
-==============================
-Please enter the next option:
-==============================
-```
-3. `Lettuce`
-```
-==============================
-Please enter the next option:
-==============================
-```
-4. `Orange`
-```
-==============================
-Question successfully edited: MCQ: What are fries made of? [Answer: Potato]
-==============================
-```
-
 ### Solving questions: `solve`
 Solves a question that was previously added to the question bank.
 It is recommended to run `list` before `solve` to check the index of the question you intend to solve.
@@ -360,6 +297,74 @@ the right letter.
 * Ensure that question indexes are within 1 to the number of questions, entering otherwise will result in errors.
 * Entering other strings that are neither Y nor N to try again will result in the program continuously asking for Y 
 or N until one of them is entered. This is to give the user a chance to actually enter Y or N.
+
+### Editing questions: `edit`
+
+Edits a question that was previously added to the question bank.
+It is recommended to run `list` before `solve` to check the index of the question you intend to edit.
+If one runs `find` before `edit`, the list used for editing questions and question indexes will be what is
+displayed by the `find` command, i.e. the last shown list.
+
+Format: `edit [QUESTION_INDEX] [QUESTION_ATTRIBUTES]` | `[NEW_QUESTION_ATTRIBUTES]`
+
+`[QUESTION_INDEX]`: The question number of the question to be solved, according to the last shown list.
+`[QUESTION_ATTRIBUTES]`: The specific part of the question to modify:
+- q - question content
+- a - question answer
+- o - incorrect options *(only applicable to multiple-choice questions)*
+
+`NEW_QUESTION_ATTRIBUTE`: The updated content for the specified attribute.
+
+Example usage:
+
+These examples are for a FITB question 2, "Where is Singapore located?" with a stored answer "North America".
+
+1. `edit 2 q`
+```
+==============================
+Editing FITB: Where is Siingapore located? [Answer: North America] 
+ Please enter the new answer:
+==============================
+```
+2. `Asia`
+```
+==============================
+Question successfully edited: FITB: Where is Singapore located? [Answer: Asia]
+==============================
+```
+
+These examples are for a MCQ question 1, "What are fries made of?" with answer "Potato" and incorrect options "Tomato" "Cheese" and "Apple".
+
+1. `edit 1 o`
+```
+==============================
+Editing MCQ: What are fries made of? [Answer: Potato] 
+ Please enter the new option:
+==============================
+```
+2. `Banana`
+```
+==============================
+Please enter the next option:
+==============================
+```
+3. `Lettuce`
+```
+==============================
+Please enter the next option:
+==============================
+```
+4. `Orange`
+```
+==============================
+Question successfully edited: MCQ: What are fries made of? [Answer: Potato]
+==============================
+```
+
+**Note**:
+- If the input is empty, an error message will prompt the user to enter a valid value.
+
+- When editing multiple-choice options, the system will prompt for three options sequentially.
 
 ### Deleting a question: `delete`
 Removes a question from the question bank. The question index should refer to the index displayed by the most recent `list` or `find` command.
