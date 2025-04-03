@@ -205,19 +205,19 @@ This product aims to solve the problem of students not having a convenient place
 
 ## User Stories
 
-| Version | As a ...         | I want to ...                                                                                 | So that I can ...                                                           |
-|---------|------------------|-----------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------|
-| v1.0    | new user         | view a list of commands and their uses                                                        | refer to them to understand how to use the program                          |
-| v1.0    | user             | add questions into the question bank                                                          | store it for future practice                                                |
-| v1.0    | user             | list the questions I have previously added in the question bank                               | check what questions I have added previously                                |
-| v1.0    | user             | list the questions I have previously added in the question bank with their respective answers | check what questions I have added previously along with their answers       |
-| v1.0    | user             | save my questions permanently                                                                 | the questions that i have added will not be lost                            |
-| v1.0    | user             | load my saved questions when i start the program                                              | see and work on the questions even after closing and reopening the program  |
-| v1.0    | user             | have my answer inputs evaluated                                                               | practice the questions previously added                                     |
-| v2.0    | user             | find a question in the question bank by name                                                  | locate whether I have previously added a similar question                   |
-| v2.0    | experienced user | solve questions by typing everything in one command                                           | answer questions faster without going through the multiple steps            |
-| v2.0    | user             | <todo> story for edit                                                                         |                                                                             |
-| v2.0    | user             | delete a question from the question bank                                                      | remove outdated or incorrect questions                                      |
+| Version | As a ...         | I want to ...                                                                                 | So that I can ...                                                          |
+|---------|------------------|-----------------------------------------------------------------------------------------------|----------------------------------------------------------------------------|
+| v1.0    | new user         | view a list of commands and their uses                                                        | refer to them to understand how to use the program                         |
+| v1.0    | user             | add questions into the question bank                                                          | store it for future practice                                               |
+| v1.0    | user             | list the questions I have previously added in the question bank                               | check what questions I have added previously                               |
+| v1.0    | user             | list the questions I have previously added in the question bank with their respective answers | check what questions I have added previously along with their answers      |
+| v1.0    | user             | save my questions permanently                                                                 | the questions that i have added will not be lost                           |
+| v1.0    | user             | load my saved questions when i start the program                                              | see and work on the questions even after closing and reopening the program |
+| v1.0    | user             | have my answer inputs evaluated                                                               | practice the questions previously added                                    |
+| v2.0    | user             | find a question in the question bank by name                                                  | locate whether I have previously added a similar question                  |
+| v2.0    | experienced user | solve questions by typing everything in one command                                           | answer questions faster without going through the multiple steps           |
+| v2.0    | user             | edit the questions that are currently in my question bank                                     | update outdated or incorrect question details                              |
+| v2.0    | user             | delete a question from the question bank                                                      | remove outdated or incorrect questions                                     |
 
 ## Non-Functional Requirements
 
