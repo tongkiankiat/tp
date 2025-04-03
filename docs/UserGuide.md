@@ -202,7 +202,7 @@ It is recommended to run `list` before `solve` to check the index of the questio
 If one runs `find` before `solve`, the list used for the available questions and question indexes will be what is
 displayed by the `find` command, i.e. the last shown list.
     
-* For example, if `find 1+` displays
+* For example, if `find 1+` has
   > 1. FITB: What is 1+1?
   > 2. FITB: What is 1+2?
 * Question Index 1 will be the question "What is 1+1?".
@@ -215,40 +215,71 @@ Format: `solve [QUESTION INDEX]` | `[QUESTION ANSWER]` | `[Y/N]` (only if wrong)
 Example usage:
 These examples are for a FITB question 2, "What are fries made of?" with the correct answer "Potato".
 
-Correct answer example
+Correct answer example and outputs
 1. `solve 2`
-    > Attempting question 2: FITB: What are fries made of? Enter your answer:
+```
+==============================
+Attempting question 2: FITB: What are fries made of? Enter your answer:
+==============================
+```
 2. `Potato`
-    > Correct!
+```
+==============================
+Correct!
+==============================
+```
 
-Wrong answer example
+Wrong answer example and outputs
 1. `solve 2`
-   > Attempting question 2: FITB: What are fries made of? Enter your answer:
+```
+==============================
+Attempting question 2: FITB: What are fries made of? Enter your answer:
+==============================
+```
 2. `Cheese`
-   > Wrong answer, would you like to try again? [Y/N]
+```
+==============================
+Wrong answer, would you like to try again? [Y/N]
+==============================
+```
 3. `N`
-   > Giving up on question.
+```
+==============================
+Giving up on question.
+==============================
+```
 
 OR
 
 4. `Y`
-   > Enter your answer to try again:
+```
+==============================
+Enter your answer to try again:
+==============================
+```
 
 These examples are for an MCQ question 2 "What are fries made of?" with the correct answer "Potato" and other options
 "Cheese", "Ham" and "Bread". Instead of entering the answer contents, enter the answer's option instead. E.g. for the
 option `A. Potato`, enter 'A'.
 
 1. `solve 2`
-   > Attempting question 4: MCQ: What are fries made of? 
-   > A. Bread  
-   > B. Ham  
-   > C. Potato  
-   > D. Cheese  
-   > 
-   > Enter your answer:
+```
+==============================
+Attempting question 4: MCQ: What are fries made of? 
+A. Bread  
+B. Ham  
+C. Potato  
+D. Cheese  
 
+Enter your answer:
+==============================
+```
 2. `C`
-   > Correct!
+```
+==============================
+Correct!
+==============================
+```
 
 The wrong answer sequence follows that of the FITB questions.
 
@@ -283,7 +314,7 @@ Deleted question: FITB: 1 + 1 = __
 **Notes:**
 * The question index is based on the most recently displayed question list (via `list` or `find`).
 * Attempting to delete an index that does not exist in the last shown list will result in an error.
-* This command is **single-step** and does not support multi-step usage.
+* This command is **single-step** and does not support multistep usage.
 
 ### Exiting the program: `exit`
 Exits the program.
