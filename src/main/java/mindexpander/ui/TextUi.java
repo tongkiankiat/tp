@@ -68,6 +68,7 @@ public class TextUi {
         String input = in.nextLine();
 
         while (invalidInput(input)) {
+            printToUser(Messages.EMPTY_INPUT);
             input = in.nextLine();
         }
 
