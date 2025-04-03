@@ -25,7 +25,7 @@ commands. With built-in saving and loading capabilities, users can seamlessly co
 ## Quick Start
 
 1. Ensure that you have Java 17 or above installed.
-2. Down the latest version of `MindExpander` from [here](https://github.com/AY2425S2-CS2113-F12-3/tp/releases/tag/v1.0).
+2. Down the latest version of `MindExpander` from [here](https://github.com/AY2425S2-CS2113-F12-3/tp/releases/tag/v2.0).
 3. Open a command terminal.
 4. `cd` into the folder containing the jar file.
 5. Use the command `java -jar MindExpander.jar` to run the application. Upon start up, you should see:
