@@ -33,7 +33,7 @@ The overall relations between the components and classes is as follows:
 
 The overall flow of interaction between the user and program is as follows:
 
-{Insert sequence diagram here}
+![](diagrams/sequence/Main.png)
 
 ### User Interface
 
