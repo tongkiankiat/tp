@@ -86,23 +86,29 @@ This prints the usage instructions for the command `add`.
 ### Adding a question: `add`
 Adds a question to the question bank. Follows a series of steps which require separate inputs each.
 
-Format: `add` | `[QUESTION_TYPE]` | `[QUESTION_DETAILS]` | `[QUESTION_ANSWER]`
+Format: `add` | `[QUESTION_TYPE]` | `[QUESTION_DETAILS]` | `[QUESTION_ANSWER]` | `[INCORRECT_OPTIONS`]
+
 `[QUESTION_TYPE]`: The type of the question to be added.
+
 `[QUESTION_DETAILS]`: The question itself.
+
 `[QUESTION_ANSWER]`: The answer to the question.
+
+`[INCORRECT_OPTIONS]` The incorrect options (only needed in adding multiple choice questions).
 
 Question types (as of this version): `FITB`, `MCQ`
 
 Example usage:
-
-Adding an FITB question:
-
-Adding an MCQ question:
+- `add`
+- `fitb`
+- `what is 2 + 2?`
+- `4`
 
 **Note**
 * **DO NOT** use the '|' character when adding question contents or the question answers as that is the character
 used for delimiting in the save file.
-* MCQ questions have 4 options including the correct answer.
+* MCQ questions have 4 options including the correct answer. When prompted to enter the incorrect answers, only input the **incorrect**
+options one at a time.
 
 ### Listing questions added: `list`
 Lists all the questions currently in the question bank. Running this will change the last shown list to be the full list
@@ -126,7 +132,76 @@ Example usage:
 
 ### Finding questions with a specified string: `find`
 Finds all questions currently in the question bank. Running this will change the last shown list to be the list of
-questions which match the user's search query in the question bank.
+questions which match the user's search query in the question bank. Find can be used to search for all question types,
+or specifically for MCQ or FITB questions
+
+**To search for all questions containing `KEYWORD`**
+
+Format: `find [KEYWORD]`
+
+Example usage:
+
+`find MRT`
+
+Example output:
+
+```
+==============================
+Here are the questions with MRT:
+==============================
+==============================
+1. FITB: What is the closest MRT to NUS?
+2. MCQ: What MRT station on EWL is closest to NUS?
+A. Clementi MRT
+B. Buona Vista MRT
+C. Dover MRT
+D. Redhill MRT
+
+==============================
+```
+
+**To search for all MCQ questions containing `KEYWORD`**
+
+Format: `find mcq [KEYWORD]`
+
+Example usage:
+
+`find mcq MRT`
+
+Example output:
+```
+==============================
+Here are the questions with MRT:
+==============================
+==============================
+1. MCQ: What MRT station on EWL is closest to NUS?
+A. Buona Vista MRT
+B. Dover MRT
+C. Clementi MRT
+D. Redhill MRT
+
+==============================
+```
+
+**To search for all FITB questions containing `KEYWORD`**
+
+Format: `find fitb [KEYWORD]`
+
+Example usage:
+
+`find fitb MRT`
+
+Example output:
+
+```
+==============================
+Here are the questions with MRT:
+==============================
+==============================
+1. FITB: What is the closest MRT to NUS?
+==============================
+==============================
+```
 
 ### Solving questions: `solve`
 Solves a question that was previously added to the question bank.
@@ -134,7 +209,7 @@ It is recommended to run `list` before `solve` to check the index of the questio
 If one runs `find` before `solve`, the list used for the available questions and question indexes will be what is
 displayed by the `find` command, i.e. the last shown list.
     
-* For example, if `find 1+` displays
+* For example, if `find 1+` has
   > 1. FITB: What is 1+1?
   > 2. FITB: What is 1+2?
 * Question Index 1 will be the question "What is 1+1?".
@@ -142,45 +217,76 @@ displayed by the `find` command, i.e. the last shown list.
 Format: `solve [QUESTION INDEX]` | `[QUESTION ANSWER]` | `[Y/N]` (only if wrong)
 `[QUESTION_INDEX]`: The question number of the question to be solved, according to the last shown list.
 `[QUESTION_ANSWER]`: The answer to the question.
-`[Y/N`: Y or N depending on whether you want to keep attempting the question or not.
+`[Y/N]`: Y or N depending on whether you want to keep attempting the question or not.
 
 Example usage:
 These examples are for a FITB question 2, "What are fries made of?" with the correct answer "Potato".
 
-Correct answer example
+Correct answer example and outputs
 1. `solve 2`
-    > Attempting question 2: FITB: What are fries made of? Enter your answer:
+```
+==============================
+Attempting question 2: FITB: What are fries made of? Enter your answer:
+==============================
+```
 2. `Potato`
-    > Correct!
+```
+==============================
+Correct!
+==============================
+```
 
-Wrong answer example
+Wrong answer example and outputs
 1. `solve 2`
-   > Attempting question 2: FITB: What are fries made of? Enter your answer:
+```
+==============================
+Attempting question 2: FITB: What are fries made of? Enter your answer:
+==============================
+```
 2. `Cheese`
-   > Wrong answer, would you like to try again? [Y/N]
+```
+==============================
+Wrong answer, would you like to try again? [Y/N]
+==============================
+```
 3. `N`
-   > Giving up on question.
+```
+==============================
+Giving up on question.
+==============================
+```
 
 OR
 
 4. `Y`
-   > Enter your answer to try again:
+```
+==============================
+Enter your answer to try again:
+==============================
+```
 
 These examples are for an MCQ question 2 "What are fries made of?" with the correct answer "Potato" and other options
 "Cheese", "Ham" and "Bread". Instead of entering the answer contents, enter the answer's option instead. E.g. for the
 option `A. Potato`, enter 'A'.
 
 1. `solve 2`
-   > Attempting question 4: MCQ: What are fries made of? 
-   > A. Bread  
-   > B. Ham  
-   > C. Potato  
-   > D. Cheese  
-   > 
-   > Enter your answer:
+```
+==============================
+Attempting question 4: MCQ: What are fries made of? 
+A. Bread  
+B. Ham  
+C. Potato  
+D. Cheese  
 
+Enter your answer:
+==============================
+```
 2. `C`
-   > Correct!
+```
+==============================
+Correct!
+==============================
+```
 
 The wrong answer sequence follows that of the FITB questions.
 
@@ -192,6 +298,74 @@ the right letter.
 * Ensure that question indexes are within 1 to the number of questions, entering otherwise will result in errors.
 * Entering other strings that are neither Y nor N to try again will result in the program continuously asking for Y 
 or N until one of them is entered. This is to give the user a chance to actually enter Y or N.
+
+### Editing questions: `edit`
+
+Edits a question that was previously added to the question bank.
+It is recommended to run `list` before `solve` to check the index of the question you intend to edit.
+If one runs `find` before `edit`, the list used for editing questions and question indexes will be what is
+displayed by the `find` command, i.e. the last shown list.
+
+Format: `edit [QUESTION_INDEX] [QUESTION_ATTRIBUTES]` | `[NEW_QUESTION_ATTRIBUTES]`
+
+`[QUESTION_INDEX]`: The question number of the question to be solved, according to the last shown list.
+`[QUESTION_ATTRIBUTES]`: The specific part of the question to modify:
+- q - question content
+- a - question answer
+- o - incorrect options *(only applicable to multiple-choice questions)*
+
+`NEW_QUESTION_ATTRIBUTE`: The updated content for the specified attribute.
+
+Example usage:
+
+These examples are for a FITB question 2, "Where is Singapore located?" with a stored answer "North America".
+
+1. `edit 2 q`
+```
+==============================
+Editing FITB: Where is Siingapore located? [Answer: North America] 
+ Please enter the new answer:
+==============================
+```
+2. `Asia`
+```
+==============================
+Question successfully edited: FITB: Where is Singapore located? [Answer: Asia]
+==============================
+```
+
+These examples are for a MCQ question 1, "What are fries made of?" with answer "Potato" and incorrect options "Tomato" "Cheese" and "Apple".
+
+1. `edit 1 o`
+```
+==============================
+Editing MCQ: What are fries made of? [Answer: Potato] 
+ Please enter the new option:
+==============================
+```
+2. `Banana`
+```
+==============================
+Please enter the next option:
+==============================
+```
+3. `Lettuce`
+```
+==============================
+Please enter the next option:
+==============================
+```
+4. `Orange`
+```
+==============================
+Question successfully edited: MCQ: What are fries made of? [Answer: Potato]
+==============================
+```
+
+**Note**:
+- If the input is empty, an error message will prompt the user to enter a valid value.
+
+- When editing multiple-choice options, the system will prompt for three options sequentially.
 
 ### Deleting a question: `delete`
 Removes a question from the question bank. The question index should refer to the index displayed by the most recent `list` or `find` command.
@@ -215,7 +389,7 @@ Deleted question: FITB: 1 + 1 = __ [Answer: 2]
 **Notes:**
 * The question index is based on the most recently displayed question list (via `list` or `find`).
 * Attempting to delete an index that does not exist in the last shown list will result in an error.
-* This command is **single-step** and does not support multi-step usage.
+* This command is **single-step** and does not support multistep usage.
 
 ### Exiting the program: `exit`
 Exits the program.

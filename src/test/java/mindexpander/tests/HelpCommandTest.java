@@ -95,7 +95,7 @@ public class HelpCommandTest {
             
             Usage:
                1. 'solve [QUESTION_INDEX]'
-               3. '[ANSWER]'
+               2. '[ANSWER]'
             
             Example, for "Q1. Are the developers of MindExpander cool?":
             - Multi-step:
@@ -105,13 +105,16 @@ public class HelpCommandTest {
     private static final String EDIT_HELP_MESSAGE = """
             *The `edit` command*
             
-            Edits a question's details.
+            Edits a question's details, including question content, answer and for multiple choice questions, their
+            incorrect options.
             
             Usage:
-             - TODO
-            
+             - 'edit [QUESTION_INDEX] q': edit the question content of a question.
+             - 'edit [QUESTION_INDEX] a': edit the answer of a question.
+             - 'edit [QUESTION_INDEX] o': edit the incorrect options of a multiple choice question.
             Example:
-             - TODO""";
+             - 'edit 1 q'
+             - 'what is 3 - 2?'""";
 
     // Haha, "find help", get it?
     private static final String FIND_HELP_MESSAGE = """
