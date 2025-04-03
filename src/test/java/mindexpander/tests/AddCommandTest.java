@@ -31,6 +31,11 @@ public class AddCommandTest {
     }
 
     @Test
+    public void addCommand_emptyInput() {
+
+    }
+
+    @Test
     public void addCommand_validData_correctlyConstructed() {
         QuestionBank questionBank = new QuestionBank();
         AddCommand addCommand = new AddCommand();

@@ -85,23 +85,29 @@ This prints the usage instructions for the command `add`.
 ### Adding a question: `add`
 Adds a question to the question bank. Follows a series of steps which require separate inputs each.
 
-Format: `add` | `[QUESTION_TYPE]` | `[QUESTION_DETAILS]` | `[QUESTION_ANSWER]`
+Format: `add` | `[QUESTION_TYPE]` | `[QUESTION_DETAILS]` | `[QUESTION_ANSWER]` | `[INCORRECT_OPTIONS`]
+
 `[QUESTION_TYPE]`: The type of the question to be added.
+
 `[QUESTION_DETAILS]`: The question itself.
+
 `[QUESTION_ANSWER]`: The answer to the question.
+
+`[INCORRECT_OPTIONS]` The incorrect options (only needed in adding multiple choice questions).
 
 Question types (as of this version): `FITB`, `MCQ`
 
 Example usage:
-
-Adding an FITB question:
-
-Adding an MCQ question:
+- `add`
+- `fitb`
+- `what is 2 + 2?`
+- `4`
 
 **Note**
 * **DO NOT** use the '|' character when adding question contents or the question answers as that is the character
 used for delimiting in the save file.
-* MCQ questions have 4 options including the correct answer.
+* MCQ questions have 4 options including the correct answer. When prompted to enter the incorrect answers, only input the **incorrect**
+options one at a time.
 
 ### Listing questions added: `list`
 Lists all the questions currently in the question bank. Running this will change the last shown list to be the full list
@@ -196,6 +202,69 @@ Here are the questions with MRT:
 ==============================
 ```
 
+### Editing questions: `edit`
+
+Edits a question that was previously added to the question bank.
+It is recommended to run `list` before `solve` to check the index of the question you intend to edit.
+If one runs `find` before `edit`, the list used for editing questions and question indexes will be what is
+displayed by the `find` command, i.e. the last shown list.
+
+Format: `edit [QUESTION_INDEX] [QUESTION_ATTRIBUTES]` | `[NEW_QUESTION_ATTRIBUTES]`
+
+`[QUESTION_INDEX]`: The question number of the question to be solved, according to the last shown list.
+`[QUESTION_ATTRIBUTES]`: The specific part of the question to modify:
+ - q - question content
+ - a - question answer
+ - o - incorrect options *(only applicable to multiple-choice questions)*
+
+`NEW_QUESTION_ATTRIBUTE`: The updated content for the specified attribute.
+
+Example usage:
+
+These examples are for a FITB question 2, "Where is Singapore located?" with a stored answer "North America".
+
+1. `edit 2 q`
+```
+==============================
+Editing FITB: Where is Siingapore located? [Answer: North America] 
+ Please enter the new answer:
+==============================
+```
+2. `Asia`
+```
+==============================
+Question successfully edited: FITB: Where is Singapore located? [Answer: Asia]
+==============================
+```
+
+These examples are for a MCQ question 1, "What are fries made of?" with answer "Potato" and incorrect options "Tomato" "Cheese" and "Apple".
+
+1. `edit 1 o`
+```
+==============================
+Editing MCQ: What are fries made of? [Answer: Potato] 
+ Please enter the new option:
+==============================
+```
+2. `Banana`
+```
+==============================
+Please enter the next option:
+==============================
+```
+3. `Lettuce`
+```
+==============================
+Please enter the next option:
+==============================
+```
+4. `Orange`
+```
+==============================
+Question successfully edited: MCQ: What are fries made of? [Answer: Potato]
+==============================
+```
+
 ### Solving questions: `solve`
 Solves a question that was previously added to the question bank.
 It is recommended to run `list` before `solve` to check the index of the question you intend to solve.
@@ -210,7 +279,7 @@ displayed by the `find` command, i.e. the last shown list.
 Format: `solve [QUESTION INDEX]` | `[QUESTION ANSWER]` | `[Y/N]` (only if wrong)
 `[QUESTION_INDEX]`: The question number of the question to be solved, according to the last shown list.
 `[QUESTION_ANSWER]`: The answer to the question.
-`[Y/N`: Y or N depending on whether you want to keep attempting the question or not.
+`[Y/N]`: Y or N depending on whether you want to keep attempting the question or not.
 
 Example usage:
 These examples are for a FITB question 2, "What are fries made of?" with the correct answer "Potato".
