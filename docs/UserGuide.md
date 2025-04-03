@@ -125,7 +125,76 @@ Example usage:
 
 ### Finding questions with a specified string: `find`
 Finds all questions currently in the question bank. Running this will change the last shown list to be the list of
-questions which match the user's search query in the question bank.
+questions which match the user's search query in the question bank. Find can be used to search for all question types,
+or specifically for MCQ or FITB questions
+
+**To search for all questions containing `KEYWORD`**
+
+Format: `find [KEYWORD]`
+
+Example usage:
+
+`find MRT`
+
+Example output:
+
+```
+==============================
+Here are the questions with MRT:
+==============================
+==============================
+1. FITB: What is the closest MRT to NUS?
+2. MCQ: What MRT station on EWL is closest to NUS?
+A. Clementi MRT
+B. Buona Vista MRT
+C. Dover MRT
+D. Redhill MRT
+
+==============================
+```
+
+**To search for all MCQ questions containing `KEYWORD`**
+
+Format: `find mcq [KEYWORD]`
+
+Example usage:
+
+`find mcq MRT`
+
+Example output:
+```
+==============================
+Here are the questions with MRT:
+==============================
+==============================
+1. MCQ: What MRT station on EWL is closest to NUS?
+A. Buona Vista MRT
+B. Dover MRT
+C. Clementi MRT
+D. Redhill MRT
+
+==============================
+```
+
+**To search for all FITB questions containing `KEYWORD`**
+
+Format: `find fitb [KEYWORD]`
+
+Example usage:
+
+`find fitb MRT`
+
+Example output:
+
+```
+==============================
+Here are the questions with MRT:
+==============================
+==============================
+1. FITB: What is the closest MRT to NUS?
+==============================
+==============================
+```
 
 ### Solving questions: `solve`
 Solves a question that was previously added to the question bank.
