@@ -1,4 +1,4 @@
-# John Doe - Project Portfolio Page
+# Jensen Kuok - Project Portfolio Page
 
 ## Overview
 

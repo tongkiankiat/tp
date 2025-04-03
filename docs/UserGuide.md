@@ -11,6 +11,7 @@
     - [Finding questions with a specified string: `find`](#finding-questions-with-a-specified-string-find)
     - [Solving questions: `solve`](#solving-questions-solve)
     - [Exiting the program: `exit`](#exiting-the-program-exit)
+    - [Deleting a question: `delete`](#deleting-a-question-delete)
 4. **[Additional Notes](#additional-notes-for-program-features-and-usage)**
 5. **[FAQ](#faq)**
 6. **[Command Summary](#command-summary)**
@@ -208,7 +209,7 @@ list
 2. FITB: The capital of France is __
 ==============================
 delete 1
-Deleted question: FITB: 1 + 1 = __
+Deleted question: FITB: 1 + 1 = __ [Answer: 2]
 ```
 
 **Notes:**
