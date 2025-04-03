@@ -1,7 +1,9 @@
 package mindexpander.storage;
 
+import mindexpander.common.Messages;
 import mindexpander.data.QuestionBank;
 import mindexpander.data.question.FillInTheBlanks;
+import mindexpander.data.question.MultipleChoice;
 import mindexpander.data.question.Question;
 import mindexpander.data.question.QuestionType;
 
@@ -12,7 +14,9 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * Handles saving and loading of {@code QuestionBank} to ensure data persistence.
@@ -20,12 +24,24 @@ import java.util.List;
  * The file format follows:
  * <pre>
  * FITB|QuestionText|Answer
+ * MCQ|QuestionText|Option1|Option2|Option3|Option4
  * </pre>
+ * <ul>
+ *     <li>For FITB, the third field is the correct answer.</li>
+ *     <li>For MCQ, the first option is always treated as the correct answer,
+ *         and the remaining three are incorrect options.</li>
+ * </ul>
  * <p>
- * Currently, only Fill in the Blanks (FITB) questions are supported.
+ * This class ensures that saved questions are automatically restored
+ * when the application restarts.
+ * Currently supports:
+ * <ul>
+ *     <li>Fill-in-the-Blanks (FITB)</li>
+ *     <li>Multiple Choice Questions (MCQ)</li>
+ * </ul>
  *
  * @author Jensen Kuok
- * @version 0.1
+ * @version 2.0
  * @since 2025-03-14
  */
 public class StorageFile {
@@ -63,8 +79,13 @@ public class StorageFile {
     }
 
     private String formatQuestionForSaving(Question q) {
+        String delimiter = Messages.STORAGE_DELIMITER;
         if (q.getType() == QuestionType.FITB) {
-            return "FITB|" + q.getQuestion() + "|" + q.getAnswer();
+            return "FITB" + delimiter + q.getQuestion() + delimiter + q.getAnswer();
+        } else if (q.getType() == QuestionType.MCQ) {
+            MultipleChoice mcq = (MultipleChoice) q;
+            List<String> options = mcq.getOptions();
+            return "MCQ" + delimiter + mcq.getQuestion() + delimiter + String.join(delimiter, options);
         }
         return "";
     }
@@ -106,7 +127,7 @@ public class StorageFile {
      * Parses a line from the storage file and returns a {@code Question}.
      */
     private Question parseQuestionFromFile(String line) {
-        String[] parts = line.split("\\|");
+        String[] parts = line.split(Pattern.quote(Messages.STORAGE_DELIMITER));
         if (parts.length < 3) {
             return null;
         }
@@ -117,8 +138,13 @@ public class StorageFile {
 
         if ("FITB".equals(type)) {
             return new FillInTheBlanks(questionText, answer);
+        } else if ("MCQ".equals(type) && parts.length == 6) {
+            String mcqQuestionText = parts[1];
+            List<String> options = Arrays.asList(parts[2], parts[3], parts[4], parts[5]);
+            String correctAnswer = parts[2];
+            return new MultipleChoice(mcqQuestionText, correctAnswer, options);
         }
-        return null; // Ignore unsupported types for now
+        return null; // Unsupported or malformed line
     }
 
 }

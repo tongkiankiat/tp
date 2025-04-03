@@ -157,28 +157,41 @@ The `StorageFile` class is responsible for saving and loading questions from a l
 
 #### **File Format**
 
-* Each line in the file represents a single question, with components separated by the `|` delimiter.  
+* Each line in the file represents a single question, with components separated by a custom delimiter defined in `Messages.STORAGE_DELIMITER`.  
 
-* The general format is: <QUESTION_TYPE>|<QUESTION_TEXT>|<ANSWER>
+* This custom delimiter `%%MINDEXPANDER_DELIM%%` is used instead of the standard pipe `|` to prevent parsing errors if users include 
+special characters like `|` in their input.
+* The general format is:
 
-* Example: FITB|Water boils at __ degrees Celsius|100 FITB|The capital of France is __|Paris
+    * `FITB<DELIM>QuestionText<DELIM>Answer`
+
+    * `MCQ<DELIM>QuestionText<DELIM>Option1<DELIM>Option2<DELIM>Option3<DELIM>Option4`
+
+* Example: 
+    * `FITB%%MINDEXPANDER_DELIM%%What is the capital of France?%%MINDEXPANDER_DELIM%%Paris`
+    * `MCQ%%MINDEXPANDER_DELIM%%2 + 3 = ?%%MINDEXPANDER_DELIM%%5%%MINDEXPANDER_DELIM%%1%%MINDEXPANDER_DELIM%%2%%MINDEXPANDER_DELIM%%3`
 
 #### **Saving Logic**
 
 * The method `save(QuestionBank questionBank)` writes all current questions in the question bank to a text file located at `./data/MindExpander.txt`.
 * If the `data/` directory does not exist, it is created.
-* Each question is converted to a string using `formatQuestionForSaving(Question q)` and written line-by-line.
+* Questions are serialised using `formatQuestionForSaving(Question q)`, which includes logic for handling `FITB` and `MCQ` formats using the common delimiter.
 
 #### **Loading Logic**
 
 * The method `load()` reads the `MindExpander.txt` file line-by-line and reconstructs each question.
-* Currently, only `FITB`-type questions are parsed and added back to the `QuestionBank`.
 
-#### **Limitations**
+* For MCQ:
+    * The first option is always considered the correct answer.
+    * The remaining 3 options are treated as distractors.
 
-* Only **FITB** questions are supported for now.
-* `MCQ` (Multiple Choice Questions) and other types will be added in future updates.
-* Unsupported question types are ignored during loading.
+#### **Design Rationale for Custom Delimiter**
+
+* Using the pipe symbol | caused issues when users typed it as part of their question or answer.
+
+* A unique delimiter `%%MINDEXPANDER_DELIM%%` is now used to prevent data corruption and improve robustness against malformed input.
+
+* This string is defined once in `Messages.java` to eliminate magic strings and ensure consistency across the codebase.
 
 ## Product scope
 ### Target user profile
@@ -192,18 +205,19 @@ This product aims to solve the problem of students not having a convenient place
 
 ## User Stories
 
-| Version | As a ...         | I want to ...                                                                                 | So that I can ...                                                     |
-|---------|------------------|-----------------------------------------------------------------------------------------------|-----------------------------------------------------------------------|
-| v1.0    | new user         | view a list of commands and their uses                                                        | refer to them to understand how to use the program                    |
-| v1.0    | user             | add questions into the question bank                                                          | store it for future practice                                          |
-| v1.0    | user             | list the questions I have previously added in the question bank                               | check what questions I have added previously                          |
-| v1.0    | user             | list the questions I have previously added in the question bank with their respective answers | check what questions I have added previously along with their answers |
-| v1.0    | user             | store my questions permanently                                                                | retrieve them even after closing and reopening the application        |
-| v1.0    | user             | have my answer inputs evaluated                                                               | practice the questions previously added                               |
-| v2.0    | user             | find a question in the question bank by name                                                  | locate whether I have previously added a similar question             |
-| v2.0    | experienced user | solve questions by typing everything in one command                                           | answer questions faster without going through the multiple steps      |
-| v2.0    | user             | <todo> story for edit                                                                         |                                                                       |
-| v2.0    | user             | delete a question from the question bank                                                      | remove outdated or incorrect questions                                |
+| Version | As a ...         | I want to ...                                                                                 | So that I can ...                                                          |
+|---------|------------------|-----------------------------------------------------------------------------------------------|----------------------------------------------------------------------------|
+| v1.0    | new user         | view a list of commands and their uses                                                        | refer to them to understand how to use the program                         |
+| v1.0    | user             | add questions into the question bank                                                          | store it for future practice                                               |
+| v1.0    | user             | list the questions I have previously added in the question bank                               | check what questions I have added previously                               |
+| v1.0    | user             | list the questions I have previously added in the question bank with their respective answers | check what questions I have added previously along with their answers      |
+| v1.0    | user             | save my questions permanently                                                                 | the questions that i have added will not be lost                           |
+| v1.0    | user             | load my saved questions when i start the program                                              | see and work on the questions even after closing and reopening the program |
+| v1.0    | user             | have my answer inputs evaluated                                                               | practice the questions previously added                                    |
+| v2.0    | user             | find a question in the question bank by name                                                  | locate whether I have previously added a similar question                  |
+| v2.0    | experienced user | solve questions by typing everything in one command                                           | answer questions faster without going through the multiple steps           |
+| v2.0    | user             | edit the questions that are currently in my question bank                                     | update outdated or incorrect question details                              |
+| v2.0    | user             | delete a question from the question bank                                                      | remove outdated or incorrect questions                                     |
 
 ## Non-Functional Requirements
 
