@@ -150,6 +150,7 @@ This dual-QuestionBank approach improves usability by allowing users to interact
     - Once a modification is applied (e.g., a deletion or an edit), the Command class updates the main QuestionBank accordingly.
 
   - This maintains data consistency and ensures that all logged questions remain up to date.
+  
 ### Storage
 
 The `StorageFile` class is responsible for saving and loading questions from a local `.txt` file to ensure data persistence across sessions.
