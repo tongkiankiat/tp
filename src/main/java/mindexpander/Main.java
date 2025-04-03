@@ -61,6 +61,7 @@ public class Main {
                 while (!command.isCommandComplete()) {
                     String input = ui.nextLine();
                     manageMultistepCommand(input, command, questionBank, lastShownQuestionBank);
+                    storage.save(questionBank);
                     ui.displayResults(command.execute());
                 }
 

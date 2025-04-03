@@ -29,6 +29,11 @@ public class AddCommand extends Command implements Multistep {
 
     @Override
     public Command handleMultistepCommand(String nextInput, QuestionBank questionBank) {
+        if (nextInput.trim().equals("")) {
+            updateCommandMessage("Input cannot be empty!");
+            return this;
+        }
+
         if (currentStep == Step.GET_TYPE) {
             getQuestionType(nextInput);
             return this;
