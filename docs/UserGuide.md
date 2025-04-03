@@ -105,8 +105,6 @@ Example usage:
 - `4`
 
 **Note**
-* **DO NOT** use the '|' character when adding question contents or the question answers as that is the character
-used for delimiting in the save file.
 * MCQ questions have 4 options including the correct answer. When prompted to enter the incorrect answers, only input the **incorrect**
 options one at a time.
 
