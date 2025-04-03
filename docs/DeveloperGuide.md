@@ -25,6 +25,7 @@ The project consists of the following main components:
 6. Question: Objects to store data for question details and answers.
 7. Question bank: Handle question storing in the list, contains the list of questions.
 8. Storage handler: Handles the reading and writing to a .txt file.
+9. Common: Stores all magic strings or literals to be printed to user.
 
 The overall relations between the components and classes is as follows:
 
@@ -32,7 +33,7 @@ The overall relations between the components and classes is as follows:
 
 The overall flow of interaction between the user and program is as follows:
 
-{Insert sequence diagram here}
+![](diagrams/sequence/Main.png)
 
 ### User Interface
 
@@ -128,6 +129,10 @@ This dual-QuestionBank approach improves usability by allowing users to interact
 
 **QuestionBank Management and Modification Workflow**
 
+- Program Initialisation
+
+  - When the user first launches MindExpander, lastShownQuestionBank is set to questionBank.
+
 - Command Execution and lastShownQuestionBank Updates
 
   - When the user executes the list command, lastShownQuestionBank is updated to contain all questions from the main QuestionBank.
@@ -186,22 +191,25 @@ This product aims to solve the problem of students not having a convenient place
 
 ## User Stories
 
-|Version| As a ...         | I want to ...                                                                                 | So that I can ...                                                     |
-|--------|------------------|-----------------------------------------------------------------------------------------------|-----------------------------------------------------------------------|
-|v1.0| new user         | view a list of commands and their uses                                                        | refer to them to understand how to use the program                    |
-|v1.0| user             | <todo> story for add                                                                          |                                                                       |
-|v1.0| user             | list the questions I have previously added in the question bank                               | check what questions I have added previously                          |
-|v1.0| user             | list the questions I have previously added in the question bank with their respective answers | check what questions I have added previously along with their answers |
-|v1.0| user             | store my questions permanently                                                                | retrieve them even after closing and reopening the application                                                                      |
-|v1.0| user             | have my answer inputs evaluated                                                               | practice the questions previously added                               |
-|v2.0| user             | find a question in the question bank by name                                                  | locate whether I have previously added a similar question             |
-|v2.0| experienced user | solve questions by typing everything in one command                                           | answer questions faster without going through the multiple steps      |
-|v2.0| user             | <todo> story for edit                                                                         |                                                                       |
-|v2.0| user             | delete a question from the question bank                                                                       | remove outdated or incorrect questions                                                                |
+| Version | As a ...         | I want to ...                                                                                 | So that I can ...                                                     |
+|---------|------------------|-----------------------------------------------------------------------------------------------|-----------------------------------------------------------------------|
+| v1.0    | new user         | view a list of commands and their uses                                                        | refer to them to understand how to use the program                    |
+| v1.0    | user             | add questions into the question bank                                                          | store it for future practice                                          |
+| v1.0    | user             | list the questions I have previously added in the question bank                               | check what questions I have added previously                          |
+| v1.0    | user             | list the questions I have previously added in the question bank with their respective answers | check what questions I have added previously along with their answers |
+| v1.0    | user             | store my questions permanently                                                                | retrieve them even after closing and reopening the application        |
+| v1.0    | user             | have my answer inputs evaluated                                                               | practice the questions previously added                               |
+| v2.0    | user             | find a question in the question bank by name                                                  | locate whether I have previously added a similar question             |
+| v2.0    | experienced user | solve questions by typing everything in one command                                           | answer questions faster without going through the multiple steps      |
+| v2.0    | user             | <todo> story for edit                                                                         |                                                                       |
+| v2.0    | user             | delete a question from the question bank                                                      | remove outdated or incorrect questions                                |
 
 ## Non-Functional Requirements
 
-{Give non-functional requirements}
+* Should work on any _mainstream_ OS as long as it has Java `17` or above installed
+* A user with above average typing speed for regular English text should be able to complete more questions faster when solving questions in one line
+
+(More to be added)
 
 ## Glossary
 
@@ -209,4 +217,60 @@ This product aims to solve the problem of students not having a convenient place
 
 ## Instructions for manual testing
 
-{Give instructions on how to do a manual product testing e.g., how to load sample data to be used for testing}
+### Launch and Shutdown
+1. Initial launch
+   1. Download the jar file.
+   2. Copy the file to the folder you want to use as the _home_ folder.
+   3. Open a command terminal, and `cd` into the folder you put the jar file in.
+   4. Run `java -jar MindExpander.jar` to run MindExpander.
+   5. The following screen should be displayed:
+   ```
+   ==============================
+    
+       _____  .__            .______________                                .___            
+      /     \ |__| ____    __| _/\_   _____/__  ______________    ____    __| _/___________
+     /  \ /  \|  |/    \  / __ |  |    __)_\  \/  /\____ \__  \  /    \  / __ |/ __ \_  __ \
+    /    Y    \  |   |  \/ /_/ |  |        \>    < |  |_> > __ \|   |  \/ /_/ \  ___/|  | \/
+    \____|__  /__|___|  /\____ | /_______  /__/\_ \|   __(____  /___|  /\____ |\___  >__|   
+            \/        \/      \/         \/      \/|__|       \/     \/      \/    \/
+    
+    Presented by: CS2113-F12-3
+    Welcome to MindExpander!
+    ==============================
+    ==============================
+    What would you like to do today?
+    Type <help> for a list of commands.
+    ==============================
+   ```
+2. Exiting MindExpander
+   1. Test case: `exit`
+    
+       Expected: The program exits and returns user to the command terminal.
+   
+### Adding a question
+1. Add is a _multistep command_, below is the procedure for the test case to add a question
+   1. Enter `add`
+   2. Enter `mcq` or `fitb` as the question type
+   3. Enter `1 + 1` as the question.
+   4. Enter `2` as the answer.
+      1. For `mcq`, enter 3 other incorrect options: `1`, `3`, `4`.
+   
+### Listing all questions
+1. List all the questions currently in the question bank.
+   1. Test case: `list`
+   
+        Expected: The list of questions in the question bank will be displayed.
+
+### Finding questions containing a keyword
+1. Finding all questions that contain a specific keyword.
+   1. Prerequisites: There are already questions contained in the question bank.
+   2. Test Case: `find MRT`
+   
+      Expected: Displays all questions (both `mcq` and `fitb`) that contain `MRT` in the question. If there are no such questions with the `MRT` keyword, UI will print `No questions with MRT found!`.
+   3. Test Case: `find mcq MRT`
+    
+      Expected: Displays all `mcq` questions that contain `MRT` in the question. If there are no such questions with the `MRT` keyword, UI will print `No questions with MRT found!`.
+    
+   4. Test Case: `find fitb MRT`
+    
+      Expected: Displays all `fitb` questions that contain `MRT` in the question. If there are no such questions with the `MRT` keyword, UI will print `No questions with MRT found!`.
