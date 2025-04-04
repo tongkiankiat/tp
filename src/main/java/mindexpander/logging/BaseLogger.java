@@ -3,39 +3,39 @@ package mindexpander.logging;
 import mindexpander.ui.TextUi;
 
 /**
- * Base logger class that provides common logging functionality
- * and integrates with the TextUi for displaying log messages.
+ * Provides foundational logging functionality for all logger implementations.
+ * <p>
+ * This abstract class serves as the base for all loggers in the system, offering:
+ * <ul>
+ *   <li>Common message formatting</li>
+ *   <li>TextUi integration for user-facing messages</li>
+ *   <li>Standardized log levels</li>
+ *   <li>Special character escaping</li>
+ * </ul>
+ * Supports both instance-based and static logging patterns.
+ * </p>
+ *
+ * @author lwenyi1
+ * @version 1.0
+ * @since 2025-04-04
  */
 public abstract class BaseLogger {
-    protected final TextUi textUi;
-    private final String loggerName;
-
-    protected BaseLogger(TextUi textUi, String loggerName) {
-        this.textUi = textUi;
-        this.loggerName = loggerName;
+    /**
+     * Prints a formatted log message to both UI and system output.
+     *
+     * @param message The message content to log
+     */
+    protected static void printLogMessage(String message) {
+        TextUi.printErrorToUser(message);
     }
 
     /**
-     * Prints a log message to both the UI and system output
-     * @param message The message to log
-     * @param level The severity level (INFO, WARNING, ERROR)
+     * Escapes special characters in log messages to maintain format integrity.
+     *
+     * @param input The raw string to be escaped
+     * @return The escaped string, or empty string if input is null
      */
-    protected void printLogMessage(String message, LogLevel level) {
-        String formattedMessage = String.format("[%s %s] %s",
-                loggerName, level, message);
-
-        // Print to UI
-        textUi.printToUser(formattedMessage);
-
-        // Also print to system out for backup
-        System.out.println(formattedMessage);
-    }
-
-    protected enum LogLevel {
-        INFO, WARNING, ERROR
-    }
-
-    protected String escapeSpecialCharacters(String input) {
+    protected static String escapeSpecialCharacters(String input) {
         if (input == null) return "";
         return input.replace("|", "\\|")
                 .replace("\n", "\\n")
