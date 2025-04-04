@@ -58,7 +58,19 @@ public class EditCommand extends Command implements Multistep {
     }
 
     public Command editAnswer(int targetIndex, String nextInput) {
-        mainBank.getQuestion(targetIndex).editAnswer(nextInput);
+        Question q = mainBank.getQuestion(targetIndex);
+
+        if (q.getType().getType().equalsIgnoreCase("tf")) {
+            String trimmedLower = nextInput.trim().toLowerCase();
+            if (!trimmedLower.equals("true") && !trimmedLower.equals("false")) {
+                updateCommandMessage("Invalid answer for True/False question. Please enter 'true' or 'false'.");
+                return this;
+            }
+            q.editAnswer(trimmedLower);
+        } else {
+            q.editAnswer(nextInput);
+        }
+
         updateCommandMessage(String.format("Question successfully edited: %1$s", mainBank.getQuestion(targetIndex)));
         isComplete = true;
         return this;

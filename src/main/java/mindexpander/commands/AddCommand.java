@@ -5,6 +5,7 @@ import mindexpander.data.question.FillInTheBlanks;
 import mindexpander.data.question.MultipleChoice;
 import mindexpander.data.question.Question;
 import mindexpander.data.question.QuestionType;
+import mindexpander.data.question.TrueFalse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,10 +56,11 @@ public class AddCommand extends Command implements Multistep {
     }
 
     private void getQuestionType(String nextInput) {
-        if (!QuestionType.isValidType(nextInput)) {
+        String trimmedInput = nextInput.trim();
+        if (!QuestionType.isValidType(trimmedInput)) {
             updateCommandMessage("Invalid input. Please enter a correct question type.");
         } else {
-            this.type = QuestionType.fromString(nextInput);
+            this.type = QuestionType.fromString(trimmedInput);
             currentStep = Step.GET_QUESTION;
             updateCommandMessage("Enter your question:");
         }
@@ -67,9 +69,12 @@ public class AddCommand extends Command implements Multistep {
     private Command addQuestionHandler(String nextInput, QuestionBank questionBank) {
         if (this.type == QuestionType.FITB) {
             return addFillInTheBlank(questionBank);
-        } else {
+        } else if (this.type == QuestionType.MCQ) {
             return addMultipleChoice(nextInput, questionBank);
+        } else if (this.type == QuestionType.TF) {
+            return addTrueFalse(questionBank);
         }
+        return this;
     }
 
     private Command addFillInTheBlank(QuestionBank questionBank) {
@@ -102,5 +107,18 @@ public class AddCommand extends Command implements Multistep {
         return this;
     }
 
-}
+    private Command addTrueFalse(QuestionBank questionBank) {
+        String answerLower = answer.toLowerCase().trim();
+        if (!answerLower.equals("true") && !answerLower.equals("false")) {
+            updateCommandMessage("Invalid answer. Please enter 'true' or 'false'.");
+            currentStep = Step.GET_ANSWER; // Forces user to re-enter
+            return this;
+        }
+        toAdd = new TrueFalse(question, answerLower);
+        questionBank.addQuestion(toAdd);
+        updateCommandMessage(String.format("Question %1$s successfully added.", toAdd.toString()));
+        isComplete = true;
+        return this;
+    }
 
+}
