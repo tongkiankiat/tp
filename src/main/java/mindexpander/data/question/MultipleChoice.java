@@ -14,6 +14,10 @@ public class MultipleChoice extends Question {
         this.answerOption = "A";
     }
 
+    public List<String> getOptions() {
+        return new ArrayList<>(options);
+    }
+
     public void editOption(int index, String newOption) {
         options.set(index, newOption);
     }

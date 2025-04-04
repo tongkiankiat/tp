@@ -66,6 +66,7 @@ public class EditCommand extends Command implements Multistep {
 
     public Command editOptions(int targetIndex, String nextInput) {
         Question question = mainBank.getQuestion(targetIndex);
+        updateCommandMessage("Please enter the next option:");
         if (question instanceof MultipleChoice mcq && editOptionTracker < 3) {
             mcq.editOption(editOptionTracker, nextInput);
             editOptionTracker += 1;

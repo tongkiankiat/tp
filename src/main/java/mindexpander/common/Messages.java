@@ -22,4 +22,6 @@ public class Messages {
         " Please refer to the user guide, or type <help> to display the available commands";
     public static final String DISPLAYED_INDEX_OFFSET = ". ";
     public static final String EMPTY_INPUT = "Please enter a valid input!";
+    public static final String STORAGE_DELIMITER = "%%MINDEXPANDER_DELIM%%";
+
 }
