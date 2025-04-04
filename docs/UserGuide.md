@@ -12,9 +12,10 @@
     - [Solving questions: `solve`](#solving-questions-solve)
     - [Exiting the program: `exit`](#exiting-the-program-exit)
     - [Deleting a question: `delete`](#deleting-a-question-delete)
-4. **[Additional Notes](#additional-notes-for-program-features-and-usage)**
-5. **[FAQ](#faq)**
-6. **[Command Summary](#command-summary)**
+4. **[Logged Data](#logged-data)**
+5. **[Additional Notes](#additional-notes-for-program-features-and-usage)**
+6. **[FAQ](#faq)**
+7. **[Command Summary](#command-summary)**
 
 ## Introduction
 
@@ -397,6 +398,19 @@ Format: `exit`
 Example usage: 
 
 `exit`
+
+## Logged data
+To improve user experience, MindExpander keeps track of some data throughout the use of the program.
+The log files are generated and stored in a logs folder that will be created when the user first does
+something that will be logged (see log features below).
+
+**Log features**  
+
+Users may find these logs useful for their specific purposes.
+
+1. Solve attempts: Stored in `solveAttemptLogs.txt`, tracks the time of attempt, the question attempted and if the user
+got the question correct or wrong in the format `Timestamp|Question|Result`. This is useful for seeing, for example, which questions
+are constantly attempted and gotten wrong.
 
 ## Additional notes for program features and usage
 * This program is designed to take inputs in **Roman Alphabet** (i.e. English characters),
