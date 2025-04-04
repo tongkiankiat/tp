@@ -75,7 +75,7 @@ The system consists of two primary components:
 
 - Implements execute() method, which performs the command action.
 
-- Handles multi-step user interaction when necessary.
+- Handles multistep user interaction when necessary.
 
 
   ![](diagrams/class/ParserDiagram.png)
@@ -93,7 +93,10 @@ in the overridden `execute()` method.
 
 **Multistep commands**
 These are implemented through the use of a finite state machine (FSM), where the different states are defined in a command's
-`handleMultistepCommand()` method. The components of the program work together in the following manner:
+`handleMultistepCommand()` method. The purpose of these multistep commands is to make the processes of some features more
+user-friendly. For example, having to complete `add` in a one-step command would make it very hard to add longer questions,
+especially MCQ questions with longer options, and reduce the quality of life for users.
+The components of the program work together in the following manner:
 
 1. `Main`: Focuses on the loop. 
     1. Orchestrates the command loop, continues looping until the command's `isCommandComplete` flag is set.
@@ -217,6 +220,8 @@ This product aims to solve the problem of students not having a convenient place
 MCQ should not be the same options tagged to the same answers each time, etc.).
 * Error messages should be clear and actionable (e.g. Please enter a valid ___).
 * Number of questions added should not be limited by the program.
+* Commands should not be overly complicated to use, for example having to type too many items in one long single line
+command. This can be solved by breaking down the command in a user-friendly manner with multistep commands.
 
 ## Glossary
 
