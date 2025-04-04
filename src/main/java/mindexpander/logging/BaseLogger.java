@@ -36,7 +36,9 @@ public abstract class BaseLogger {
      * @return The escaped string, or empty string if input is null
      */
     protected static String escapeSpecialCharacters(String input) {
-        if (input == null) return "";
+        if (input == null) {
+            return "";
+        }
         return input.replace("|", "\\|")
                 .replace("\n", "\\n")
                 .replace("\r", "\\r");
