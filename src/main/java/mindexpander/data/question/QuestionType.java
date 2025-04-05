@@ -54,4 +54,13 @@ public enum QuestionType {
         throw new IllegalArgumentException("Invalid question type: " + input);
     }
 
+    public static String allTypes() {
+        StringBuilder sb = new StringBuilder();
+        for (QuestionType qt : values()) {
+            sb.append(qt.getType()).append("/");
+        }
+        sb.setLength(Math.max(sb.length() - 1, 0));
+        return sb.toString();
+    }
+
 }
