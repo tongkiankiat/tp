@@ -38,7 +38,8 @@ public class AddCommand extends Command implements Multistep {
     }
 
     public String initialiseAddCommand() {
-        return String.format("Please enter the type of the question you would like to add. (%1$s)", QuestionType.allTypes());
+        return String.format("Please enter the type of the question you would like to add. (%1$s)",
+                QuestionType.allTypes());
     }
 
     /**
