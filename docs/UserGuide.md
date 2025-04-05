@@ -34,12 +34,12 @@ commands. With built-in saving and loading capabilities, users can seamlessly co
 ```
 ==============================
 
-_____  .__            .______________                                .___            
-/     \ |__| ____    __| _/\_   _____/__  ______________    ____    __| _/___________
-/  \ /  \|  |/    \  / __ |  |    __)_\  \/  /\____ \__  \  /    \  / __ |/ __ \_  __ \
-/    Y    \  |   |  \/ /_/ |  |        \>    < |  |_> > __ \|   |  \/ /_/ \  ___/|  | \/
-\____|__  /__|___|  /\____ | /_______  /__/\_ \|   __(____  /___|  /\____ |\___  >__|   
-\/        \/      \/         \/      \/|__|       \/     \/      \/    \/
+    _____  .__            .______________                                .___            
+   /     \ |__| ____    __| _/\_   _____/__  ______________    ____    __| _/___________
+  /  \ /  \|  |/    \  / __ |  |    __)_\  \/  /\____ \__  \  /    \  / __ |/ __ \_  __ \
+ /    Y    \  |   |  \/ /_/ |  |        \>    < |  |_> > __ \|   |  \/ /_/ \  ___/|  | \/
+ \____|__  /__|___|  /\____ | /_______  /__/\_ \|   __(____  /___|  /\____ |\___  >__|   
+         \/        \/      \/         \/      \/|__|       \/     \/      \/    \/
 
 Presented by: CS2113-F12-3
 Welcome to MindExpander!
@@ -130,7 +130,7 @@ Example usage:
 `list answer`
 
 ### Finding questions with a specified string: `find`
-Finds all questions currently in the question bank. Running this will change the last shown list to be the list of
+Finds all questions currently in the question bank that contain a specific keyword. Running this will change the last shown list to be the list of
 questions which match the user's search query in the question bank. Find can be used to search for all question types,
 or specifically for MCQ or FITB questions
 
@@ -155,7 +155,6 @@ A. Clementi MRT
 B. Buona Vista MRT
 C. Dover MRT
 D. Redhill MRT
-
 ==============================
 ```
 
@@ -178,7 +177,6 @@ A. Buona Vista MRT
 B. Dover MRT
 C. Clementi MRT
 D. Redhill MRT
-
 ==============================
 ```
 
@@ -418,6 +416,7 @@ please do not enter characters from other languages, for example Chinese charact
 * Inputting unrecognised commands will result in an error message.
 * Saving and Loading: The question bank is automatically saved to a file named MindExpander.txt in the ./data/ folder.
 * Do not edit the save file while the program is running.
+* Commands are __not__ case sensitive (i.e. ADD, LIsT are accepted).
 
 ## FAQ
 
@@ -441,6 +440,10 @@ of getting the format wrong.
 * View help for a specific command `help [COMMAND]`
 * Add question `add` | `[QUESTION_TYPE]` | `[QUESTION_DETAILS]` | `[QUESTION_ANSWER]`
 * List question bank `list`
+* List question bank with answer `list answer`
+* Find a question in the question with a specific keyword `find [KEYWORD]`
+* Find a MCQ question in the question with a specific keyword `find mcq [KEYWORD]`
+* Find a FITB question in the question with a specific keyword `find fitb [KEYWORD]`
 * Solve question `solve [QUESTION_INDEX]` | `[QUESTION_ANSWER]` | `[Y/N]` (only if wrong)
 * Delete question: `delete [QUESTION_INDEX]`
 * Exit program `exit`
