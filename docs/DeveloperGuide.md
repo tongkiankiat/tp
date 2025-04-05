@@ -213,6 +213,15 @@ special characters like `|` in their input.
   `%%MINDEXPANDER_DELIM%%`
 * This string is defined once in `Messages.java` to eliminate magic strings and ensure consistency across the codebase.
 
+#### **Input Validation for Reserved Delimiters**
+* To prevent users from accidentally corrupting the saved question file, all inputs are now validated to reject any content 
+containing the reserved storage delimiter `%%MINDEXPANDER_DELIM%%`.
+    * The validation logic is implemented in the `InputValidator` class (under the `common` package).
+    * It is triggered whenever user input is taken via multistep commands (e.g., `AddCommand`, `EditCommand`).
+    * If the reserved delimiter is detected, the validator throws an `IllegalCommandException`.
+* Each command is responsible for handling this exception and giving context-specific feedback to the user.
+
+
 ### Listing questions
 
 The `list` command displays all the questions currently in the question bank, and at the same time updates lastShownQuestionBank whenever it is executed.
@@ -419,11 +428,3 @@ Generate a test paper with a randomly selected list of questions.
 * The test can be started with a `StartTestCommand` and ended with an `EndTestCommand`.
 * Commands such as `find` and `solve` will use this new test question bank instead during the test duration while commands
 like `add` and `edit` will be disabled.
-
-### True/False questions
-*Description*
-True or false question types, e.g. "Is F12-3 a fire CS2113 team? [Answer: True]".
-
-*Tentative implementation plans*
-* Extend the `Question` class, answer will be a "True" or "False" string.
-* Add, edit and solve commands should reject answer strings that are not either "True" or "False".

@@ -480,7 +480,14 @@ Example usage:
 * There is no need to manually save — this is handled behind the scenes.
 
 * The save file uses a custom delimiter (as defined in the program's configuration via `Messages.STORAGE_DELIMITER`) to separate the fields of each question.
-* Do NOT at any point enter the `Messages.STORAGE_DELIMITER` string into the input as it will ruin the save and load logic
+* Do NOT at any point enter the `Messages.STORAGE_DELIMITER` string into the input as it is reserved internally by the 
+application as a delimiter for saving and loading your questions.
+*  Including it will result in the following error message:
+   1. While editing or adding a question: "Input cannot contain the reserved delimiter string! Please enter a new question:"
+
+   2. While editing or adding an answer: "Input cannot contain the reserved delimiter string! Please enter a new answer:"
+
+   3. While editing or adding MCQ options: "Input cannot contain the reserved delimiter string! Please enter a new option:"
 
 ### File Format
 The file follows a structured format to allow for proper parsing:

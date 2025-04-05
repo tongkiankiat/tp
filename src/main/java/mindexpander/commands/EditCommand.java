@@ -1,5 +1,6 @@
 package mindexpander.commands;
 
+import mindexpander.common.InputValidator;
 import mindexpander.data.QuestionBank;
 import mindexpander.data.question.MultipleChoice;
 import mindexpander.data.question.Question;
@@ -29,6 +30,19 @@ public class EditCommand extends Command implements Multistep {
 
         if (nextInput.trim().equals("")) {
             updateCommandMessage(String.format("%1$s cannot be empty!", toEdit));
+            return this;
+        }
+
+        try {
+            InputValidator.validateInput(nextInput);
+        } catch (IllegalCommandException e) {
+            if (toEdit.equals("question")) {
+                updateCommandMessage("Input cannot contain the reserved delimiter string! Please enter a new question:");
+            } else if (toEdit.equals("answer")) {
+                updateCommandMessage("Input cannot contain the reserved delimiter string! Please enter a new answer:");
+            } else {
+                updateCommandMessage("Input cannot contain the reserved delimiter string! Please enter a new option:");
+            }
             return this;
         }
 

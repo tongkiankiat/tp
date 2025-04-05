@@ -1,11 +1,13 @@
 package mindexpander.commands;
 
+import mindexpander.common.InputValidator;
 import mindexpander.data.QuestionBank;
 import mindexpander.data.question.FillInTheBlanks;
 import mindexpander.data.question.MultipleChoice;
 import mindexpander.data.question.Question;
 import mindexpander.data.question.QuestionType;
 import mindexpander.data.question.TrueFalse;
+import mindexpander.exceptions.IllegalCommandException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +39,25 @@ public class AddCommand extends Command implements Multistep {
 
         if (currentStep == Step.GET_TYPE) {
             getQuestionType(nextInput);
+            return this;
+        }
+
+        try {
+            InputValidator.validateInput(nextInput);
+        } catch (IllegalCommandException e) {
+            switch (currentStep) {
+            case GET_QUESTION:
+                updateCommandMessage("Input cannot contain the reserved delimiter string! Please enter a new question:");
+                break;
+            case GET_ANSWER:
+                updateCommandMessage("Input cannot contain the reserved delimiter string! Please enter a new answer:");
+                break;
+            case GENERATE_QUESTION:
+                updateCommandMessage("Input cannot contain the reserved delimiter string! Please enter a new option:");
+                break;
+            default:
+                updateCommandMessage(e.getMessage()); // fallback
+            }
             return this;
         }
 
