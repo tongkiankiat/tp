@@ -36,8 +36,8 @@ public class FindCommandTest extends DefaultTest {
         String userInput = "find";
         IllegalCommandException thrown = assertThrows(IllegalCommandException.class
                 , () -> new Parser().parseCommand(userInput, questionBank, questionBank));
-        assertEquals("You have entered an unknown command." +
-                        " Please refer to the user guide, or type <help> to display the available commands"
+        assertEquals("Invalid command!" +
+                        " Please enter either `find [KEYWORD]`, `find mcq [KEYWORD]` or `find fitb [KEYWORD]`"
                 , thrown.getMessage());
     }
 
@@ -68,8 +68,8 @@ public class FindCommandTest extends DefaultTest {
         String userInput = "find fitb";
         IllegalCommandException thrown = assertThrows(IllegalCommandException.class
                 , () -> new Parser().parseCommand(userInput, questionBank, questionBank));
-        assertEquals("You have entered an unknown command." +
-                        " Please refer to the user guide, or type <help> to display the available commands"
+        assertEquals("Invalid command!" +
+                        " The correct format should be `find fitb [KEYWORD]`"
                 , thrown.getMessage());
     }
 
@@ -78,14 +78,14 @@ public class FindCommandTest extends DefaultTest {
         questionBank = new QuestionBank();
         findCommand = new FindCommand(questionBank, "fitb", "MRT");
         commandResult = findCommand.execute();
-        assertEquals("No questions with MRT found!", commandResult.commandResultToUser);
+        assertEquals("No FITB questions with MRT found!", commandResult.commandResultToUser);
     }
 
     @Test
     void testFindCommandWithTypeAndKeywordAndQuestions() {
         findCommand = new FindCommand(questionBank, "fitb", "MRT");
         commandResult = findCommand.execute();
-        assertEquals("Here are the questions with MRT:", commandResult.commandResultToUser);
+        assertEquals("Here are the FITB questions with MRT:", commandResult.commandResultToUser);
         ArrayList<String> filteredQuestionBankStringArray = new ArrayList<>();
         for (int i = 0; i < commandResult.questionBank.getQuestionCount(); i++){
             String question = commandResult.questionBank.getQuestion(i).toStringNoAnswer();

@@ -34,7 +34,11 @@ public class FindCommand extends Command {
     @Override
     public CommandResult execute() {
         QuestionBank filteredQuestionBank = filterQuestionBank(questionBank, questionType, keyword);
-        String messageToUser = Messages.findCommandMessage(keyword, questionType, filteredQuestionBank.getQuestionCount() > 0);
+        String messageToUser = Messages.findCommandMessage(
+                keyword,
+                questionType,
+                filteredQuestionBank.getQuestionCount() > 0
+        );
         return new CommandResult(messageToUser, filteredQuestionBank, false);
     }
 }

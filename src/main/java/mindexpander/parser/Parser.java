@@ -17,8 +17,6 @@ import mindexpander.exceptions.IllegalCommandException;
 import mindexpander.data.QuestionBank;
 import mindexpander.common.Messages;
 
-import java.util.Arrays;
-
 /**
  * The {@code Parser} class is responsible for interpreting user commands
  * and returning the corresponding {@code CommandHandler} object.
@@ -154,8 +152,8 @@ public class Parser {
                 && (parts[0].equalsIgnoreCase("mcq")
                 || parts[0].equalsIgnoreCase("fitb")
                 || parts[0].equalsIgnoreCase("tf"))) {
-                questionType = parts[0].toLowerCase();
-                keyword = parts[1];
+            questionType = parts[0].toLowerCase();
+            keyword = parts[1];
         } else {
             if (parts[0].equalsIgnoreCase("mcq")) {
                 throw new IllegalCommandException(Messages.FIND_ERROR_MESSAGE_EMPTY_BODY_MCQ);
