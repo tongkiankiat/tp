@@ -77,7 +77,8 @@ public class Parser {
             String keyword;
             if (parts.length == 2
                     && (parts[0].equalsIgnoreCase("mcq")
-                    || parts[0].equalsIgnoreCase("fitb"))) {
+                    || parts[0].equalsIgnoreCase("fitb")
+                    || parts[0].equalsIgnoreCase("tf"))) {
                 questionType = parts[0].toLowerCase();
                 keyword = parts[1];
             } else if (parts.length == 1) {
