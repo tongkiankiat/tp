@@ -38,6 +38,14 @@ public class DeleteCommandTest extends DefaultTest {
     }
 
     @Test
+    public void testDeleteCommand_zeroIndex() {
+        DeleteCommand deleteCommand = new DeleteCommand(0, mainBank, lastShownBank);
+        IllegalCommandException exception = assertThrows(IllegalCommandException.class,
+                deleteCommand::execute);
+        assertEquals("Invalid question index.", exception.getMessage());
+    }
+
+    @Test
     public void testDeleteCommand_invalidIndex() {
         // Try deleting with an out-of-bounds index (e.g., delete 3 when there are only 2 questions)
         DeleteCommand deleteCommand = new DeleteCommand(3, mainBank, lastShownBank);
