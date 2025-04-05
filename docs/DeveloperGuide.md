@@ -199,6 +199,34 @@ special characters like `|` in their input.
 
 * This string is defined once in `Messages.java` to eliminate magic strings and ensure consistency across the codebase.
 
+### Logging features
+
+MindExpander keeps track of several things to either help with product development in the future (e.g. error logging) or
+provide benefit to users (e.g. previously entered commands, questions that have been added and their attempts at solving questions).
+
+The logger classes inherit from a parent `BaseLogger` class and contain static methods so they can be called easily
+in the program's features, for example the `SolveCommand` class can use `SolveAttemptLogger` log methods without needing to
+manage an instance of it.
+
+The log files are stored in a logs folder. This process is managed by a `LogsManager` which handles the checking of the
+folder's existence and its creation for all logger classes.
+
+#### **Solve Attempt Logs**
+Logs users' attempts at solving questions, storing the date and time of the attempt, the question attempted and the
+result of the attempt (either CORRECT or WRONG). This log serves to keep track of a user's performance over time. It can
+be examined to find specific questions which users struggle with a lot and constantly get wrong.
+
+The attempts are stored in a file named `solveAttemptLogs.txt`
+in the following format: `Timestamp|Question|Result`
+
+For example:
+```
+2025-04-04 19:40:40|FITB: hey|CORRECT
+2025-04-04 19:40:46|FITB: hey|WRONG
+2025-04-04 19:40:56|MCQ: hello\nA. hi\nB. hiii\nC. hiv\nD. hii\n|CORRECT
+2025-04-04 19:41:01|MCQ: hello\nA. hiii\nB. hi\nC. hiv\nD. hii\n|WRONG
+```
+
 ## Product scope
 ### Target user profile
 
