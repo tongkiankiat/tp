@@ -213,6 +213,26 @@ special characters like `|` in their input.
   `%%MINDEXPANDER_DELIM%%`
 * This string is defined once in `Messages.java` to eliminate magic strings and ensure consistency across the codebase.
 
+### Listing questions
+
+The `list` command displays all the questions currently in the question bank, and at the same time updates lastShownQuestionBank whenever it is executed.
+
+The `list answer` command displays all the questions currently in the question bank, along with their answers. It also updates lastShownQuestionBank whenever it is executed.
+
+For both `list` and `list answer`, they make use of CommandResult, which stores both the message from the command, as well as the questionBank.
+
+The sequence diagram when calling `list`:
+![](diagrams/sequence/List.png)
+
+### Finding questions containing a keyword
+
+The `find` command allows users to find all questions in the questionBank that containing a keyword. Similar to `list`, `find` also updates lastShownQuestionBank whenever it is executed.
+
+The default behaviour for `find` returns a list of all question types containing the specified keyword. To filter the search even clearer, `find mcq` and `find fitb` can be used to search for MCQ or FITB questions (respectively) containing the keyword.
+
+The sequence diagram when calling `find`:
+![](diagrams/sequence/Find.png)
+
 #### **Integration with Main**
 * Every time a command modifies the QuestionBank (e.g., add, delete, edit), the updated data is automatically saved.
 * This logic is handled in the Main class and is transparent to the user — no manual saving is needed.
@@ -342,6 +362,9 @@ layer has a specific responsibility and interacts only with adjacent layers. The
    1. Test case: `list`
    
         Expected: The list of questions in the question bank will be displayed.
+   2. Test case: `list answer`
+
+        Expected: The list of questions with their corresponding answers in the question bank will be displayed.
 
 ### Finding questions containing a keyword
 1. Finding all questions that contain a specific keyword.

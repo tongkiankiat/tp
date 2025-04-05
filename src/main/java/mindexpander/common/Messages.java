@@ -24,4 +24,34 @@ public class Messages {
     public static final String EMPTY_INPUT = "Please enter a valid input!";
     public static final String STORAGE_DELIMITER = "%%MINDEXPANDER_DELIM%%";
 
+    // Error Messages
+    public static final String LIST_ERROR_MESSAGE =
+            "Invalid command! Please enter either `list` or `list answer` to view the question bank.";
+    public static final String FIND_ERROR_MESSAGE_EMPTY_BODY =
+            "Invalid command! Please enter either `find [KEYWORD]`, `find mcq [KEYWORD]` or `find fitb [KEYWORD]`";
+    public static final String FIND_ERROR_MESSAGE_EMPTY_BODY_MCQ =
+            "Invalid command! The correct format should be `find mcq [KEYWORD]`";
+    public static final String FIND_ERROR_MESSAGE_EMPTY_BODY_FITB =
+            "Invalid command! The correct format should be `find fitb [KEYWORD]`";
+
+    // Strings with parameters
+    public static final String findCommandMessage(String keyword,  String questionType, boolean questionsFound) {
+        if (questionsFound) {
+            if (questionType.equals("mcq")) {
+                return "Here are the MCQ questions with " + keyword + ":";
+            } else if (questionType.equals("fitb")) {
+                return "Here are the FITB questions with " + keyword + ":";
+            } else {
+                return "Here are the questions with " + keyword + ":";
+            }
+        } else {
+            if (questionType.equals("mcq")) {
+                return "No MCQ questions with " + keyword + " found!";
+            } else if (questionType.equals("fitb")) {
+                return "No FITB questions with " + keyword + " found!";
+            } else {
+                return "No questions with " + keyword + " found!";
+            }
+        }
+    }
 }

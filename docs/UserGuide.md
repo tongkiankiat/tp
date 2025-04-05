@@ -34,12 +34,12 @@ commands. With built-in saving and loading capabilities, users can seamlessly co
 ```
 ==============================
 
-_____  .__            .______________                                .___            
-/     \ |__| ____    __| _/\_   _____/__  ______________    ____    __| _/___________
-/  \ /  \|  |/    \  / __ |  |    __)_\  \/  /\____ \__  \  /    \  / __ |/ __ \_  __ \
-/    Y    \  |   |  \/ /_/ |  |        \>    < |  |_> > __ \|   |  \/ /_/ \  ___/|  | \/
-\____|__  /__|___|  /\____ | /_______  /__/\_ \|   __(____  /___|  /\____ |\___  >__|   
-\/        \/      \/         \/      \/|__|       \/     \/      \/    \/
+    _____  .__            .______________                                .___            
+   /     \ |__| ____    __| _/\_   _____/__  ______________    ____    __| _/___________
+  /  \ /  \|  |/    \  / __ |  |    __)_\  \/  /\____ \__  \  /    \  / __ |/ __ \_  __ \
+ /    Y    \  |   |  \/ /_/ |  |        \>    < |  |_> > __ \|   |  \/ /_/ \  ___/|  | \/
+ \____|__  /__|___|  /\____ | /_______  /__/\_ \|   __(____  /___|  /\____ |\___  >__|   
+         \/        \/      \/         \/      \/|__|       \/     \/      \/    \/
 
 Presented by: CS2113-F12-3
 Welcome to MindExpander!
@@ -141,7 +141,7 @@ Example usage:
 `list answer`
 
 ### Finding questions with a specified string: `find`
-Finds all questions currently in the question bank. Running this will change the last shown list to be the list of
+Finds all questions currently in the question bank that contain a specific keyword. Running this will change the last shown list to be the list of
 questions which match the user's search query in the question bank. Find can be used to search for all question types,
 or specifically for MCQ, FITB and TF questions
 
@@ -167,7 +167,6 @@ B. Buona Vista MRT
 C. Dover MRT
 D. Redhill MRT
 3. TF: Lakeside MRT is the best.
-
 ==============================
 ```
 
@@ -190,7 +189,6 @@ A. Buona Vista MRT
 B. Dover MRT
 C. Clementi MRT
 D. Redhill MRT
-
 ==============================
 ```
 
@@ -474,7 +472,6 @@ Example usage:
 
 `exit`
 
-<<<<<<< HEAD
 ## Saving and Loading of Data
 
 ### Saving
@@ -505,7 +502,7 @@ Note that | in the above examples represent `Messages.STORAGE_DELIMITER`
 * If the file is missing or empty, a new question bank will be initialised.
 * Only properly formatted lines will be loaded. Malformed entries will be skipped.
 * Lines that are incorrectly formatted by the user manually modifying the text file risk being skipped.
-=======
+
 ## Logged data
 To improve user experience, MindExpander keeps track of some data throughout the use of the program.
 The log files are generated and stored in a logs folder that will be created when the user first does
@@ -518,12 +515,12 @@ Users may find these logs useful for their specific purposes.
 1. Solve attempts: Stored in `solveAttemptLogs.txt`, tracks the time of attempt, the question attempted and if the user
 got the question correct or wrong in the format `Timestamp|Question|Result`. This is useful for seeing, for example, which questions
 are constantly attempted and gotten wrong.
->>>>>>> master
 
 ## Additional notes for program features and usage
 * This program is designed to take inputs in **Roman Alphabet** (i.e. English characters),
 please do not enter characters from other languages, for example Chinese characters.
 * Inputting unrecognised commands will result in an error message.
+* Commands are __not__ case sensitive (i.e. ADD, LIsT are accepted).
 
 ## FAQ
 
@@ -547,6 +544,10 @@ of getting the format wrong.
 * View help for a specific command `help [COMMAND]`
 * Add question `add` | `[QUESTION_TYPE]` | `[QUESTION_DETAILS]` | `[QUESTION_ANSWER]`
 * List question bank `list`
+* List question bank with answer `list answer`
+* Find a question in the question with a specific keyword `find [KEYWORD]`
+* Find a MCQ question in the question with a specific keyword `find mcq [KEYWORD]`
+* Find a FITB question in the question with a specific keyword `find fitb [KEYWORD]`
 * Solve question `solve [QUESTION_INDEX]` | `[QUESTION_ANSWER]` | `[Y/N]` (only if wrong)
 * Delete question: `delete [QUESTION_INDEX]`
 * Exit program `exit`

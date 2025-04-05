@@ -1,5 +1,6 @@
 package mindexpander.commands;
 
+import mindexpander.common.Messages;
 import mindexpander.data.QuestionBank;
 
 public class FindCommand extends Command {
@@ -16,8 +17,7 @@ public class FindCommand extends Command {
     }
 
     // Methods
-    @Override
-    public CommandResult execute() {
+    private QuestionBank filterQuestionBank(QuestionBank questionBank, String questionType, String keyword) {
         QuestionBank filteredQuestionBank = new QuestionBank();
         for (int i = 0; i < questionBank.getQuestionCount(); i++) {
             boolean matchQuestionType = questionType.equals("all")
@@ -28,9 +28,17 @@ public class FindCommand extends Command {
                 filteredQuestionBank.addQuestion(questionBank.getQuestion(i));
             }
         }
-        String messageToUser = filteredQuestionBank.getQuestionCount() == 0
-                ? "No questions with " + keyword + " found!"
-                : "Here are the questions with " + keyword + ":";
+        return filteredQuestionBank;
+    }
+
+    @Override
+    public CommandResult execute() {
+        QuestionBank filteredQuestionBank = filterQuestionBank(questionBank, questionType, keyword);
+        String messageToUser = Messages.findCommandMessage(
+                keyword,
+                questionType,
+                filteredQuestionBank.getQuestionCount() > 0
+        );
         return new CommandResult(messageToUser, filteredQuestionBank, false);
     }
 }

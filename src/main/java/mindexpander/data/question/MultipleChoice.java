@@ -50,6 +50,7 @@ public class MultipleChoice extends Question {
         for (int i = 0; i < shuffledOptions.size(); i += 1) {
             sb.append((char) ('A' + i)).append(". ").append(shuffledOptions.get(i)).append("\n");
         }
+        sb.setLength(Math.max(sb.length() - 1, 0));
         return sb.toString();
     }
 

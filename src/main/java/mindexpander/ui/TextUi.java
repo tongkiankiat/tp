@@ -82,7 +82,7 @@ public class TextUi {
             input = in.nextLine();
         }
 
-        printToUser("[Command you entered: " + input + "]");
+        printToUser("[Command you entered: " + input.trim() + "]");
         return input.trim();
     }
 
