@@ -1,0 +1,35 @@
+@startuml Parser Class Diagram
+hide circle
+skinparam classAttributeIconSize 0
+
+class Parser {
+  + parse(input: String): Command
+}
+
+class XYZCommand {
+  // Command implementation details
+}
+
+class UI {
+  + getUserCommand(): String
+}
+
+' Relationships
+Parser -left-> Command : creates
+Parser ..> XYZCommand : creates
+Command <|-- XYZCommand :uses
+
+UI --> Parser : provides input
+Parser --> UI : returns Command
+
+note right of Parser::parse
+  Processes user input string
+  and returns appropriate
+  Command implementation
+end note
+
+note bottom of XYZCommand
+  Concrete Command class
+  (e.g., SolveCommand, AddCommand)
+end note
+@enduml

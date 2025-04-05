@@ -1,8 +1,8 @@
 package mindexpander.commands;
 
 import mindexpander.data.question.Question;
-
 import mindexpander.data.QuestionBank;
+import mindexpander.logging.SolveAttemptLogger;
 
 /**
  * The {@code SolveCommand} class allows the user to solve a question
@@ -55,8 +55,12 @@ public class SolveCommand extends Command implements Multistep {
     public Command handleMultistepCommand(String nextInput, QuestionBank questionBank) {
         if (currentStep == Step.GET_ANSWER) {
             Question question = questionBank.getQuestion(questionIndex);
+            boolean isCorrect = question.checkAnswer(nextInput);
 
-            if (!question.checkAnswer(nextInput)) {
+            // Log the attempt
+            SolveAttemptLogger.logAttempt(question, isCorrect);
+
+            if (!isCorrect) {
                 updateCommandMessage("Wrong answer, would you like to try again? [Y/N]");
                 currentStep = Step.GET_TRY_AGAIN_RESPONSE;
                 return this;

@@ -1,5 +1,6 @@
 @startuml
 hide circle
+skinparam classAttributeIconSize 0
 
 ' Main Classes
 class Main {
@@ -21,14 +22,19 @@ class Parser {
   + parseCommand(String, QuestionBank, StorageFile): Command
 }
 
-' Command Hierarchy
-interface Command {
-  + execute(): CommandResult
+' Interfaces
+interface "<<interface>> \nMultistep" {
   + handleMultistepCommand(String, QuestionBank): Command
+}
+
+' Command Hierarchy
+class Command {
+  + execute(): CommandResult
   + isCommandComplete(): boolean
   + keepProgramRunning(): boolean
 }
 
+' Command Implementations
 class SolveCommand {
   - currentStep: Step
   - questionIndex: int
@@ -58,6 +64,7 @@ Parser --> Command
 Parser ..> SolveCommand
 
 Command <|-- SolveCommand
+"<<interface>> \nMultistep" <|.. SolveCommand
 
 SolveCommand --> Step
 SolveCommand --> QuestionBank
@@ -65,16 +72,22 @@ SolveCommand --> QuestionBank
 TextUi ..> CommandResult : displays
 
 ' Notes
-note top of SolveCommand
+note bottom of SolveCommand
   State Machine Flow:
   1. GET_ANSWER → GET_TRY_AGAIN (if wrong)
   2. GET_TRY_AGAIN → GET_ANSWER (if 'Y')
   3. Completes when correct or 'N'
 end note
 
-note right of Command
+note bottom of Command
   Command Pattern:
   - execute() handles single-step
-  - handleMultistepCommand() manages state
+  - Multistep interface handles stateful commands
+end note
+
+note top of "<<interface>> \nMultistep"
+  <<interface>>
+  Defines contract for
+  multi-step command handling
 end note
 @enduml

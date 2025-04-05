@@ -1,9 +1,13 @@
 package mindexpander.storage;
 
+import mindexpander.ui.TextUi;
+import mindexpander.common.Messages;
 import mindexpander.data.QuestionBank;
 import mindexpander.data.question.FillInTheBlanks;
+import mindexpander.data.question.MultipleChoice;
 import mindexpander.data.question.Question;
 import mindexpander.data.question.QuestionType;
+import mindexpander.data.question.TrueFalse;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -12,7 +16,9 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * Handles saving and loading of {@code QuestionBank} to ensure data persistence.
@@ -20,12 +26,24 @@ import java.util.List;
  * The file format follows:
  * <pre>
  * FITB|QuestionText|Answer
+ * MCQ|QuestionText|Option1|Option2|Option3|Option4
  * </pre>
+ * <ul>
+ *     <li>For FITB, the third field is the correct answer.</li>
+ *     <li>For MCQ, the first option is always treated as the correct answer,
+ *         and the remaining three are incorrect options.</li>
+ * </ul>
  * <p>
- * Currently, only Fill in the Blanks (FITB) questions are supported.
+ * This class ensures that saved questions are automatically restored
+ * when the application restarts.
+ * Currently supports:
+ * <ul>
+ *     <li>Fill-in-the-Blanks (FITB)</li>
+ *     <li>Multiple Choice Questions (MCQ)</li>
+ * </ul>
  *
  * @author Jensen Kuok
- * @version 0.1
+ * @version 2.0
  * @since 2025-03-14
  */
 public class StorageFile {
@@ -47,7 +65,7 @@ public class StorageFile {
         if (!parentDir.exists()) {
             boolean directoryCreated = parentDir.mkdirs();
             if (!directoryCreated) {
-                System.out.println("Warning: Failed to create directory for storage file.");
+                TextUi.printErrorToUser("Warning: Failed to create directory for storage file.");
             }
         }
 
@@ -58,13 +76,21 @@ public class StorageFile {
                 writer.newLine();
             }
         } catch (IOException e) {
-            System.out.println("Error saving data: " + e.getMessage());
+            TextUi.printErrorToUser("Error saving data: " + e.getMessage());
         }
     }
 
     private String formatQuestionForSaving(Question q) {
+        assert q != null : "Cannot save a null question";
+        String delimiter = Messages.STORAGE_DELIMITER;
         if (q.getType() == QuestionType.FITB) {
-            return "FITB|" + q.getQuestion() + "|" + q.getAnswer();
+            return "FITB" + delimiter + q.getQuestion() + delimiter + q.getAnswer();
+        } else if (q.getType() == QuestionType.MCQ) {
+            MultipleChoice mcq = (MultipleChoice) q;
+            List<String> options = mcq.getOptions();
+            return "MCQ" + delimiter + mcq.getQuestion() + delimiter + String.join(delimiter, options);
+        } else if (q.getType() == QuestionType.TF) {
+            return "TF" + delimiter + q.getQuestion() + delimiter + q.getAnswer(); // ✅ Add this
         }
         return "";
     }
@@ -96,7 +122,7 @@ public class StorageFile {
                 }
             }
         } catch (IOException e) {
-            System.out.println("Error loading data: " + e.getMessage());
+            TextUi.printErrorToUser("Error loading data: " + e.getMessage());
         }
 
         return new QuestionBank(questions);
@@ -106,7 +132,7 @@ public class StorageFile {
      * Parses a line from the storage file and returns a {@code Question}.
      */
     private Question parseQuestionFromFile(String line) {
-        String[] parts = line.split("\\|");
+        String[] parts = line.split(Pattern.quote(Messages.STORAGE_DELIMITER));
         if (parts.length < 3) {
             return null;
         }
@@ -115,10 +141,31 @@ public class StorageFile {
         String questionText = parts[1];
         String answer = parts[2];
 
-        if ("FITB".equals(type)) {
+        switch (type) {
+        case "FITB":
+            assert questionText != null && !questionText.isBlank() : "Question text cannot be blank";
+            assert answer != null && !answer.isBlank() : "Answer cannot be blank";
             return new FillInTheBlanks(questionText, answer);
+        case "MCQ":
+            if (parts.length == 6) {
+                List<String> options = Arrays.asList(parts[2], parts[3], parts[4], parts[5]);
+                assert questionText != null && !questionText.isBlank() : "Question text cannot be blank";
+                assert answer != null && !answer.isBlank() : "Answer cannot be blank";
+                return new MultipleChoice(questionText, parts[2], options);
+            }
+            break;
+        case "TF":
+            assert answer.equalsIgnoreCase("true") || answer.equalsIgnoreCase("false")
+                    : "Stored TF answer must be 'true' or 'false'";
+            if (answer.equalsIgnoreCase("true") || answer.equalsIgnoreCase("false")) {
+                return new TrueFalse(questionText, answer);
+            }
+            break;
+        default:
+            System.out.println("Warning: Unknown question type found in storage: " + type);
+            break;
         }
-        return null; // Ignore unsupported types for now
+        return null; // Unsupported or malformed line
     }
 
 }

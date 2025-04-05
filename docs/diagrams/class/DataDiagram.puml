@@ -1,0 +1,56 @@
+@startuml Data Diagram
+hide circle
+skinparam classAttributeIconSize 0
+
+class QuestionBank {
+  - allQuestions: List<Question>
+}
+
+enum QuestionType {
+  FITB
+  MCQ
+  TF
+}
+
+class FillInTheBlank {
+  // FITB-specific attributes/methods
+}
+
+class MultipleChoice {
+  // MCQ-specific attributes/methods
+}
+
+class TrueFalse {
+  // TF-specific attributes/methods
+}
+
+' Relationships
+QuestionBank "1" *-- "0..*" Question : contains
+
+QuestionType ||.. FillInTheBlank : uses
+QuestionType ||.. MultipleChoice : uses
+QuestionType ||.. TrueFalse : uses
+
+note top of QuestionType
+  <<enumeration>>
+  Question types:
+  - FITB (Fill-in-the-Blank)
+  - MCQ (Multiple Choice)
+  - TF (True/False)
+end note
+
+note top of FillInTheBlank
+  Implements FITB questions
+  with blank answer fields
+end note
+
+note top of MultipleChoice
+  Implements MCQ questions
+  with A/B/C/D options
+end note
+
+note top of TrueFalse
+  Implements True/False questions
+  with strict boolean answers
+end note
+@enduml

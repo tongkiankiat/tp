@@ -58,39 +58,8 @@ public class Parser {
         case "exit" -> new ExitCommand();
         case "solve" -> handleSolve(taskDetails, lastShownQuestionBank);
         case "add" -> new AddCommand();
-        case "list" -> {
-            if (taskDetails.trim().equalsIgnoreCase("answer")) {
-                yield new ListCommand(questionBank, true);
-            } else if (taskDetails.trim().isEmpty()) {
-                yield new ListCommand(questionBank, false);
-            } else {
-                throw new IllegalCommandException(Messages.UNKNOWN_COMMAND_MESSAGE);
-            }
-        }
-        case "find" -> {
-            if (taskDetails.trim().isEmpty()) {
-                throw new IllegalCommandException(Messages.UNKNOWN_COMMAND_MESSAGE);
-            }
-
-            String[] parts = taskDetails.trim().split("\\s+", 2);
-            String questionType;
-            String keyword;
-            if (parts.length == 2
-                    && (parts[0].equalsIgnoreCase("mcq")
-                    || parts[0].equalsIgnoreCase("fitb"))) {
-                questionType = parts[0].toLowerCase();
-                keyword = parts[1];
-            } else if (parts.length == 1) {
-                if (parts[0].equalsIgnoreCase("mcq") || parts[0].equalsIgnoreCase("fitb")) {
-                    throw new IllegalCommandException(Messages.UNKNOWN_COMMAND_MESSAGE);
-                }
-                questionType = "all";
-                keyword = taskDetails;
-            } else {
-                throw new IllegalCommandException(Messages.UNKNOWN_COMMAND_MESSAGE);
-            }
-            yield new FindCommand(questionBank, questionType, keyword);
-        }
+        case "list" -> handleList(taskDetails, questionBank);
+        case "find" -> handleFind(taskDetails, questionBank);
         case "edit" -> handleEdit(taskDetails, questionBank, lastShownQuestionBank);
         case "delete" -> DeleteCommand.parseFromUserInput(taskDetails, questionBank, lastShownQuestionBank);
         default -> throw new IllegalCommandException(Messages.UNKNOWN_COMMAND_MESSAGE);
@@ -159,5 +128,41 @@ public class Parser {
         } catch (NumberFormatException e) {
             throw new IllegalCommandException("Invalid number format. Please enter a valid index.");
         }
+    }
+
+    private Command handleList(String taskDetails, QuestionBank questionBank) {
+        if (taskDetails.trim().equalsIgnoreCase("answer")) {
+            return new ListCommand(questionBank, true);
+        } else if (taskDetails.trim().isEmpty()) {
+            return new ListCommand(questionBank, false);
+        } else {
+            throw new IllegalCommandException(Messages.LIST_ERROR_MESSAGE);
+        }
+    }
+
+    private Command handleFind(String taskDetails, QuestionBank questionBank) throws IllegalCommandException {
+        if (taskDetails.trim().isEmpty()) {
+            throw new IllegalCommandException(Messages.FIND_ERROR_MESSAGE_EMPTY_BODY);
+        }
+
+        String[] parts = taskDetails.trim().split("\\s+", 2);
+        String questionType = "";
+        String keyword = "";
+        if (parts.length == 2
+                && (parts[0].equalsIgnoreCase("mcq")
+                || parts[0].equalsIgnoreCase("fitb")
+                || parts[0].equalsIgnoreCase("tf"))) {
+            questionType = parts[0].toLowerCase();
+            keyword = parts[1];
+        } else {
+            if (parts[0].equalsIgnoreCase("mcq")) {
+                throw new IllegalCommandException(Messages.FIND_ERROR_MESSAGE_EMPTY_BODY_MCQ);
+            } else if (parts[0].equalsIgnoreCase("fitb")) {
+                throw new IllegalCommandException(Messages.FIND_ERROR_MESSAGE_EMPTY_BODY_FITB);
+            }
+            questionType = "all";
+            keyword = taskDetails;
+        }
+        return new FindCommand(questionBank, questionType, keyword);
     }
 }

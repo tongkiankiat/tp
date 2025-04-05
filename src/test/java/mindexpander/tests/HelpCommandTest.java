@@ -63,6 +63,7 @@ public class HelpCommandTest {
             Possible question types (abbreviation in the brackets [] are how the type should be entered): 
             Fill in the Blanks - [FITB]
             Multiple Choice Question - [MCQ]
+            True or False Question - [TF]
             
             Usage:
              - Follow the steps below:

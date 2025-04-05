@@ -32,6 +32,7 @@ public class Main {
     // Start function: Instantiates the TextUI class
     private void start() {
         try {
+            // Initialise main business components
             this.ui = new TextUi();
             this.storage = new StorageFile();
             this.questionBank = storage.load();

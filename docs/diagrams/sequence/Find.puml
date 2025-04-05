@@ -1,0 +1,46 @@
+@startuml
+actor User
+participant ":TextUi" as UI
+participant ":Main" as Main
+participant ":Parser" as Parser
+participant ":FindCommand" as FindCmd
+participant ":QuestionBank" as QB
+participant ":CommandResult" as Result
+
+User -> UI : input "find keyword"
+UI --> UI : getUserCommand()
+UI -> Main : "find keyword"
+
+Main -> Parser : parseCommand("find keyword", QB, lastShownQB)
+Parser -> FindCmd : new FindCommand(QB, "all", keyword)
+Parser --> Main : FindCommand
+
+Main -> FindCmd : execute()
+FindCmd --> FindCmd : filterQuestionBank(QB, "mcq", "binary")
+loop for each question
+    FindCmd -> QB : getQuestion(i)
+    QB --> FindCmd : Question
+    alt if questionType and keyword match
+        FindCmd -> QB : addQuestion(Question)
+    end
+end
+
+FindCmd -> QB : getQuestionCount() on filteredQuestionBank
+QB --> FindCmd : int
+FindCmd -> Result : new CommandResult(message, filteredQB, false)
+FindCmd --> Main : commandResult
+
+ref over Main
+updates lastShownQuestionBank
+end ref
+
+Main -> UI : displayResults(Result)
+UI -> Result : getQuestionBank()
+UI --> UI: print command message
+UI -> QB : getQuestionCount()
+loop for each question in filteredQB
+    UI -> QB : getQuestion(i)
+    QB --> UI : Question
+end
+UI --> UI : print question list
+@enduml
