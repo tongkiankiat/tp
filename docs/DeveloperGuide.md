@@ -217,6 +217,33 @@ special characters like `|` in their input.
 * Every time a command modifies the QuestionBank (e.g., add, delete, edit), the updated data is automatically saved.
 * This logic is handled in the Main class and is transparent to the user — no manual saving is needed.
 
+### Logging features
+
+MindExpander keeps track of several things to either help with product development in the future (e.g. error logging) or
+provide benefit to users (e.g. previously entered commands, questions that have been added and their attempts at solving questions).
+
+The logger classes inherit from a parent `BaseLogger` class and contain static methods so they can be called easily
+in the program's features, for example the `SolveCommand` class can use `SolveAttemptLogger` log methods without needing to
+manage an instance of it.
+
+The log files are stored in a logs folder. This process is managed by a `LogsManager` which handles the checking of the
+folder's existence and its creation for all logger classes.
+
+#### **Solve Attempt Logs**
+Logs users' attempts at solving questions, storing the date and time of the attempt, the question attempted and the
+result of the attempt (either CORRECT or WRONG). This log serves to keep track of a user's performance over time. It can
+be examined to find specific questions which users struggle with a lot and constantly get wrong.
+
+The attempts are stored in a file named `solveAttemptLogs.txt`
+in the following format: `Timestamp|Question|Result`
+
+For example:
+```
+2025-04-04 19:40:40|FITB: hey|CORRECT
+2025-04-04 19:40:46|FITB: hey|WRONG
+2025-04-04 19:40:56|MCQ: hello\nA. hi\nB. hiii\nC. hiv\nD. hii\n|CORRECT
+2025-04-04 19:41:01|MCQ: hello\nA. hiii\nB. hi\nC. hiv\nD. hii\n|WRONG
+```
 ## Product scope
 ### Target user profile
 
@@ -369,3 +396,11 @@ Generate a test paper with a randomly selected list of questions.
 * The test can be started with a `StartTestCommand` and ended with an `EndTestCommand`.
 * Commands such as `find` and `solve` will use this new test question bank instead during the test duration while commands
 like `add` and `edit` will be disabled.
+
+### True/False questions
+*Description*
+True or false question types, e.g. "Is F12-3 a fire CS2113 team? [Answer: True]".
+
+*Tentative implementation plans*
+* Extend the `Question` class, answer will be a "True" or "False" string.
+* Add, edit and solve commands should reject answer strings that are not either "True" or "False".

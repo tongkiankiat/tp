@@ -1,5 +1,6 @@
 package mindexpander.storage;
 
+import mindexpander.ui.TextUi;
 import mindexpander.common.Messages;
 import mindexpander.data.QuestionBank;
 import mindexpander.data.question.FillInTheBlanks;
@@ -64,7 +65,7 @@ public class StorageFile {
         if (!parentDir.exists()) {
             boolean directoryCreated = parentDir.mkdirs();
             if (!directoryCreated) {
-                System.out.println("Warning: Failed to create directory for storage file.");
+                TextUi.printErrorToUser("Warning: Failed to create directory for storage file.");
             }
         }
 
@@ -75,7 +76,7 @@ public class StorageFile {
                 writer.newLine();
             }
         } catch (IOException e) {
-            System.out.println("Error saving data: " + e.getMessage());
+            TextUi.printErrorToUser("Error saving data: " + e.getMessage());
         }
     }
 
@@ -121,7 +122,7 @@ public class StorageFile {
                 }
             }
         } catch (IOException e) {
-            System.out.println("Error loading data: " + e.getMessage());
+            TextUi.printErrorToUser("Error loading data: " + e.getMessage());
         }
 
         return new QuestionBank(questions);
