@@ -91,7 +91,8 @@ public class AddCommand extends Command implements Multistep {
     private void getQuestionType(String nextInput) {
         String trimmedInput = nextInput.trim();
         if (!QuestionType.isValidType(trimmedInput)) {
-            updateCommandMessage("Invalid input. Please enter a correct question type.");
+            updateCommandMessage(String.format("Invalid input. Please enter a correct question type. (%1$s)",
+                    QuestionType.allTypes()));
         } else {
             this.type = QuestionType.fromString(trimmedInput);
             currentStep = Step.GET_QUESTION;
