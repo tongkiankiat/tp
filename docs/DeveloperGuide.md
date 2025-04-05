@@ -137,29 +137,39 @@ This dual-QuestionBank approach improves usability by allowing users to interact
 
 - Program Initialisation
 
-  - When the user first launches MindExpander, lastShownQuestionBank is set to questionBank.
+  - When the user first launches MindExpander, `StorageFile` loads saved questions into `questionBank`.
+  - `lastShownQuestionBank` is initially set to `questionBank`.
 
-- Command Execution and lastShownQuestionBank Updates
+- Command Execution and `lastShownQuestionBank` Updates
 
-  - When the user executes the list command, lastShownQuestionBank is updated to contain all questions from the main QuestionBank.
+  - When the user executes the `list` command, `lastShownQuestionBank` is updated to contain all questions from the main `QuestionBank`.
 
-  - When the user executes the find command, lastShownQuestionBank is updated to contain only the questions matching the search criteria.
+  - When the user executes the `find` command, `lastShownQuestionBank` is updated to contain only the questions matching the search criteria.
 
-- Referencing lastShownQuestionBank for Modifications
+- Referencing `lastShownQuestionBank` for Modifications
 
-    - If a user attempts to modify (e.g., edit, delete) a question, the system first references lastShownQuestionBank.
+    - If a user attempts to modify (e.g., `edit`, `delete`) a question, the system first references `lastShownQuestionBank`.
 
   - This ensures that users can modify questions based on their last viewed subset without needing to manually find their index in the full question bank.
 
-- Synchronizing Changes with the Main QuestionBank
+- Synchronizing Changes with the Main `QuestionBank`
 
-    - Once a modification is applied (e.g., a deletion or an edit), the Command class updates the main QuestionBank accordingly.
+    - Once a modification is applied (e.g., a deletion or an edit), the `Command` class updates the main `QuestionBank` accordingly.
 
   - This maintains data consistency and ensures that all logged questions remain up to date.
   
 ### Storage
 
-The `StorageFile` class is responsible for saving and loading questions from a local `.txt` file to ensure data persistence across sessions.
+The `StorageFile` class is responsible for saving and loading questions to/from a local text file `./data/MindExpander.txt`, ensuring data persistence across user sessions.
+
+This class handles serialisation and deserialisation of all supported question types:
+- ✅ Fill-in-the-Blanks (FITB)
+- ✅ Multiple Choice Questions (MCQ)
+- ✅ True/False (TF)
+
+#### **Class Diagram**
+The following class diagram shows the key dependencies and responsibilities of the StorageFile class:
+![](diagrams/class/StorageFileDiagram.png)
 
 #### **File Format**
 
@@ -170,18 +180,20 @@ special characters like `|` in their input.
 * The general format is:
 
     * `FITB<DELIM>QuestionText<DELIM>Answer`
-
     * `MCQ<DELIM>QuestionText<DELIM>Option1<DELIM>Option2<DELIM>Option3<DELIM>Option4`
+    * `TF%%MINDEXPANDER_DELIM%%QuestionText%%MINDEXPANDER_DELIM%%Answer`
 
 * Example: 
     * `FITB%%MINDEXPANDER_DELIM%%What is the capital of France?%%MINDEXPANDER_DELIM%%Paris`
     * `MCQ%%MINDEXPANDER_DELIM%%2 + 3 = ?%%MINDEXPANDER_DELIM%%5%%MINDEXPANDER_DELIM%%1%%MINDEXPANDER_DELIM%%2%%MINDEXPANDER_DELIM%%3`
-
+    * `TF%%MINDEXPANDER_DELIM%%The sun rises in the east.%%MINDEXPANDER_DELIM%%true`
 #### **Saving Logic**
 
 * The method `save(QuestionBank questionBank)` writes all current questions in the question bank to a text file located at `./data/MindExpander.txt`.
 * If the `data/` directory does not exist, it is created.
-* Questions are serialised using `formatQuestionForSaving(Question q)`, which includes logic for handling `FITB` and `MCQ` formats using the common delimiter.
+* Questions are serialised using `formatQuestionForSaving(Question q)`, which:
+  * Checks the question type (FITB, MCQ, TF)
+  * Converts it into a string based on the appropriate format.
 
 #### **Loading Logic**
 
@@ -190,13 +202,15 @@ special characters like `|` in their input.
 * For MCQ:
     * The first option is always considered the correct answer.
     * The remaining 3 options are treated as distractors.
+* For TF questions:
+  * The answer must be "true" or "false" (case-insensitive).
+  * If any line is malformed or unsupported, it is ignored.
 
 #### **Design Rationale for Custom Delimiter**
 
-* Using the pipe symbol | caused issues when users typed it as part of their question or answer.
-
-* A unique delimiter `%%MINDEXPANDER_DELIM%%` is now used to prevent data corruption and improve robustness against malformed input.
-
+* Early versions of StorageFile used the pipe symbol `|`, which caused issues when users typed it as part of their question or answer.
+* To prevent data corruption, we replaced it with a unique string unlikely to appear naturally:
+  `%%MINDEXPANDER_DELIM%%`
 * This string is defined once in `Messages.java` to eliminate magic strings and ensure consistency across the codebase.
 
 ### Listing questions
@@ -218,6 +232,10 @@ The default behaviour for `find` returns a list of all question types containing
 
 The sequence diagram when calling `find`:
 ![](diagrams/sequence/Find.png)
+
+#### **Integration with Main**
+* Every time a command modifies the QuestionBank (e.g., add, delete, edit), the updated data is automatically saved.
+* This logic is handled in the Main class and is transparent to the user — no manual saving is needed.
 
 ### Logging features
 
@@ -246,7 +264,6 @@ For example:
 2025-04-04 19:40:56|MCQ: hello\nA. hi\nB. hiii\nC. hiv\nD. hii\n|CORRECT
 2025-04-04 19:41:01|MCQ: hello\nA. hiii\nB. hi\nC. hiv\nD. hii\n|WRONG
 ```
-
 ## Product scope
 ### Target user profile
 
@@ -290,6 +307,7 @@ command. This can be solved by breaking down the command in a user-friendly mann
 * *Multistep command* - A feature which requires the user to go through several steps to complete.
 * *FITB* - Fill in the Blanks question type, where the answer is a string entered by the user.
 * *MCQ* - Multiple Choice Question question type, where the answer is one of the options A, B, C or D.
+* *TF* - True/False question type, where the answer is a boolean true or false.
 * *FSM* - Finite State Machine, used in multistep command handling.
 * *CLI* - Command Line Interface.
 * *Command Pattern* - A behavioral design pattern that encapsulates requests as objects, allowing parameterization and 
@@ -332,10 +350,12 @@ layer has a specific responsibility and interacts only with adjacent layers. The
 ### Adding a question
 1. Add is a _multistep command_, below is the procedure for the test case to add a question
    1. Enter `add`
-   2. Enter `mcq` or `fitb` as the question type
+   2. Enter `mcq` or `fitb` or `tf` as the question type
    3. Enter `1 + 1` as the question.
-   4. Enter `2` as the answer.
-      1. For `mcq`, enter 3 other incorrect options: `1`, `3`, `4`.
+   4. 
+      1. For `fitb` and `mcq` Enter `2` as the answer.
+      2. For `mcq`, enter 3 other incorrect options: `1`, `3`, `4`.
+      3. For `tf`, enter `true` as the answer
    
 ### Listing all questions
 1. List all the questions currently in the question bank.
@@ -351,7 +371,7 @@ layer has a specific responsibility and interacts only with adjacent layers. The
    1. Prerequisites: There are already questions contained in the question bank.
    2. Test Case: `find MRT`
    
-      Expected: Displays all questions (both `mcq` and `fitb`) that contain `MRT` in the question. If there are no such questions with the `MRT` keyword, UI will print `No questions with MRT found!`.
+      Expected: Displays all questions (`mcq`, `fitb` and `fitb`) that contain `MRT` in the question. If there are no such questions with the `MRT` keyword, UI will print `No questions with MRT found!`.
    3. Test Case: `find mcq MRT`
     
       Expected: Displays all `mcq` questions that contain `MRT` in the question. If there are no such questions with the `MRT` keyword, UI will print `No questions with MRT found!`.
@@ -359,6 +379,31 @@ layer has a specific responsibility and interacts only with adjacent layers. The
    4. Test Case: `find fitb MRT`
     
       Expected: Displays all `fitb` questions that contain `MRT` in the question. If there are no such questions with the `MRT` keyword, UI will print `No questions with MRT found!`.
+   5. Test Case: `find tf MRT`
+
+      Expected: Displays all `tf` questions that contain `MRT` in the question. If there are no such questions with the `MRT` keyword, UI will print `No questions with MRT found!`.
+
+### Deleting a question
+1. Allows the user to remove a question from the question bank based on its index from the last shown list.
+
+   1. Prerequisite: You must run `list` or `find` to get an updated list and know the index.
+2. Test Case: Deleting a question after `list`
+     1. Command: `list`
+        * Expected: Displays all questions in the question bank with their respective indexes starting from 1.
+     2. Command: delete 1
+        * Expected: Deletes the question at index 1 of the full list.
+    3. UI prints: `Deleted question: FITB: What is 2 + 2? [Answer: 4]`
+3. Test Case: Deleting a question after `find`
+     1. Command: `find mcq fries`
+        * Expected: Displays only MCQ questions that contain the keyword "fries" with updated index numbers (starting from 1).
+     2. Command: delete 1
+        * Expected: Deletes the first question in the filtered results (not the global index from full list).
+   3. UI prints: `Deleted question: MCQ: What are fries made of? [Answer: Potato]`
+
+
+4. Invalid Index Case: `delete 100` (when the list has fewer than 100 questions)
+   Expected: `Invalid question index.`
+
 
 ## Future Enhancements
 
