@@ -10,9 +10,10 @@
     - [Listing questions added: `list`](#listing-questions-added-list)
     - [Finding questions with a specified string: `find`](#finding-questions-with-a-specified-string-find)
     - [Solving questions: `solve`](#solving-questions-solve)
-    - [Exiting the program: `exit`](#exiting-the-program-exit)
+    - [Editing questions: `edit`](#editing-questions-edit)
     - [Deleting a question: `delete`](#deleting-a-question-delete)
     - [Showing the answer to a question: `show`](#showing-the-answer-to-a-specific-question-show)
+    - [Exiting the program: `exit`](#exiting-the-program-exit)
 4. **[Saving and Loading](#saving-and-loading-of-data)**
 5. **[Logged Data](#logged-data)**
 6. **[Additional Notes](#additional-notes-for-program-features-and-usage)**
