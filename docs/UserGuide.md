@@ -13,7 +13,7 @@
     - [Exiting the program: `exit`](#exiting-the-program-exit)
     - [Deleting a question: `delete`](#deleting-a-question-delete)
     - [Showing the answer to a question: `show`](#showing-the-answer-to-a-specific-question-show)
-4. **[Saving and Loading](#saving-and-loading-of-data)
+4. **[Saving and Loading](#saving-and-loading-of-data)**
 5. **[Logged Data](#logged-data)**
 6. **[Additional Notes](#additional-notes-for-program-features-and-usage)**
 7. **[FAQ](#faq)**
