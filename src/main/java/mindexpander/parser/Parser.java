@@ -12,8 +12,6 @@ import mindexpander.commands.Command;
 import mindexpander.commands.DeleteCommand;
 import mindexpander.commands.ExitCommand;
 
-import mindexpander.data.question.QuestionType;
-
 import mindexpander.exceptions.IllegalCommandException;
 
 import mindexpander.data.QuestionBank;

@@ -33,7 +33,7 @@ class ListCommandTest extends DefaultTest {
         questionBank = new QuestionBank();
         listCommand = new ListCommand(questionBank, "all", false);
         commandResult = listCommand.execute();
-        assertEquals("You have no questions yet!", commandResult.commandResultToUser);
+        assertEquals("You have no questions!", commandResult.commandResultToUser);
     }
 
     @Test
@@ -41,7 +41,7 @@ class ListCommandTest extends DefaultTest {
         questionBank = new QuestionBank();
         listCommand = new ListCommand(questionBank, "all", true);
         commandResult = listCommand.execute();
-        assertEquals("You have no questions yet!", commandResult.commandResultToUser);
+        assertEquals("You have no questions!", commandResult.commandResultToUser);
     }
 
     @Test
