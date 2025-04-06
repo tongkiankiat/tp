@@ -35,8 +35,8 @@ The overall flow of interaction between the user and program is as follows:
 
 ![](diagrams/sequence/Main.png)
 
-**Note**: Certain elements such as exceptions and enums have been left out for brevity. More details can be found in the
-segments below.
+**Note**: Certain elements such as exceptions, enums and logging have been left out for brevity. 
+More details on other elements can be found in the segments below.
 
 ### User Interface
 
@@ -233,6 +233,17 @@ The default behaviour for `find` returns a list of all question types containing
 The sequence diagram when calling `find`:
 ![](diagrams/sequence/Find.png)
 
+### Showing the answer to a specific question
+
+The `show` command allows users to view the answer to a question by querying its question index. However, the question and answer that is displayed __does not__ update the lastShownQuestionBank like `list` and `find` do. 
+
+`show` also prioritises searching through the last shown list, before searching through the question bank, and finally it returns an error if it still cannot find a question with that specific question index.
+
+`show` takes in one argument, the `[QUESTION_INDEX]`, based on the last shown list that the user sees.
+
+The sequence diagram when calling `show`:
+![](diagrams/sequence/Show.png)
+
 #### **Integration with Main**
 * Every time a command modifies the QuestionBank (e.g., add, delete, edit), the updated data is automatically saved.
 * This logic is handled in the Main class and is transparent to the user — no manual saving is needed.
@@ -264,6 +275,19 @@ For example:
 2025-04-04 19:40:56|MCQ: hello\nA. hi\nB. hiii\nC. hiv\nD. hii\n|CORRECT
 2025-04-04 19:41:01|MCQ: hello\nA. hiii\nB. hi\nC. hiv\nD. hii\n|WRONG
 ```
+
+### **Error Logs**
+Logs users' errors whenever they type in an invalid input, storing the date and time of the attempt, the user's input, as well as the error message. This log can be used to inform users on what types of inputs are invalid and erroneous.
+
+The errors are stored in a file name `errorLogs.txt` in the following format: `Timestamp|Input|Error`
+
+For example:
+```
+2025-04-06 12:23:42|find|Invalid command! Please enter either `find [KEYWORD]`, `find mcq [KEYWORD]`, `find fitb [KEYWORD]` or `find tf [KEYWORD]`.
+2025-04-06 12:35:55|list 2|Invalid command! Please enter either `list`, `list [mcq/fitb/tf]`, `list [mcq/fitb/tf] answer` to view the question bank
+2025-04-06 12:37:08|list answer 3 3|You have entered an unknown command. Please refer to the user guide, or type <help> to display the available commands
+```
+
 ## Product scope
 ### Target user profile
 
@@ -289,6 +313,7 @@ This product aims to solve the problem of students not having a convenient place
 | v2.0    | experienced user | solve questions by typing everything in one command                                           | answer questions faster without going through the multiple steps           |
 | v2.0    | user             | edit the questions that are currently in my question bank                                     | update outdated or incorrect question details                              |
 | v2.0    | user             | delete a question from the question bank                                                      | remove outdated or incorrect questions                                     |
+| v2.1    | user             | show the answer of a question from the question bank                                          | check the answer for that specific question                                |
 
 ## Non-Functional Requirements
 
@@ -365,6 +390,24 @@ layer has a specific responsibility and interacts only with adjacent layers. The
    2. Test case: `list answer`
 
         Expected: The list of questions with their corresponding answers in the question bank will be displayed.
+   3. Test case: `list mcq`
+
+        Expected: The list of MCQ questions in the question bank will be displayed.
+   4. Test case: `list mcq answer`
+      
+        Expected: The list of MCQ questions with their corresponding answers in the question bank will be displayed.
+   5. Test case: `list fitb`
+
+        Expected: The list of FITB questions in the question bank will be displayed.
+   6. Test case: `list fitb answer`
+
+        Expected: The list of FITB questions with their corresponding answers in the question bank will be displayed.
+   7. Test case: `list tf`
+
+        Expected: The list of TF questions in the question bank will be displayed.
+   8. Test case: `list tf answer`
+
+      Expected: The list of TF questions with their corresponding answers in the question bank will be displayed.
 
 ### Finding questions containing a keyword
 1. Finding all questions that contain a specific keyword.
@@ -382,6 +425,13 @@ layer has a specific responsibility and interacts only with adjacent layers. The
    5. Test Case: `find tf MRT`
 
       Expected: Displays all `tf` questions that contain `MRT` in the question. If there are no such questions with the `MRT` keyword, UI will print `No questions with MRT found!`.
+
+### Showing the answer to a specific question
+1. Showing the answer to a specific question based on its index.
+   1. Prerequisites: There are already questions contained in the question bank.
+   2. Test Case: `show 1`
+
+        Expected: Shows the question and answer to question 1.
 
 ### Deleting a question
 1. Allows the user to remove a question from the question bank based on its index from the last shown list.
@@ -419,11 +469,3 @@ Generate a test paper with a randomly selected list of questions.
 * The test can be started with a `StartTestCommand` and ended with an `EndTestCommand`.
 * Commands such as `find` and `solve` will use this new test question bank instead during the test duration while commands
 like `add` and `edit` will be disabled.
-
-### True/False questions
-*Description*
-True or false question types, e.g. "Is F12-3 a fire CS2113 team? [Answer: True]".
-
-*Tentative implementation plans*
-* Extend the `Question` class, answer will be a "True" or "False" string.
-* Add, edit and solve commands should reject answer strings that are not either "True" or "False".
