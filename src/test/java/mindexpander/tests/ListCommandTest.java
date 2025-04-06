@@ -3,6 +3,7 @@ package mindexpander.tests;
 import mindexpander.commands.CommandResult;
 import mindexpander.commands.ListCommand;
 import mindexpander.common.Messages;
+import mindexpander.data.CommandHistory;
 import mindexpander.exceptions.IllegalCommandException;
 import mindexpander.parser.Parser;
 import mindexpander.data.QuestionBank;
@@ -21,11 +22,13 @@ class ListCommandTest extends DefaultTest {
     private QuestionBank questionBank;
     private ListCommand listCommand;
     private CommandResult commandResult;
+    private CommandHistory commandHistory;
     private StorageFile storage;
 
     @BeforeEach
     void setup() {
         questionBank = new QuestionBank();
+        this.commandHistory = new CommandHistory();
         questionBank.addQuestion(new FillInTheBlanks("1 + 1 = __", "2"));
         questionBank.addQuestion(new FillInTheBlanks("__ MRT Station is the closest station to NUS", "Kent Ridge"));
     }
@@ -86,7 +89,7 @@ class ListCommandTest extends DefaultTest {
     public void testListCommandWithWrongArgument() {
         String userInput = "list banana";
         IllegalCommandException thrown = assertThrows(IllegalCommandException.class
-                , () -> new Parser().parseCommand(userInput, questionBank, questionBank));
+                , () -> new Parser().parseCommand(userInput, questionBank, questionBank, commandHistory));
         assertEquals("Invalid command!" +
                 " Please enter either `list` or `list answer` to view the question bank."
                 , thrown.getMessage());

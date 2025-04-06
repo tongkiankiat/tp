@@ -9,5 +9,5 @@ import mindexpander.data.QuestionBank;
  * additional user input across multiple steps.
  */
 public interface Multistep {
-    Command handleMultistepCommand(String nextInput, QuestionBank questionBank);
+    Command handleMultistepCommand(String nextInput);
 }

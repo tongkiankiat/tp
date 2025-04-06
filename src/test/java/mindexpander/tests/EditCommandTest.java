@@ -36,7 +36,7 @@ public class EditCommandTest {
         questionBank.addQuestion(question);
         lastShownQuestionBank.addQuestion(question);
         EditCommand editCommand = new EditCommand(1, "q", questionBank, lastShownQuestionBank);
-        editCommand.handleMultistepCommand("new q", questionBank);
+        editCommand.handleMultistepCommand("new q");
 
         assertTrue(editCommand.isCommandComplete());
         assertEquals("new q", question.getQuestion());
@@ -51,7 +51,7 @@ public class EditCommandTest {
         questionBank.addQuestion(question);
         lastShownQuestionBank.addQuestion(question);
         EditCommand editCommand = new EditCommand(1, "a", questionBank, lastShownQuestionBank);
-        editCommand.handleMultistepCommand("new a", questionBank);
+        editCommand.handleMultistepCommand("new a");
 
         assertTrue(editCommand.isCommandComplete());
         assertEquals("test q", question.getQuestion());
@@ -67,8 +67,8 @@ public class EditCommandTest {
         questionBank.addQuestion(question);
         lastShownQuestionBank.addQuestion(question);
         EditCommand editCommand = new EditCommand(1, "o", questionBank, lastShownQuestionBank);
-        editCommand.handleMultistepCommand("1", questionBank);
-        editCommand.handleMultistepCommand("new test", questionBank);
+        editCommand.handleMultistepCommand("1");
+        editCommand.handleMultistepCommand("new test");
 
         assertTrue(editCommand.isCommandComplete());
         assertEquals("test q", question.getQuestion());

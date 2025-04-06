@@ -8,9 +8,12 @@ import mindexpander.commands.EditCommand;
 import mindexpander.commands.HelpCommand;
 import mindexpander.commands.ListCommand;
 import mindexpander.commands.ExitCommand;
+import mindexpander.commands.RedoCommand;
 import mindexpander.commands.SolveCommand;
 import mindexpander.commands.FindCommand;
 
+import mindexpander.commands.UndoCommand;
+import mindexpander.data.CommandHistory;
 import mindexpander.exceptions.IllegalCommandException;
 
 import mindexpander.data.QuestionBank;
@@ -39,7 +42,8 @@ public class Parser {
      * @return The appropriate {@code CommandHandler} object based on the command.
      * @throws IllegalCommandException If the command is invalid or unrecognized.
      */
-    public Command parseCommand (String userEntry, QuestionBank questionBank, QuestionBank lastShownQuestionBank)
+    public Command parseCommand (String userEntry, QuestionBank questionBank,
+                                 QuestionBank lastShownQuestionBank, CommandHistory commandHistory)
             throws IllegalCommandException {
 
         // Split into commands and details of task
@@ -52,11 +56,13 @@ public class Parser {
         case "help" -> new HelpCommand(taskDetails);
         case "exit" -> new ExitCommand();
         case "solve" -> handleSolve(taskDetails, lastShownQuestionBank);
-        case "add" -> new AddCommand();
+        case "add" -> new AddCommand(questionBank, commandHistory);
         case "list" -> handleList(taskDetails, questionBank);
         case "find" -> handleFind(taskDetails, questionBank);
         case "edit" -> handleEdit(taskDetails, questionBank, lastShownQuestionBank);
-        case "delete" -> DeleteCommand.parseFromUserInput(taskDetails, questionBank, lastShownQuestionBank);
+        case "delete" -> DeleteCommand.parseFromUserInput(taskDetails, questionBank, lastShownQuestionBank, commandHistory);
+        case "undo" -> new UndoCommand(commandHistory);
+        case "redo" -> new RedoCommand(commandHistory);
         default -> throw new IllegalCommandException(Messages.UNKNOWN_COMMAND_MESSAGE);
         };
     }

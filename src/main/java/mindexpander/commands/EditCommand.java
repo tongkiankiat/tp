@@ -59,11 +59,10 @@ public class EditCommand extends Command implements Multistep {
      * Handles user input for each step of the editing process.
      *
      * @param nextInput the new input to apply to the specified field.
-     * @param questionBank the {@code QuestionBank} used for reference.
      * @return the updated {@code Command} instance.
      */
     @Override
-    public Command handleMultistepCommand(String nextInput, QuestionBank questionBank) {
+    public Command handleMultistepCommand(String nextInput) {
         assert lastShownBank != null : "lastShownBank must not be null";
 
         if (nextInput.trim().isEmpty()) {
