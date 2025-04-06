@@ -434,6 +434,8 @@ The wrong answer sequence for the above MCQ and TF questions follows that of the
 
 
 **Note**:
+* Entering a random string or character for MCQ or TF questions will by default be wrong, e.g. entering 'hi' instead of
+'A', 'B', 'C' or 'D' for MCQ or 'hi' instead of 'true' or 'false' for TF will be considered incorrect.
 * The MCQ question options are randomised each time to aid remembering the right answer contents instead of remembering
 the right letter.
 * If the question bank is empty (refers to the last shown list as well), the program will ask you to add a question.
