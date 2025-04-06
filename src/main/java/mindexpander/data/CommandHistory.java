@@ -4,10 +4,11 @@ import mindexpander.commands.Tracable;
 import mindexpander.exceptions.IllegalCommandException;
 
 public class CommandHistory {
+    private static final int COMMAND_HISTORY_MAX_SIZE = 10;
+    
     Tracable[] commandHistory;
     private int commandTracker;
     private int size;
-    private static final int COMMAND_HISTORY_MAX_SIZE = 10;
 
     public CommandHistory() {
         commandHistory = new Tracable[COMMAND_HISTORY_MAX_SIZE];
