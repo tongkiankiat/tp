@@ -13,10 +13,11 @@
     - [Exiting the program: `exit`](#exiting-the-program-exit)
     - [Deleting a question: `delete`](#deleting-a-question-delete)
     - [Showing the answer to a question: `show`](#showing-the-answer-to-a-specific-question-show)
-4. **[Logged Data](#logged-data)**
-5. **[Additional Notes](#additional-notes-for-program-features-and-usage)**
-6. **[FAQ](#faq)**
-7. **[Command Summary](#command-summary)**
+4. **[Saving and Loading](#saving-and-loading-of-data)
+5. **[Logged Data](#logged-data)**
+6. **[Additional Notes](#additional-notes-for-program-features-and-usage)**
+7. **[FAQ](#faq)**
+8. **[Command Summary](#command-summary)**
 
 ## Introduction
 
@@ -677,8 +678,8 @@ something that will be logged (see log features below).
 
 Users may find these logs useful for their specific purposes.
 
-1. Solve attempts: Stored in `solveAttemptLogs.txt`, tracks the time of attempt, the question attempted and if the user
-got the question correct or wrong in the format `Timestamp|Question|Result`. This is useful for seeing, for example, which questions
+1. Solve attempts: Stored in `solveAttemptLogs.txt`, tracks the time of attempt, the question attempted with its **correct** answer and if the user
+got the question correct or wrong in the format `Timestamp|Question [Answer]|Result`. This is useful for seeing, for example, which questions
 are constantly attempted and gotten wrong.
 2. Errors: Stored in `errorLogs.txt`, tracks the time of input and the error message that was returned. This is useful for referring to when checking what inputs are not accepted.
 3. Questions: Whenever a user adds, edits, or deletes a question, the system automatically saves a record of it in `questionLogs.txt`. This is useful for looking back at all the questions you've worked with.

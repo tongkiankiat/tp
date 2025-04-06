@@ -299,19 +299,22 @@ The log files are stored in a logs folder. This process is managed by a `LogsMan
 folder's existence and its creation for all logger classes.
 
 #### **Solve Attempt Logs**
-Logs users' attempts at solving questions, storing the date and time of the attempt, the question attempted and the
+Logs users' attempts at solving questions, storing the date and time of the attempt, the question attempted (with its correct answer) and the
 result of the attempt (either CORRECT or WRONG). This log serves to keep track of a user's performance over time. It can
 be examined to find specific questions which users struggle with a lot and constantly get wrong.
 
 The attempts are stored in a file named `solveAttemptLogs.txt`
-in the following format: `Timestamp|Question|Result`
+in the following format: `Timestamp|Question [Answer]|Result`
 
 For example:
 ```
-2025-04-04 19:40:40|FITB: hey|CORRECT
-2025-04-04 19:40:46|FITB: hey|WRONG
-2025-04-04 19:40:56|MCQ: hello\nA. hi\nB. hiii\nC. hiv\nD. hii\n|CORRECT
-2025-04-04 19:41:01|MCQ: hello\nA. hiii\nB. hi\nC. hiv\nD. hii\n|WRONG
+Timestamp|Question [Answer]|Result
+2025-04-07 07:18:03|FITB: What colour is yellow? [Answer: Yellow]|CORRECT
+2025-04-07 07:18:10|FITB: What colour is yellow? [Answer: Yellow]|WRONG
+2025-04-07 07:18:29|MCQ: What comes after the number 3? [Answer: 4]|WRONG
+2025-04-07 07:18:34|MCQ: What comes after the number 3? [Answer: 4]|CORRECT
+2025-04-07 07:19:05|TF: Fish are animals. [Answer: true]|WRONG
+2025-04-07 07:19:15|TF: Fish are animals. [Answer: true]|CORRECT
 ```
 
 ### **Error Logs**
