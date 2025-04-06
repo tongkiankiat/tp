@@ -15,6 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class DeleteCommandTest extends DefaultTest {
     private QuestionBank mainBank;
     private QuestionBank lastShownBank;
+    private CommandHistory history;
 
     @BeforeEach
     public void setup() {
@@ -41,7 +42,7 @@ public class DeleteCommandTest extends DefaultTest {
 
     @Test
     public void testDeleteCommand_zeroIndex() {
-        DeleteCommand deleteCommand = new DeleteCommand(0, mainBank, lastShownBank);
+        DeleteCommand deleteCommand = new DeleteCommand(0, mainBank, lastShownBank, history);
         IllegalCommandException exception = assertThrows(IllegalCommandException.class,
                 deleteCommand::execute);
         assertEquals("Invalid question index.", exception.getMessage());

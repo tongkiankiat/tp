@@ -76,11 +76,17 @@ public class EditCommand extends Command implements Multistep {
             InputValidator.validateInput(nextInput);
         } catch (IllegalCommandException e) {
             if (editedAttribute.equals("question")) {
-                updateCommandMessage("Input cannot contain the reserved delimiter string! Please enter a new question:");
+                updateCommandMessage(
+                        "Input cannot contain the reserved delimiter string! Please enter a new question:"
+                );
             } else if (editedAttribute.equals("answer")) {
-                updateCommandMessage("Input cannot contain the reserved delimiter string! Please enter a new answer:");
+                updateCommandMessage(
+                        "Input cannot contain the reserved delimiter string! Please enter a new answer:"
+                );
             } else {
-                updateCommandMessage("Input cannot contain the reserved delimiter string! Please enter a new option:");
+                updateCommandMessage(
+                        "Input cannot contain the reserved delimiter string! Please enter a new option:"
+                );
             }
             return this;
         }

@@ -75,13 +75,19 @@ public class AddCommand extends Command implements Multistep, Tracable {
         } catch (IllegalCommandException e) {
             switch (currentStep) {
             case GET_QUESTION:
-                updateCommandMessage("Input cannot contain the reserved delimiter string! Please enter a new question:");
+                updateCommandMessage(
+                        "Input cannot contain the reserved delimiter string! Please enter a new question:"
+                );
                 break;
             case GET_ANSWER:
-                updateCommandMessage("Input cannot contain the reserved delimiter string! Please enter a new answer:");
+                updateCommandMessage(
+                        "Input cannot contain the reserved delimiter string! Please enter a new answer:"
+                );
                 break;
             case GENERATE_QUESTION:
-                updateCommandMessage("Input cannot contain the reserved delimiter string! Please enter a new option:");
+                updateCommandMessage(
+                        "Input cannot contain the reserved delimiter string! Please enter a new option:"
+                );
                 break;
             default:
                 updateCommandMessage(e.getMessage()); // fallback
