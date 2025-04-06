@@ -525,9 +525,12 @@ are constantly attempted and gotten wrong.
 
 ## Additional notes for program features and usage
 * This program is designed to take inputs in **Roman Alphabet** (i.e. English characters),
-please do not enter characters from other languages, for example Chinese characters.
+please do not enter characters from other languages, for example Chinese or Arabic characters. Entering them could
+result in unspecified behaviour.
+* Program is not designed to take in special control characters. Entering them may result in errors or crashing.
+  * Ctrl Z + Enter (EOF signal on Windows) or Ctrl C (Interrupt) will end the program. 
 * Inputting unrecognised commands will result in an error message.
-* Commands are __not__ case sensitive (i.e. ADD, LIsT are accepted).
+* Commands are __not__ case-sensitive (i.e. ADD, LIsT are accepted).
 
 ## FAQ
 
