@@ -1,6 +1,7 @@
 package mindexpander.tests;
 
 import mindexpander.commands.AddCommand;
+import mindexpander.data.CommandHistory;
 import mindexpander.data.QuestionBank;
 import mindexpander.data.question.Question;
 import mindexpander.data.question.QuestionType;
@@ -14,7 +15,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class AddCommandTest {
     @Test
     void testInitialState() {
-        AddCommand addCommand = new AddCommand();
+        QuestionBank questionBank = new QuestionBank();
+        CommandHistory commandHistory = new CommandHistory();
+        AddCommand addCommand = new AddCommand(questionBank, commandHistory);
         assertFalse(addCommand.isCommandComplete());
         assertEquals("Please enter the type of the question you would like to add. (fitb/mcq/tf)",
                 addCommand.getCommandMessage());
@@ -22,11 +25,12 @@ public class AddCommandTest {
 
     @Test
     public void addCommand_invalidType() {
-        AddCommand addCommand = new AddCommand();
         QuestionBank questionBank = new QuestionBank();
+        CommandHistory commandHistory = new CommandHistory();
+        AddCommand addCommand = new AddCommand(questionBank, commandHistory);
         final String[] invalidTypes = {"abc", "[]\\[;]", "question"};
         for (String type : invalidTypes) {
-            addCommand.handleMultistepCommand(type, questionBank);
+            addCommand.handleMultistepCommand(type);
             assertEquals("Invalid input. Please enter a correct question type. (fitb/mcq/tf)",
                     addCommand.getCommandMessage());
         }
@@ -34,20 +38,22 @@ public class AddCommandTest {
 
     @Test
     public void addCommand_emptyInput() {
-        AddCommand addCommand = new AddCommand();
         QuestionBank questionBank = new QuestionBank();
-        addCommand.handleMultistepCommand("fitb", questionBank);
-        addCommand.handleMultistepCommand("", questionBank);
+        CommandHistory commandHistory = new CommandHistory();
+        AddCommand addCommand = new AddCommand(questionBank, commandHistory);
+        addCommand.handleMultistepCommand("fitb");
+        addCommand.handleMultistepCommand("");
         assertEquals("Input cannot be empty!", addCommand.getCommandMessage());
     }
 
     @Test
     public void addCommand_validData_correctlyConstructed() {
         QuestionBank questionBank = new QuestionBank();
-        AddCommand addCommand = new AddCommand();
-        addCommand.handleMultistepCommand("fitb", questionBank);
-        addCommand.handleMultistepCommand("What is 2 + 2?", questionBank);
-        addCommand.handleMultistepCommand("4", questionBank);
+        CommandHistory commandHistory = new CommandHistory();
+        AddCommand addCommand = new AddCommand(questionBank, commandHistory);
+        addCommand.handleMultistepCommand("fitb");
+        addCommand.handleMultistepCommand("What is 2 + 2?");
+        addCommand.handleMultistepCommand("4");
         Question question = questionBank.getQuestion(0);
 
         assertTrue(addCommand.isCommandComplete());

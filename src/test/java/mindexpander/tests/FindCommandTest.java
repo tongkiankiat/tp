@@ -3,6 +3,7 @@ package mindexpander.tests;
 import mindexpander.commands.CommandResult;
 import mindexpander.commands.FindCommand;
 import mindexpander.common.Messages;
+import mindexpander.data.CommandHistory;
 import mindexpander.data.QuestionBank;
 import mindexpander.data.question.FillInTheBlanks;
 import mindexpander.exceptions.IllegalCommandException;
@@ -31,9 +32,10 @@ public class FindCommandTest extends DefaultTest {
     @Test
     void testFindCommandWithNoTypeAndNoKeywordAndNoQuestions() {
         questionBank = new QuestionBank();
+        CommandHistory commandHistory = new CommandHistory();
         String userInput = "find";
         IllegalCommandException thrown = assertThrows(IllegalCommandException.class
-                , () -> new Parser().parseCommand(userInput, questionBank, questionBank));
+                , () -> new Parser().parseCommand(userInput, questionBank, questionBank, commandHistory));
         assertEquals("Invalid command!" +
                         " Please enter either `find [KEYWORD]`, `find mcq [KEYWORD]`, " +
                         "`find fitb [KEYWORD]` or `find tf [KEYWORD]`.",
@@ -64,9 +66,10 @@ public class FindCommandTest extends DefaultTest {
     @Test
     void testFindCommandWithTypeAndNoKeywordAndNoQuestions() {
         questionBank = new QuestionBank();
+        CommandHistory commandHistory = new CommandHistory();
         String userInput = "find fitb";
         IllegalCommandException thrown = assertThrows(IllegalCommandException.class
-                , () -> new Parser().parseCommand(userInput, questionBank, questionBank));
+                , () -> new Parser().parseCommand(userInput, questionBank, questionBank, commandHistory));
         assertEquals("Invalid command!" +
                         " The correct format should be `find fitb [KEYWORD]`"
                 , thrown.getMessage());
