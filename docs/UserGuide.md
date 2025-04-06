@@ -652,6 +652,7 @@ Users may find these logs useful for their specific purposes.
 got the question correct or wrong in the format `Timestamp|Question|Result`. This is useful for seeing, for example, which questions
 are constantly attempted and gotten wrong.
 2. Errors: Stored in `errorLogs.txt`, tracks the time of input and the error message that was returned. This is useful for referring to when checking what inputs are not accepted.
+3. Questions: Whenever a user adds, edits, or deletes a question, the system automatically saves a record of it in `questionLogs.txt`. This is useful for looking back at all the questions you've worked with.
 
 ## Additional notes for program features and usage
 * This program is designed to take inputs in **Roman Alphabet** (i.e. English characters),

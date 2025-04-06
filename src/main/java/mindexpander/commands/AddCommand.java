@@ -8,6 +8,7 @@ import mindexpander.data.question.Question;
 import mindexpander.data.question.QuestionType;
 import mindexpander.data.question.TrueFalse;
 import mindexpander.exceptions.IllegalCommandException;
+import mindexpander.logging.QuestionLogger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -148,6 +149,7 @@ public class AddCommand extends Command implements Multistep {
     private Command addFillInTheBlank(QuestionBank questionBank) {
         toAdd = new FillInTheBlanks(question, answer);
         questionBank.addQuestion(toAdd);
+        QuestionLogger.logAddedQuestion(toAdd);
         updateCommandMessage(String.format("Question %1$s successfully added.", toAdd.toString()));
         isComplete = true;
         return this;
@@ -183,6 +185,7 @@ public class AddCommand extends Command implements Multistep {
 
         toAdd = new MultipleChoice(question, answer, options);
         questionBank.addQuestion(toAdd);
+        QuestionLogger.logAddedQuestion(toAdd);
         updateCommandMessage(String.format("Question %1$s successfully added.", toAdd.toString()));
         isComplete = true;
         return this;
@@ -203,6 +206,7 @@ public class AddCommand extends Command implements Multistep {
         }
         toAdd = new TrueFalse(question, answerLower);
         questionBank.addQuestion(toAdd);
+        QuestionLogger.logAddedQuestion(toAdd);
         updateCommandMessage(String.format("Question %1$s successfully added.", toAdd.toString()));
         isComplete = true;
         return this;

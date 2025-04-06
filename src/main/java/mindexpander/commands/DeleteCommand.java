@@ -1,7 +1,9 @@
 package mindexpander.commands;
 
 import mindexpander.data.QuestionBank;
+import mindexpander.data.question.Question;
 import mindexpander.exceptions.IllegalCommandException;
+import mindexpander.logging.QuestionLogger;
 
 /**
  * The {@code DeleteCommand} class deletes a question at a specified index from the last shown list.
@@ -42,6 +44,8 @@ public class DeleteCommand extends Command {
         }
 
         mainBank.removeQuestion(targetIndex);
+        Question questionToDelete = lastShownBank.getQuestion(indexToDelete);
+        QuestionLogger.logDeletedQuestion(questionToDelete);
         return new CommandResult("Deleted question: " + deletedQuestion);
     }
 
