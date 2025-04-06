@@ -62,7 +62,7 @@ public class Parser {
         case "add" -> new AddCommand(questionBank, commandHistory);
         case "list" -> handleList(userEntry, taskDetails, questionBank);
         case "find" -> handleFind(userEntry, taskDetails, questionBank);
-        case "edit" -> handleEdit(userEntry, taskDetails, questionBank, lastShownQuestionBank);
+        case "edit" -> handleEdit(userEntry, taskDetails, questionBank, lastShownQuestionBank, commandHistory);
         case "delete" -> DeleteCommand.parseFromUserInput(taskDetails, questionBank,
             lastShownQuestionBank, commandHistory);
         case "undo" -> new UndoCommand(commandHistory);
@@ -104,7 +104,8 @@ public class Parser {
             String userEntry,
             String taskDetails,
             QuestionBank questionBank,
-            QuestionBank lastShownQuestionBank
+            QuestionBank lastShownQuestionBank,
+            CommandHistory commandHistory
     ) {
         try {
             String[] commandArguments = taskDetails.split(" ", 2);
@@ -123,7 +124,7 @@ public class Parser {
             if (indexToEdit < 1 || indexToEdit > lastShownQuestionBank.getQuestionCount()) {
                 throw new IllegalCommandException("Invalid question index.");
             }
-            return new EditCommand(indexToEdit, toEdit, questionBank, lastShownQuestionBank);
+            return new EditCommand(indexToEdit, toEdit, questionBank, lastShownQuestionBank, commandHistory);
         } catch (NumberFormatException e) {
             ErrorLogger.logError(userEntry, Messages.UNKNOWN_COMMAND_MESSAGE);
             throw new IllegalCommandException(Messages.UNKNOWN_COMMAND_MESSAGE);

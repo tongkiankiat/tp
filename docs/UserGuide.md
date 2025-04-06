@@ -125,7 +125,7 @@ options one at a time.
 Lists all the questions currently in the question bank. Running this will change the last shown list to be the full list
 of questions in the question bank again. List can be used to show the question list with or without answers.
 
-List can also be ran with additional question type parameters, to display questions only from that specific question type.
+List can also be run with additional question type parameters, to display questions only from that specific question type.
 
 **To show the list of questions without answers**
 
@@ -591,6 +591,35 @@ Here is the answer for question 1:
 
 __Notes:__
 - This newly displayed list **does not** update the last shown list, so the user can still refer to the last shown list triggered by `list` or `find` commands to query the question index.
+
+### Undo/redo a command that modifies the question bank: `undo`/`redo`
+
+Undo/redo a traceable command. A traceable command is one that modifies the question bank (e.g. `add`, `delete`, `edit`).
+
+Format: `undo`/`redo`
+
+Example usage:
+
+Initial State:
+A question, "What is the most abundant gas in air? [Answer: Nitrogen]," 
+ is added as the first entry in the question bank.
+
+```
+undo
+==============================
+FITB: What is the most abundant gas in air? [Answer: Nitrogen] successfully deleted.
+==============================
+==============================
+redo
+==============================
+==============================
+FITB: What is the most abundant gas in air? [Answer: Nitrogen] successfully added.
+==============================
+```
+
+**Note**
+
+The program will store up to 10 traceable commands.
 
 ### Exiting the program: `exit`
 Exits the program.

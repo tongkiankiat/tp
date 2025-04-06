@@ -1,22 +1,36 @@
+//@@author Flaaaash
 package mindexpander.data;
 
-import mindexpander.commands.Tracable;
+import mindexpander.commands.Traceable;
 import mindexpander.exceptions.IllegalCommandException;
 
+/**
+ * Manages the history of commands for undo and redo functionality.
+ * Stores a fixed-size circular buffer of {@link Traceable} commands,
+ * allowing users to undo or redo actions in sequence.
+ *
+ * Only the latest {@value #COMMAND_HISTORY_MAX_SIZE} commands are kept in memory.
+ */
 public class CommandHistory {
     private static final int COMMAND_HISTORY_MAX_SIZE = 10;
     
-    Tracable[] commandHistory;
+    Traceable[] commandHistory;
     private int commandTracker;
     private int size;
 
     public CommandHistory() {
-        commandHistory = new Tracable[COMMAND_HISTORY_MAX_SIZE];
+        commandHistory = new Traceable[COMMAND_HISTORY_MAX_SIZE];
         commandTracker = 0;
         size = 0;
     }
 
-    public void add(Tracable t) {
+    /**
+     * Adds a {@code Tracable} command to the history.
+     * If the buffer is full, the oldest command is removed.
+     *
+     * @param t the command to add
+     */
+    public void add(Traceable t) {
         if (commandTracker < 10) {
             commandHistory[commandTracker] = t;
             commandTracker += 1;
@@ -29,6 +43,12 @@ public class CommandHistory {
         size = commandTracker;
     }
 
+    /**
+     * Undoes the last command.
+     *
+     * @return the undo message from the command
+     * @throws IllegalCommandException if there are no commands to undo
+     */
     public String undo() {
         if (commandTracker == 0) {
             throw new IllegalCommandException("Cannot undo further.");
@@ -38,6 +58,12 @@ public class CommandHistory {
         return commandHistory[commandTracker].undoMessage();
     }
 
+    /**
+     * Redoes the previously undone command.
+     *
+     * @return the redo message from the command
+     * @throws IllegalCommandException if there are no commands to redo
+     */
     public String redo() {
         if (commandTracker == COMMAND_HISTORY_MAX_SIZE - 1 || commandTracker == size) {
             throw new IllegalCommandException("Cannot redo further.");

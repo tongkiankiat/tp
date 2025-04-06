@@ -1,3 +1,4 @@
+//@@author Flaaaash
 package mindexpander.data.question;
 
 /**
@@ -12,6 +13,13 @@ public abstract class Question {
         this.question = question;
         this.answer = answer;
         this.type = type;
+    }
+
+    public boolean equals(Question q) {
+        if (q ==  this) {
+            return true;
+        }
+        return this.getQuestion().equals(q.getQuestion());
     }
 
     public String getQuestion() {
