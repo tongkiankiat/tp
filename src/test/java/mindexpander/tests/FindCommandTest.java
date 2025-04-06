@@ -7,7 +7,6 @@ import mindexpander.data.QuestionBank;
 import mindexpander.data.question.FillInTheBlanks;
 import mindexpander.exceptions.IllegalCommandException;
 import mindexpander.parser.Parser;
-import mindexpander.storage.StorageFile;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -21,7 +20,6 @@ public class FindCommandTest extends DefaultTest {
     private QuestionBank questionBank;
     private FindCommand findCommand;
     private CommandResult commandResult;
-    private StorageFile storage;
 
     @BeforeEach
     void setup() {
@@ -37,8 +35,9 @@ public class FindCommandTest extends DefaultTest {
         IllegalCommandException thrown = assertThrows(IllegalCommandException.class
                 , () -> new Parser().parseCommand(userInput, questionBank, questionBank));
         assertEquals("Invalid command!" +
-                        " Please enter either `find [KEYWORD]`, `find mcq [KEYWORD]` or `find fitb [KEYWORD]`"
-                , thrown.getMessage());
+                        " Please enter either `find [KEYWORD]`, `find mcq [KEYWORD]`, " +
+                        "`find fitb [KEYWORD]` or `find tf [KEYWORD]`.",
+                thrown.getMessage());
     }
 
     @Test

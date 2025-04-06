@@ -11,9 +11,8 @@ User -> UI : input "list"
 UI --> UI : getUserCommand()
 UI -> Main : "list"
 
-Main -> Parser : parseCommand("list", QB, lastShownQB)
-Parser -> ListCmd : new ListCommand(QB, false)
-ListCmd --> ListCmd : updateCommandMessage(...)
+Main -> Parser : parseCommand(...)
+Parser -> ListCmd : new ListCommand(...)
 
 Parser --> Main : ListCommand
 
@@ -21,7 +20,7 @@ Main -> ListCmd : execute()
 ListCmd -> QB : getQuestionCount()
 QB --> ListCmd : int questionCount
 
-ListCmd -> Result : new CommandResult(msg, QB, false)
+ListCmd -> Result : new CommandResult(...)
 ListCmd --> Main : commandResult
 
 ref over Main
