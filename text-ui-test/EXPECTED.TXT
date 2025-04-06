@@ -35,7 +35,9 @@ List of commands:
     - Find a question in the list that contains a specific keyword.
 7. delete
     - Delete a question in the list.
-8. exit
+8. show
+    - Show the answer to a question in the list.
+9. exit
     - Exit the program.
 To get detailed information on a specific command, use `help [COMMAND]`, e.g. `help add`.
 ==============================
@@ -57,17 +59,17 @@ True or False Question - [TF]
 
 Usage:
  - Follow the steps below:
- 1. `add`
- 2. [QUESTION_TYPE]
- 3. [QUESTION_DETAILS]
- 4. [QUESTION_ANSWER]
+   1. `add`
+   2. [QUESTION_TYPE]
+   3. [QUESTION_DETAILS]
+   4. [QUESTION_ANSWER]
 
 Example:
-- To add a FITB question, "What is 1 + 1?", with the answer "2".
- 1. add
- 2. FITB
- 3. What is 1+1?
- 4. 2
+ - To add a FITB question, "What is 1 + 1?", with the answer "2".
+   1. add
+   2. FITB
+   3. What is 1+1?
+   4. 2
 ==============================
 ==============================
 What would you like to do today?
@@ -88,7 +90,7 @@ Type <help> for a list of commands.
 [Command you entered: add]
 ==============================
 ==============================
-Please enter the type of the question you would like to add.
+Please enter the type of the question you would like to add. (fitb/mcq/tf)
 ==============================
 ==============================
 Enter your question:
@@ -107,7 +109,7 @@ Type <help> for a list of commands.
 [Command you entered: add]
 ==============================
 ==============================
-Please enter the type of the question you would like to add.
+Please enter the type of the question you would like to add. (fitb/mcq/tf)
 ==============================
 ==============================
 Enter your question:
@@ -126,7 +128,7 @@ Type <help> for a list of commands.
 [Command you entered: list]
 ==============================
 ==============================
-Here are the questions you have stored:
+Here are the questions you have currently:
 ==============================
 ==============================
 1. FITB: what is 1+1?
@@ -207,7 +209,7 @@ Type <help> for a list of commands.
 [Command you entered: list]
 ==============================
 ==============================
-Here are the questions you have stored:
+Here are the questions you have currently:
 ==============================
 ==============================
 1. FITB: what is 1+1?
@@ -231,7 +233,7 @@ Type <help> for a list of commands.
 [Command you entered: list]
 ==============================
 ==============================
-Here are the questions you have stored:
+Here are the questions you have currently:
 ==============================
 ==============================
 1. FITB: what is 1+1?

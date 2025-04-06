@@ -1,5 +1,6 @@
 package mindexpander.commands;
 
+import mindexpander.common.Messages;
 import mindexpander.data.QuestionBank;
 
 /**
@@ -12,23 +13,37 @@ import mindexpander.data.QuestionBank;
  */
 public class ListCommand extends Command {
     // Attributes
-    private static final String LIST_COMMAND_MESSAGE = "Here are the questions you have currently: ";
     private final QuestionBank questionBank;
+    private final String questionType;
     private final boolean showAnswer;
 
     // Constructor
-    public ListCommand(QuestionBank questionBank, Boolean showAnswer) {
+    public ListCommand(QuestionBank questionBank, String questionType, Boolean showAnswer) {
         this.questionBank = questionBank;
+        this.questionType = questionType;
         this.showAnswer = showAnswer;
-        updateCommandMessage(LIST_COMMAND_MESSAGE);
     }
 
     // Methods
+    private QuestionBank filteredQuestionBank(QuestionBank questionBank, String questionType, Boolean showAnswer) {
+        if (questionType.equalsIgnoreCase("all")) {
+            return questionBank;
+        }
+        QuestionBank filteredQuestionBank = new QuestionBank();
+        for (int i = 0; i < questionBank.getQuestionCount(); i++) {
+            boolean matchQuestionType = questionType.equals("all")
+                    || questionBank.getQuestion(i).getType().getType().equalsIgnoreCase(questionType);
+            if (matchQuestionType) {
+                filteredQuestionBank.addQuestion(questionBank.getQuestion(i));
+            }
+        }
+        return filteredQuestionBank;
+    }
+
     @Override
     public CommandResult execute() {
-        String messageToUser = questionBank.getQuestionCount() == 0
-                ? "You have no questions yet!"
-                : "Here are the questions you have stored:";
-        return new CommandResult(messageToUser, questionBank, showAnswer);
+        QuestionBank filteredQuestionBank = filteredQuestionBank(questionBank, questionType, showAnswer);
+        String messageToUser = Messages.listCommandMessage(questionType, filteredQuestionBank.isEmpty());
+        return new CommandResult(messageToUser, filteredQuestionBank, showAnswer, true);
     }
 }

@@ -25,10 +25,13 @@ loop until user exits
     Parser --> Main : command
     Main -> Command : execute()
     activate Command
-    Command --> Main : commandResult
     Command -> QuestionBank : (if needed, e.g. SolveCommand)
-    Command -> Storage : (if needed, e.g. AddCommand)
-    deactivate Command
+    note right of Command
+        One-step commands end at
+        this return
+    end note
+    Command --> Main : commandResult
+    Main -> Storage : save(questionBank)
     Main -> TextUi : displayResults(commandResult)
 
     loop until command complete
@@ -37,6 +40,8 @@ loop until user exits
       Main -> Command : handleMultistepCommand(input, questionBank)
       Main -> Command : execute()
       Command --> Main : commandResult
+      deactivate Command
+      Main -> Storage : save(questionBank)
       Main -> TextUi : displayResults(commandResult)
     end
 end

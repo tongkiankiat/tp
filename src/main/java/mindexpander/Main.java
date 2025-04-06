@@ -10,6 +10,10 @@ import mindexpander.ui.TextUi;
 
 import mindexpander.commands.Command;
 
+/**
+ * Entry point of Mindexpander application.
+ * Initialises the application and starts the interaction with the user.
+ */
 public class Main {
     // Attributes
     private QuestionBank questionBank;
@@ -77,7 +81,8 @@ public class Main {
     // Records the last shown list
     private void recordResult(CommandResult commandResult) {
         final QuestionBank questionBank = commandResult.getQuestionBank();
-        if (!questionBank.isEmpty()) {
+        boolean updateLastShownQuestionBank = commandResult.updateLastShownQuestionBank;
+        if (!questionBank.isEmpty() && updateLastShownQuestionBank) {
             lastShownQuestionBank = questionBank;
         }
     }

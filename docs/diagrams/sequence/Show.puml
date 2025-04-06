@@ -1,0 +1,38 @@
+@startuml
+actor User
+participant ":TextUi" as UI
+participant ":Main" as Main
+participant ":Parser" as Parser
+participant ":ShowCommand" as ShowCmd
+participant ":QuestionBank" as QB
+participant ":CommandResult" as Result
+
+User -> UI : input "show qn_index"
+UI --> UI : getUserCommand()
+UI -> Main : "show qn_index"
+
+Main -> Parser : parseCommand(...)
+Parser --> Parser : selectQuestionBank(...)
+alt if index in lastShownQB
+    Parser --> Parser : return lastShownQB
+else if index in QB
+    Parser --> Parser : return QB
+else index invalid
+    Parser --> Parser : throw IllegalCommandException
+end
+Parser -> ShowCmd : new ShowCommand(...)
+Parser --> Main : ShowCommand
+
+Main -> ShowCmd : execute()
+ShowCmd -> QB : getQuestion(...)
+QB --> ShowCmd : Question
+ShowCmd -> QB : addQuestion(...) to filteredQB
+
+ShowCmd -> Result : new CommandResult(...)
+ShowCmd --> Main : commandResult
+
+Main -> UI : displayResults(commandResult)
+UI -> Result : getQuestionBank()
+UI --> UI : print command message
+UI --> UI : print question and answer
+@enduml
