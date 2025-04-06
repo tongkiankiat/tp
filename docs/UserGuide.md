@@ -687,6 +687,8 @@ are constantly attempted and gotten wrong.
 2. Errors: Stored in `errorLogs.txt`, tracks the time of input and the error message that was returned. This is useful for referring to when checking what inputs are not accepted.
 3. Questions: Whenever a user adds, edits, or deletes a question, the system automatically saves a record of it in `questionLogs.txt`. This is useful for looking back at all the questions you've worked with.
 
+The above log files are for the user to view only.
+
 ## Additional notes for program features and usage
 * This program is designed to take inputs in **Roman Alphabet** (i.e. English characters),
 please do not enter characters from other languages, for example Chinese or Arabic characters. Entering them could
