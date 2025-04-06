@@ -1,7 +1,5 @@
 package mindexpander.commands;
 
-import mindexpander.data.QuestionBank;
-
 /**
  * An interface representing a handler for multistep commands in a user interaction flow.
  * <p>

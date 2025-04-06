@@ -60,7 +60,8 @@ public class Parser {
         case "list" -> handleList(taskDetails, questionBank);
         case "find" -> handleFind(taskDetails, questionBank);
         case "edit" -> handleEdit(taskDetails, questionBank, lastShownQuestionBank);
-        case "delete" -> DeleteCommand.parseFromUserInput(taskDetails, questionBank, lastShownQuestionBank, commandHistory);
+        case "delete" -> DeleteCommand.parseFromUserInput(taskDetails, questionBank,
+                lastShownQuestionBank, commandHistory);
         case "undo" -> new UndoCommand(commandHistory);
         case "redo" -> new RedoCommand(commandHistory);
         default -> throw new IllegalCommandException(Messages.UNKNOWN_COMMAND_MESSAGE);

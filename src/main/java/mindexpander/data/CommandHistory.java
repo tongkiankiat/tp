@@ -7,7 +7,7 @@ public class CommandHistory {
     Tracable[] commandHistory;
     private int commandTracker;
     private int size;
-    private final int COMMAND_HISTORY_MAX_SIZE = 10;
+    private static final int COMMAND_HISTORY_MAX_SIZE = 10;
 
     public CommandHistory() {
         commandHistory = new Tracable[COMMAND_HISTORY_MAX_SIZE];

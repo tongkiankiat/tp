@@ -1,8 +1,5 @@
 package mindexpander.commands;
 
-import mindexpander.data.QuestionBank;
-
-import mindexpander.data.question.Question;
 import mindexpander.exceptions.IllegalCommandException;
 
 /**

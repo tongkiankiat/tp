@@ -1,7 +1,6 @@
 package mindexpander;
 
 import mindexpander.commands.CommandResult;
-import mindexpander.commands.Tracable;
 import mindexpander.data.CommandHistory;
 import mindexpander.parser.Parser;
 
