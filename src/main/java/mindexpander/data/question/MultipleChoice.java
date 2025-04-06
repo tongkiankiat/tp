@@ -1,3 +1,4 @@
+//@@author Flaaaash
 package mindexpander.data.question;
 
 import java.util.ArrayList;
@@ -14,6 +15,12 @@ public class MultipleChoice extends Question {
     public MultipleChoice(String question, String answer, List<String> options) {
         super(question, answer, QuestionType.MCQ);
         this.options = new ArrayList<>(options);
+        this.answerOption = "A";
+    }
+
+    public MultipleChoice(MultipleChoice mcq) {
+        super(mcq.getQuestion(), mcq.getAnswer(), QuestionType.MCQ);
+        this.options = mcq.getOptions();
         this.answerOption = "A";
     }
 

@@ -6,7 +6,7 @@ questions via a simple Command Line Interface (CLI).
 
 ## Overview
 I was in charge of building the entire backend storage system from scratch. This includes saving and loading all 
-questions (FITB and MCQ) reliably using a custom delimiter to prevent parsing errors, ensuring data persistence across 
+questions (FITB, MCQ and TF) reliably using a custom delimiter to prevent parsing errors, ensuring data persistence across 
 sessions. I also implemented the delete feature end-to-end, including its integration with the parser and support for 
 user feedback.
 

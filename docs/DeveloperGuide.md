@@ -26,6 +26,7 @@ The project consists of the following main components:
 7. Question bank: Handle question storing in the list, contains the list of questions.
 8. Storage handler: Handles the reading and writing to a .txt file.
 9. Common: Stores all magic strings or literals to be printed to user.
+10. Command history: Stores up to COMMAND_HISTORY_MAX_SIZE newest commands that can be undone/redone.
 
 The overall relations between the components and classes is as follows:
 
@@ -117,6 +118,34 @@ The returning of a `CommandResult` instance will be handled automatically by the
 
 The class diagram for the example multistep command `SolveCommand`:
 ![](diagrams/class/CommandHandling.png)
+
+**Traceable commands**
+
+The Traceable interface defines a set of behaviour for commands that support undo and redo functionality. 
+These commands are considered traceable because their effects can be reversed and reapplied, enabling users to seamlessly 
+backtrack or reapply previous actions. Traceable commands integrate with the `CommandHistory` class, which maintains a bounded 
+stack of the most recent traceable commands. When a traceable command is successfully executed, it is recorded in the `CommandHistory`.
+This enables a reliable and intuitive command reversal mechanism.
+
+![](diagrams/class/TraceableCommand.png)
+
+**Note**
+
+- Any command that implements Traceable must define:
+
+  - `undo()` – Reverts the action performed by the command.
+
+  - `redo()` – Reapplies the action as if it had just been executed.
+
+  - `undoMessage()`– Returns a user-facing message describing the undo operation.
+
+  - `redoMessage()` – Returns a user-facing message describing the redo operation.
+
+- By default, the CommandHistory class can store up to 10 traceable commands.
+  This limit is defined by the constant `COMMAND_HISTORY_MAX_SIZE` in the `CommandHistory` 
+  class and can be modified if needed to support a different history depth.
+- Undo and redo behaviour is invoked by the user by instantiating UndoCommand and RedoCommand.
+
 
 ### Data
 ![](diagrams/class/DataDiagram.png)
@@ -337,6 +366,8 @@ This product aims to solve the problem of students not having a convenient place
 | v2.0    | user             | edit the questions that are currently in my question bank                                     | update outdated or incorrect question details                              |
 | v2.0    | user             | delete a question from the question bank                                                      | remove outdated or incorrect questions                                     |
 | v2.1    | user             | show the answer of a question from the question bank                                          | check the answer for that specific question                                |
+| v2.1    | user             | undo and redo my command                                                                      | easily correct mistakes and experiment without losing progress.            |
+
 
 ## Non-Functional Requirements
 
