@@ -46,6 +46,16 @@ public class TextUi {
         System.out.println(Messages.LINE);
     }
 
+    // To differentiate errors such as files being unable to be loaded or written to from normal printing.
+    // Static so we don't have to create an instance of TextUI unnecessarily.
+    public static void printErrorToUser(String... message) {
+        System.out.println(Messages.LINE);
+        for (String m : message) {
+            System.err.println(m);
+        }
+        System.out.println(Messages.LINE);
+    }
+
     public void printInitFailedMessage() {
         printToUser(Messages.FAILED_MESSAGE);
     }
@@ -72,10 +82,11 @@ public class TextUi {
             input = in.nextLine();
         }
 
-        printToUser("[Command you entered: " + input + "]");
+        printToUser("[Command you entered: " + input.trim() + "]");
         return input.trim();
     }
 
+    // For possible enhancements in the future to clear the screen
     public void clearUserScreen() {
         try {
             if (System.getProperty("os.name").toLowerCase().contains("windows")) {

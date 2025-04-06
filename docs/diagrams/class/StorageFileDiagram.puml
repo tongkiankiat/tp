@@ -1,0 +1,41 @@
+@startuml StorageFile Diagram
+hide circle
+skinparam classAttributeIconSize 0
+
+class StorageFile {
+  - file: File
+  --
+  + StorageFile()
+  + save(questionBank: QuestionBank): void
+  + load(): QuestionBank
+  - formatQuestionForSaving(q: Question): String
+  - parseQuestionFromFile(line: String): Question
+}
+
+class QuestionBank
+class Question
+class FillInTheBlanks
+class MultipleChoice
+class TrueFalse
+class Messages
+
+StorageFile --> QuestionBank : uses
+StorageFile --> Question : formats/saves
+StorageFile --> FillInTheBlanks : parses to
+StorageFile --> MultipleChoice : parses to
+StorageFile --> TrueFalse : parses to
+StorageFile --> Messages : delimiter
+
+note right of StorageFile
+  Handles saving and loading of questions\n
+  from the MindExpander.txt file.\n
+  Supports FITB, MCQ, and TF questions.\n
+  Uses custom delimiter from Messages.
+end note
+
+note bottom of TrueFalse
+  Implements True/False questions\n
+  Answer must be 'true' or 'false'
+end note
+
+@enduml

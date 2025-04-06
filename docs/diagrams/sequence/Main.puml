@@ -5,12 +5,12 @@
 hide footbox
 
 actor User
-participant "Main" as Main
-participant "TextUi" as TextUi
-participant "Storage" as Storage
-participant "Parser" as Parser
-participant "Command" as Command
-participant "QuestionBank" as QuestionBank
+participant ":Main" as Main
+participant ":TextUi" as TextUi
+participant ":Storage" as Storage
+participant ":Parser" as Parser
+participant ":Command" as Command
+participant ":QuestionBank" as QuestionBank
 
 activate Main
 Main -> TextUi : new TextUi()

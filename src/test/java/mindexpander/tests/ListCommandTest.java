@@ -87,8 +87,8 @@ class ListCommandTest extends DefaultTest {
         String userInput = "list banana";
         IllegalCommandException thrown = assertThrows(IllegalCommandException.class
                 , () -> new Parser().parseCommand(userInput, questionBank, questionBank));
-        assertEquals("You have entered an unknown command." +
-                " Please refer to the user guide, or type <help> to display the available commands"
+        assertEquals("Invalid command!" +
+                " Please enter either `list` or `list answer` to view the question bank."
                 , thrown.getMessage());
     }
 }

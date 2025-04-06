@@ -1,11 +1,13 @@
 package mindexpander.storage;
 
+import mindexpander.ui.TextUi;
 import mindexpander.common.Messages;
 import mindexpander.data.QuestionBank;
 import mindexpander.data.question.FillInTheBlanks;
 import mindexpander.data.question.MultipleChoice;
 import mindexpander.data.question.Question;
 import mindexpander.data.question.QuestionType;
+import mindexpander.data.question.TrueFalse;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -63,7 +65,7 @@ public class StorageFile {
         if (!parentDir.exists()) {
             boolean directoryCreated = parentDir.mkdirs();
             if (!directoryCreated) {
-                System.out.println("Warning: Failed to create directory for storage file.");
+                TextUi.printErrorToUser("Warning: Failed to create directory for storage file.");
             }
         }
 
@@ -74,11 +76,12 @@ public class StorageFile {
                 writer.newLine();
             }
         } catch (IOException e) {
-            System.out.println("Error saving data: " + e.getMessage());
+            TextUi.printErrorToUser("Error saving data: " + e.getMessage());
         }
     }
 
     private String formatQuestionForSaving(Question q) {
+        assert q != null : "Cannot save a null question";
         String delimiter = Messages.STORAGE_DELIMITER;
         if (q.getType() == QuestionType.FITB) {
             return "FITB" + delimiter + q.getQuestion() + delimiter + q.getAnswer();
@@ -86,6 +89,8 @@ public class StorageFile {
             MultipleChoice mcq = (MultipleChoice) q;
             List<String> options = mcq.getOptions();
             return "MCQ" + delimiter + mcq.getQuestion() + delimiter + String.join(delimiter, options);
+        } else if (q.getType() == QuestionType.TF) {
+            return "TF" + delimiter + q.getQuestion() + delimiter + q.getAnswer(); // ✅ Add this
         }
         return "";
     }
@@ -117,7 +122,7 @@ public class StorageFile {
                 }
             }
         } catch (IOException e) {
-            System.out.println("Error loading data: " + e.getMessage());
+            TextUi.printErrorToUser("Error loading data: " + e.getMessage());
         }
 
         return new QuestionBank(questions);
@@ -136,13 +141,29 @@ public class StorageFile {
         String questionText = parts[1];
         String answer = parts[2];
 
-        if ("FITB".equals(type)) {
+        switch (type) {
+        case "FITB":
+            assert questionText != null && !questionText.isBlank() : "Question text cannot be blank";
+            assert answer != null && !answer.isBlank() : "Answer cannot be blank";
             return new FillInTheBlanks(questionText, answer);
-        } else if ("MCQ".equals(type) && parts.length == 6) {
-            String mcqQuestionText = parts[1];
-            List<String> options = Arrays.asList(parts[2], parts[3], parts[4], parts[5]);
-            String correctAnswer = parts[2];
-            return new MultipleChoice(mcqQuestionText, correctAnswer, options);
+        case "MCQ":
+            if (parts.length == 6) {
+                List<String> options = Arrays.asList(parts[2], parts[3], parts[4], parts[5]);
+                assert questionText != null && !questionText.isBlank() : "Question text cannot be blank";
+                assert answer != null && !answer.isBlank() : "Answer cannot be blank";
+                return new MultipleChoice(questionText, parts[2], options);
+            }
+            break;
+        case "TF":
+            assert answer.equalsIgnoreCase("true") || answer.equalsIgnoreCase("false")
+                    : "Stored TF answer must be 'true' or 'false'";
+            if (answer.equalsIgnoreCase("true") || answer.equalsIgnoreCase("false")) {
+                return new TrueFalse(questionText, answer);
+            }
+            break;
+        default:
+            System.out.println("Warning: Unknown question type found in storage: " + type);
+            break;
         }
         return null; // Unsupported or malformed line
     }

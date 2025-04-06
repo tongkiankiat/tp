@@ -10,6 +10,10 @@ import mindexpander.ui.TextUi;
 
 import mindexpander.commands.Command;
 
+/**
+ * Entry point of Mindexpander application.
+ * Initialises the application and starts the interaction with the user.
+ */
 public class Main {
     // Attributes
     private QuestionBank questionBank;
@@ -32,6 +36,7 @@ public class Main {
     // Start function: Instantiates the TextUI class
     private void start() {
         try {
+            // Initialise main business components
             this.ui = new TextUi();
             this.storage = new StorageFile();
             this.questionBank = storage.load();

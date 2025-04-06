@@ -1,0 +1,40 @@
+@startuml
+actor User
+participant ":TextUi" as UI
+participant ":Main" as Main
+participant ":Parser" as Parser
+participant ":ListCommand" as ListCmd
+participant ":QuestionBank" as QB
+participant ":CommandResult" as Result
+
+User -> UI : input "list"
+UI --> UI : getUserCommand()
+UI -> Main : "list"
+
+Main -> Parser : parseCommand("list", QB, lastShownQB)
+Parser -> ListCmd : new ListCommand(QB, false)
+ListCmd --> ListCmd : updateCommandMessage(...)
+
+Parser --> Main : ListCommand
+
+Main -> ListCmd : execute()
+ListCmd -> QB : getQuestionCount()
+QB --> ListCmd : int questionCount
+
+ListCmd -> Result : new CommandResult(msg, QB, false)
+ListCmd --> Main : commandResult
+
+ref over Main
+updates lastShownQuestionBank
+end ref
+
+Main -> UI : displayResults(commandResult)
+UI -> Result : getQuestionBank()
+UI --> UI: print command message
+UI -> QB : getQuestionCount()
+loop for each question
+    UI -> QB : getQuestion(i)
+    QB --> UI : Question
+end
+UI --> UI : print question list
+@enduml
