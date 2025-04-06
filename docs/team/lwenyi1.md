@@ -13,6 +13,12 @@ documentation.
 Given below are my contributions to the project.
 
 * __Code contributed__:  The code contributed by me can be found in this [RepoSense Link](https://nus-cs2113-ay2425s2.github.io/tp-dashboard/?search=lwenyi1&sort=groupTitle&sortWithin=title&timeframe=commit&mergegroup=&groupSelect=groupByRepos&breakdown=true&checkedFileTypes=docs~functional-code~test-code~other&since=2025-02-21&tabOpen=true&tabType=authorship&tabAuthor=lwenyi1&tabRepo=AY2425S2-CS2113-F12-3%2Ftp%5Bmaster%5D&authorshipIsMergeGroup=false&authorshipFileTypes=docs~functional-code~test-code~other&authorshipIsBinaryFileTypeChecked=false&authorshipIsIgnoredFilesChecked=false)
+  * Foundation code for the project (the original `Main` class)
+  * `Parser` class code
+  * `Help` class code
+  * `Solve` class code
+  * `BaseLogger` and `LogsManager` classes code
+  * `SolveAttemptLogger` class code
 * __Enhancements implemented__
   * Created Parser Class and the initial foundations to the Command Class
   * Implemented the handling of multistep commands with a state machine for the project
@@ -33,4 +39,6 @@ Given below are my contributions to the project.
   * Multistep command segment of Design and Implementation
   * User stories for help and solve
 * __Others__
-  *  Created and assigned issues on GitHub for the group
+  * Created milestones for the group 
+  * Created and assigned issues on GitHub for the group
+  * Fixed misc. documentation bugs from PE-D

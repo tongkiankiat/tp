@@ -35,8 +35,8 @@ The overall flow of interaction between the user and program is as follows:
 
 ![](diagrams/sequence/Main.png)
 
-**Note**: Certain elements such as exceptions and enums have been left out for brevity. More details can be found in the
-segments below.
+**Note**: Certain elements such as exceptions, enums and logging have been left out for brevity. 
+More details on other elements can be found in the segments below.
 
 ### User Interface
 
