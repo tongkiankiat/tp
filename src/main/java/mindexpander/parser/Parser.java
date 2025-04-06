@@ -55,22 +55,22 @@ public class Parser {
 
         // Handle commands
         return switch (userCommand.toLowerCase()) {
-            case "help" -> new HelpCommand(taskDetails);
-            case "exit" -> new ExitCommand();
-            case "solve" -> handleSolve(userEntry, taskDetails, lastShownQuestionBank);
-            case "add" -> new AddCommand(questionBank, commandHistory);
-            case "list" -> handleList(userEntry, taskDetails, questionBank);
-            case "find" -> handleFind(userEntry, taskDetails, questionBank);
-            case "edit" -> handleEdit(userEntry, taskDetails, questionBank, lastShownQuestionBank);
-            case "delete" -> DeleteCommand.parseFromUserInput(taskDetails, questionBank,
-                lastShownQuestionBank, commandHistory);
-            case "undo" -> new UndoCommand(commandHistory);
-            case "redo" -> new RedoCommand(commandHistory);
-            case "show" -> handleShow(userEntry, taskDetails, questionBank, lastShownQuestionBank);
-            default -> {
-                ErrorLogger.logError(userEntry, Messages.UNKNOWN_COMMAND_MESSAGE);
-                throw new IllegalCommandException(Messages.UNKNOWN_COMMAND_MESSAGE);
-            }
+        case "help" -> new HelpCommand(taskDetails);
+        case "exit" -> new ExitCommand();
+        case "solve" -> handleSolve(userEntry, taskDetails, lastShownQuestionBank);
+        case "add" -> new AddCommand(questionBank, commandHistory);
+        case "list" -> handleList(userEntry, taskDetails, questionBank);
+        case "find" -> handleFind(userEntry, taskDetails, questionBank);
+        case "edit" -> handleEdit(userEntry, taskDetails, questionBank, lastShownQuestionBank);
+        case "delete" -> DeleteCommand.parseFromUserInput(taskDetails, questionBank,
+            lastShownQuestionBank, commandHistory);
+        case "undo" -> new UndoCommand(commandHistory);
+        case "redo" -> new RedoCommand(commandHistory);
+        case "show" -> handleShow(userEntry, taskDetails, questionBank, lastShownQuestionBank);
+        default -> {
+            ErrorLogger.logError(userEntry, Messages.UNKNOWN_COMMAND_MESSAGE);
+            throw new IllegalCommandException(Messages.UNKNOWN_COMMAND_MESSAGE);
+        }
         };
     }
 
