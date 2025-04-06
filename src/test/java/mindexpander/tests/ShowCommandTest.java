@@ -2,6 +2,7 @@ package mindexpander.tests;
 
 import mindexpander.commands.CommandResult;
 import mindexpander.commands.ShowCommand;
+import mindexpander.data.CommandHistory;
 import mindexpander.data.QuestionBank;
 import mindexpander.data.question.FillInTheBlanks;
 import mindexpander.data.question.MultipleChoice;
@@ -49,7 +50,7 @@ public class ShowCommandTest extends DefaultTest {
         String userInput = "show -1";
         IllegalCommandException thrown = assertThrows(
                 IllegalCommandException.class,
-                () -> new Parser().parseCommand(userInput, questionBank, questionBank)
+                () -> new Parser().parseCommand(userInput, questionBank, questionBank, new CommandHistory())
         );
         assertEquals("Index is out of range! You currently have " +
                 questionBank.getQuestionCount() +
