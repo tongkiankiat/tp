@@ -7,7 +7,6 @@ import mindexpander.exceptions.IllegalCommandException;
 import mindexpander.parser.Parser;
 import mindexpander.data.QuestionBank;
 import mindexpander.data.question.FillInTheBlanks;
-import mindexpander.storage.StorageFile;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -21,7 +20,6 @@ class ListCommandTest extends DefaultTest {
     private QuestionBank questionBank;
     private ListCommand listCommand;
     private CommandResult commandResult;
-    private StorageFile storage;
 
     @BeforeEach
     void setup() {
@@ -33,7 +31,7 @@ class ListCommandTest extends DefaultTest {
     @Test
     public void testListCommandWithNoQuestions() {
         questionBank = new QuestionBank();
-        listCommand = new ListCommand(questionBank, false);
+        listCommand = new ListCommand(questionBank, "all", false);
         commandResult = listCommand.execute();
         assertEquals("You have no questions yet!", commandResult.commandResultToUser);
     }
@@ -41,16 +39,16 @@ class ListCommandTest extends DefaultTest {
     @Test
     public void testListWithAnswerCommandWithNoQuestions() {
         questionBank = new QuestionBank();
-        listCommand = new ListCommand(questionBank, true);
+        listCommand = new ListCommand(questionBank, "all", true);
         commandResult = listCommand.execute();
         assertEquals("You have no questions yet!", commandResult.commandResultToUser);
     }
 
     @Test
     public void testListCommandWithQuestions() {
-        listCommand = new ListCommand(questionBank, false);
+        listCommand = new ListCommand(questionBank, "all",false);
         commandResult = listCommand.execute();
-        assertEquals("Here are the questions you have stored:", commandResult.commandResultToUser);
+        assertEquals("Here are the questions you have currently:", commandResult.commandResultToUser);
         ArrayList<String> questionBankStringArray = new ArrayList<>();
         for (int i = 0; i < questionBank.getQuestionCount(); i++){
             String question = commandResult.showAnswer
@@ -66,9 +64,9 @@ class ListCommandTest extends DefaultTest {
 
     @Test
     public void testListWithAnswerCommandWithQuestions() {
-        listCommand = new ListCommand(questionBank, true);
+        listCommand = new ListCommand(questionBank, "all",true);
         commandResult = listCommand.execute();
-        assertEquals("Here are the questions you have stored:", commandResult.commandResultToUser);
+        assertEquals("Here are the questions you have currently:", commandResult.commandResultToUser);
         ArrayList<String> questionBankStringArray = new ArrayList<>();
         for (int i = 0; i < questionBank.getQuestionCount(); i++){
             String question = commandResult.showAnswer
@@ -88,7 +86,8 @@ class ListCommandTest extends DefaultTest {
         IllegalCommandException thrown = assertThrows(IllegalCommandException.class
                 , () -> new Parser().parseCommand(userInput, questionBank, questionBank));
         assertEquals("Invalid command!" +
-                " Please enter either `list` or `list answer` to view the question bank."
-                , thrown.getMessage());
+                " Please enter either `list`, `list answer`, `list [mcq/fitb/tf]`" +
+                        " or `list [mcq/fitb/tf] answer` to view the question bank.",
+                thrown.getMessage());
     }
 }
