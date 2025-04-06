@@ -12,6 +12,7 @@ import mindexpander.commands.ShowCommand;
 import mindexpander.commands.FindCommand;
 import mindexpander.commands.Command;
 import mindexpander.commands.DeleteCommand;
+import mindexpander.commands.ClearCommand;
 
 import mindexpander.commands.UndoCommand;
 import mindexpander.data.CommandHistory;
@@ -67,6 +68,7 @@ public class Parser {
         case "undo" -> new UndoCommand(commandHistory);
         case "redo" -> new RedoCommand(commandHistory);
         case "show" -> handleShow(userEntry, taskDetails, questionBank, lastShownQuestionBank);
+        case "clear" -> ClearCommand.parseFromUserInput(taskDetails, questionBank, commandHistory);
         default -> {
             ErrorLogger.logError(userEntry, Messages.UNKNOWN_COMMAND_MESSAGE);
             throw new IllegalCommandException(Messages.UNKNOWN_COMMAND_MESSAGE);

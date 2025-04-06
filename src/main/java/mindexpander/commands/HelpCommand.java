@@ -35,9 +35,11 @@ public class HelpCommand extends Command {
                 - Find a question in the list that contains a specific keyword.
             7. delete
                 - Delete a question in the list.
-            8. show
+            8. clear
+                - Clears all questions in the question bank.
+            9. show
                 - Show the answer to a question in the list.
-            9. exit
+            10. exit
                 - Exit the program.
             To get detailed information on a specific command, use `help [COMMAND]`, e.g. `help add`.""";
 
@@ -146,6 +148,22 @@ public class HelpCommand extends Command {
             Example:
              - 'delete 1'""";
 
+    private static final String CLEAR_HELP_MESSAGE = """
+            *The `clear` command*
+            
+            Clears all questions from the question bank.
+            
+            Usage:
+             - 'clear'
+             - System will ask: "Are you sure you want to clear the entire question bank? (Y/N)"
+             - Enter 'Y' to proceed, 'N' to cancel (case insensitive).
+            
+            Example:
+             - User enters: clear
+             - System: Are you sure you want to clear the entire question bank? (Y/N)
+             - User: y 
+             - System: All questions have been cleared.""";
+
     private static final String SHOW_HELP_MESSAGE = """
             *The `show` command*
             
@@ -187,6 +205,7 @@ public class HelpCommand extends Command {
         case "edit" -> EDIT_HELP_MESSAGE;
         case "find" -> FIND_HELP_MESSAGE;
         case "delete" -> DELETE_HELP_MESSAGE;
+        case "clear" -> CLEAR_HELP_MESSAGE;
         case "exit" -> EXIT_HELP_MESSAGE;
         case "show" -> SHOW_HELP_MESSAGE;
         default -> throw new IllegalCommandException(Messages.UNKNOWN_COMMAND_MESSAGE + "\nNo help available.");

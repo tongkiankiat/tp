@@ -28,6 +28,8 @@ public class QuestionBank {
         allQuestions.remove(index);
     }
 
+    public void clear() { allQuestions.clear(); }
+
     public int getQuestionCount() {
         return allQuestions.size();
     }
