@@ -1,10 +1,12 @@
 package mindexpander.commands;
 
+import mindexpander.common.InputValidator;
 import mindexpander.data.QuestionBank;
 import mindexpander.data.question.MultipleChoice;
 import mindexpander.data.question.Question;
 import mindexpander.data.question.QuestionType;
 import mindexpander.exceptions.IllegalCommandException;
+import mindexpander.logging.QuestionLogger;
 
 import static java.lang.Integer.parseInt;
 
@@ -59,15 +61,33 @@ public class EditCommand extends Command implements Multistep {
      * Handles user input for each step of the editing process.
      *
      * @param nextInput the new input to apply to the specified field.
-     * @param questionBank the {@code QuestionBank} used for reference.
      * @return the updated {@code Command} instance.
      */
     @Override
-    public Command handleMultistepCommand(String nextInput, QuestionBank questionBank) {
+    public Command handleMultistepCommand(String nextInput) {
         assert lastShownBank != null : "lastShownBank must not be null";
 
         if (nextInput.trim().isEmpty()) {
             updateCommandMessage(String.format("%1$s cannot be empty!", editedAttribute));
+            return this;
+        }
+
+        try {
+            InputValidator.validateInput(nextInput);
+        } catch (IllegalCommandException e) {
+            if (editedAttribute.equals("question")) {
+                updateCommandMessage(
+                        "Input cannot contain the reserved delimiter string! Please enter a new question:"
+                );
+            } else if (editedAttribute.equals("answer")) {
+                updateCommandMessage(
+                        "Input cannot contain the reserved delimiter string! Please enter a new answer:"
+                );
+            } else {
+                updateCommandMessage(
+                        "Input cannot contain the reserved delimiter string! Please enter a new option:"
+                );
+            }
             return this;
         }
 
@@ -120,6 +140,7 @@ public class EditCommand extends Command implements Multistep {
             }
         }
         mainBank.getQuestion(targetIndex).editQuestion(nextInput);
+        QuestionLogger.logEditedQuestion(mainBank.getQuestion(targetIndex));
         updateCommandMessage(String.format("Question successfully edited: %1$s", mainBank.getQuestion(targetIndex)));
         isComplete = true;
         return this;
@@ -154,6 +175,7 @@ public class EditCommand extends Command implements Multistep {
             q.editAnswer(nextInput);
         }
 
+        QuestionLogger.logEditedQuestion(q);
         updateCommandMessage(String.format("Question successfully edited: %1$s", mainBank.getQuestion(targetIndex)));
         isComplete = true;
         return this;

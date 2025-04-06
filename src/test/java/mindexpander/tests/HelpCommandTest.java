@@ -38,7 +38,11 @@ public class HelpCommandTest {
                 - Find a question in the list that contains a specific keyword.
             7. delete
                 - Delete a question in the list.
-            8. exit
+            8. clear
+                - Clears all questions in the question bank.
+            9. show
+                - Show the answer to a question in the list.
+            10. exit
                 - Exit the program.
             To get detailed information on a specific command, use `help [COMMAND]`, e.g. `help add`.""";
 
@@ -67,17 +71,17 @@ public class HelpCommandTest {
             
             Usage:
              - Follow the steps below:
-             1. `add`
-             2. [QUESTION_TYPE]
-             3. [QUESTION_DETAILS]
-             4. [QUESTION_ANSWER]
+               1. `add`
+               2. [QUESTION_TYPE]
+               3. [QUESTION_DETAILS]
+               4. [QUESTION_ANSWER]
             
             Example:
-            - To add a FITB question, "What is 1 + 1?", with the answer "2".
-             1. add
-             2. FITB
-             3. What is 1+1?
-             4. 2""";
+             - To add a FITB question, "What is 1 + 1?", with the answer "2".
+               1. add
+               2. FITB
+               3. What is 1+1?
+               4. 2""";
 
     private static final String LIST_HELP_MESSAGE = """
             *The `list` command*
@@ -99,9 +103,9 @@ public class HelpCommandTest {
                2. '[ANSWER]'
             
             Example, for "Q1. Are the developers of MindExpander cool?":
-            - Multi-step:
-             1. 'solve 1'
-             2. 'yes'""";
+             - Multi-step:
+               1. 'solve 1'
+               2. 'yes'""";
 
     private static final String EDIT_HELP_MESSAGE = """
             *The `edit` command*
@@ -125,14 +129,16 @@ public class HelpCommandTest {
             The command can be used in two ways, shown below.
             
             Usage:
-             - 'find [QUESTION_DETAILS]': search for all question types with details matching [QUESTION_DETAILS].
-             - 'find mcq [QUESTION_DETAILS]': search for mcq questions with details matching [QUESTION_DETAILS].
-             - 'find fitb [QUESTION_DETAILS]': search for fitb questions with details matching [QUESTION_DETAILS].
+             - 'find [QUESTION_DETAILS]': search for all question types containing [QUESTION_DETAILS].
+             - 'find mcq [QUESTION_DETAILS]': search for mcq questions containing [QUESTION_DETAILS].
+             - 'find fitb [QUESTION_DETAILS]': search for fitb questions containing [QUESTION_DETAILS].
+             - 'find tf [QUESTION_DETAILS]': search for tf questions containing [QUESTION_DETAILS].
             
             Example:
-            - 'find hello'
-            - 'find mcq hello'
-            - 'find fitb hello'""";
+             - 'find hello'
+             - 'find mcq hello'
+             - 'find fitb hello'
+             - `find tf hello`""";
 
     private static final String DELETE_HELP_MESSAGE = """
             *The `delete` command*
@@ -143,7 +149,18 @@ public class HelpCommandTest {
              - 'delete [QUESTION_INDEX]': Delete the question at [QUESTION_INDEX].
             
             Example:
-            - 'delete 1'""";
+             - 'delete 1'""";
+
+    private static final String SHOW_HELP_MESSAGE = """
+            *The `show` command*
+            
+            Shows the answer to a question in the question bank.
+            
+            Usage:
+             - `show [QUESTION_INDEX]`: Shows the answer to the question at [QUESTION_INDEX].
+            
+            Example:
+             - `show 1`""";
 
     private static final String EXIT_HELP_MESSAGE = """
             *The `exit` command*
@@ -151,7 +168,7 @@ public class HelpCommandTest {
             Exits the program.
             
             Usage:
-            - 'exit': exit the program.""";
+             - 'exit': exit the program.""";
 
     @Test
     public void testHelpCommandMessage() {
@@ -215,6 +232,20 @@ public class HelpCommandTest {
 
         assertEquals(DELETE_HELP_MESSAGE, helpCommand.getCommandMessage(),
                 "Help message does not match expected output.");
+    }
+
+    @Test public void testEditHelpCommandMessage() {
+        HelpCommand helpCommand = new HelpCommand("edit");
+
+        assertEquals(EDIT_HELP_MESSAGE, helpCommand.getCommandMessage(),
+                "Help message does not match expected output.");
+    }
+
+    @Test public void testShowHelpCommandMessage() {
+        HelpCommand helpCommand = new HelpCommand("show");
+
+        assertEquals(SHOW_HELP_MESSAGE, helpCommand.getCommandMessage(),
+                "Help message does not match the expected output.");
     }
 
     @Test
