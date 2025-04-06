@@ -213,6 +213,15 @@ special characters like `|` in their input.
   `%%MINDEXPANDER_DELIM%%`
 * This string is defined once in `Messages.java` to eliminate magic strings and ensure consistency across the codebase.
 
+#### **Input Validation for Reserved Delimiters**
+* To prevent users from accidentally corrupting the saved question file, all inputs are now validated to reject any content 
+containing the reserved storage delimiter `%%MINDEXPANDER_DELIM%%`.
+    * The validation logic is implemented in the `InputValidator` class (under the `common` package).
+    * It is triggered whenever user input is taken via multistep commands (e.g., `AddCommand`, `EditCommand`).
+    * If the reserved delimiter is detected, the validator throws an `IllegalCommandException`.
+* Each command is responsible for handling this exception and giving context-specific feedback to the user.
+
+
 ### Listing questions
 
 The `list` command displays all the questions currently in the question bank, and at the same time updates lastShownQuestionBank whenever it is executed.
@@ -287,6 +296,20 @@ For example:
 2025-04-06 12:35:55|list 2|Invalid command! Please enter either `list`, `list [mcq/fitb/tf]`, `list [mcq/fitb/tf] answer` to view the question bank
 2025-04-06 12:37:08|list answer 3 3|You have entered an unknown command. Please refer to the user guide, or type <help> to display the available commands
 ```
+### **Question Logs**
+Tracks all meaningful question-related changes — specifically adding, editing, and deleting questions. This log helps users or developers review how questions have evolved over time.
+
+The questions are stored in a file name `questionLogs.txt` in the following format: `Timestamp|Action|QuestionType|FullQuestion`
+
+For example:
+```
+2025-04-06 20:11:15|ADDED|FITB|FITB: The capital of Italy is ___ [Answer: Rome]  
+2025-04-06 20:12:10|DELETED|TF|TF: Water boils at 100°C [Answer: true]  
+2025-04-06 20:13:45|EDITTED|MCQ|MCQ: Who developed the theory of relativity? [Answer: Albert Einstein]  
+```
+
+#### **Note**
+The question log only tracks the core content of questions - namely the question text and answer. Changes to multiple choice options are not logged, to avoid clutter and focus on meaningful content changes.
 
 ## Product scope
 ### Target user profile

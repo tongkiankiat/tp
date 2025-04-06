@@ -609,7 +609,14 @@ Example usage:
 * There is no need to manually save — this is handled behind the scenes.
 
 * The save file uses a custom delimiter (as defined in the program's configuration via `Messages.STORAGE_DELIMITER`) to separate the fields of each question.
-* Do NOT at any point enter the `Messages.STORAGE_DELIMITER` string into the input as it will ruin the save and load logic
+* Do NOT at any point enter the `Messages.STORAGE_DELIMITER` string into the input as it is reserved internally by the 
+application as a delimiter for saving and loading your questions.
+*  Including it will result in the following error message:
+   1. While editing or adding a question: "Input cannot contain the reserved delimiter string! Please enter a new question:"
+
+   2. While editing or adding an answer: "Input cannot contain the reserved delimiter string! Please enter a new answer:"
+
+   3. While editing or adding MCQ options: "Input cannot contain the reserved delimiter string! Please enter a new option:"
 
 ### File Format
 The file follows a structured format to allow for proper parsing:
@@ -645,6 +652,7 @@ Users may find these logs useful for their specific purposes.
 got the question correct or wrong in the format `Timestamp|Question|Result`. This is useful for seeing, for example, which questions
 are constantly attempted and gotten wrong.
 2. Errors: Stored in `errorLogs.txt`, tracks the time of input and the error message that was returned. This is useful for referring to when checking what inputs are not accepted.
+3. Questions: Whenever a user adds, edits, or deletes a question, the system automatically saves a record of it in `questionLogs.txt`. This is useful for looking back at all the questions you've worked with.
 
 ## Additional notes for program features and usage
 * This program is designed to take inputs in **Roman Alphabet** (i.e. English characters),

@@ -4,6 +4,7 @@ import mindexpander.data.CommandHistory;
 import mindexpander.data.QuestionBank;
 import mindexpander.data.question.Question;
 import mindexpander.exceptions.IllegalCommandException;
+import mindexpander.logging.QuestionLogger;
 
 /**
  * The {@code DeleteCommand} class deletes a question at a specified index from the last shown list.
@@ -50,6 +51,7 @@ public class DeleteCommand extends Command implements Tracable {
         deletedQuestion = lastShownBank.getQuestion(this.indexToDelete);
         mainBank.removeQuestion(targetIndex);
         commandHistory.add(this);
+        QuestionLogger.logDeletedQuestion(deletedQuestion);
         return new CommandResult("Deleted question: " + deletedQuestion);
     }
 

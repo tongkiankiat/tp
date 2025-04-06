@@ -1,12 +1,15 @@
 package mindexpander.commands;
 
 import mindexpander.data.CommandHistory;
+import mindexpander.common.InputValidator;
 import mindexpander.data.QuestionBank;
 import mindexpander.data.question.FillInTheBlanks;
 import mindexpander.data.question.MultipleChoice;
 import mindexpander.data.question.Question;
 import mindexpander.data.question.QuestionType;
 import mindexpander.data.question.TrueFalse;
+import mindexpander.exceptions.IllegalCommandException;
+import mindexpander.logging.QuestionLogger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,6 +67,31 @@ public class AddCommand extends Command implements Multistep, Tracable {
 
         if (currentStep == Step.GET_TYPE) {
             getQuestionType(nextInput);
+            return this;
+        }
+
+        try {
+            InputValidator.validateInput(nextInput);
+        } catch (IllegalCommandException e) {
+            switch (currentStep) {
+            case GET_QUESTION:
+                updateCommandMessage(
+                        "Input cannot contain the reserved delimiter string! Please enter a new question:"
+                );
+                break;
+            case GET_ANSWER:
+                updateCommandMessage(
+                        "Input cannot contain the reserved delimiter string! Please enter a new answer:"
+                );
+                break;
+            case GENERATE_QUESTION:
+                updateCommandMessage(
+                        "Input cannot contain the reserved delimiter string! Please enter a new option:"
+                );
+                break;
+            default:
+                updateCommandMessage(e.getMessage()); // fallback
+            }
             return this;
         }
 
@@ -134,6 +162,7 @@ public class AddCommand extends Command implements Multistep, Tracable {
     private Command addFillInTheBlank(QuestionBank questionBank) {
         toAdd = new FillInTheBlanks(question, answer);
         questionBank.addQuestion(toAdd);
+        QuestionLogger.logAddedQuestion(toAdd);
         updateCommandMessage(String.format("Question %1$s successfully added.", toAdd.toString()));
         isComplete = true;
         return this;
@@ -169,6 +198,7 @@ public class AddCommand extends Command implements Multistep, Tracable {
 
         toAdd = new MultipleChoice(question, answer, options);
         questionBank.addQuestion(toAdd);
+        QuestionLogger.logAddedQuestion(toAdd);
         updateCommandMessage(String.format("Question %1$s successfully added.", toAdd.toString()));
         isComplete = true;
         return this;
@@ -189,6 +219,7 @@ public class AddCommand extends Command implements Multistep, Tracable {
         }
         toAdd = new TrueFalse(question, answerLower);
         questionBank.addQuestion(toAdd);
+        QuestionLogger.logAddedQuestion(toAdd);
         updateCommandMessage(String.format("Question %1$s successfully added.", toAdd.toString()));
         isComplete = true;
         return this;

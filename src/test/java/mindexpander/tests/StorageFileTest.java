@@ -124,4 +124,29 @@ class StorageFileTest {
         assertEquals(1, loadedQb.getQuestionCount(), "Only valid lines should be loaded.");
         assertEquals("Tokyo", loadedQb.getQuestion(0).getAnswer());
     }
+
+    @Test
+    void testManualDeleteReflectsInQuestionBank() throws IOException {
+        // Step 1: Write multiple questions to the file
+        file.getParentFile().mkdirs(); // Ensure ./data directory exists
+        try (FileWriter writer = new FileWriter(file)) {
+            writer.write("FITB" + Messages.STORAGE_DELIMITER + "What is 2+2?"
+                    + Messages.STORAGE_DELIMITER + "4\n");
+            writer.write("FITB" + Messages.STORAGE_DELIMITER + "The sky is ___"
+                    + Messages.STORAGE_DELIMITER + "blue\n");
+        }
+
+        // Step 2: Simulate user manually deleting the second line (we keep only 1 question)
+        try (FileWriter writer = new FileWriter(file)) {
+            writer.write("FITB" + Messages.STORAGE_DELIMITER + "What is 2+2?"
+                    + Messages.STORAGE_DELIMITER + "4\n");
+            // Intentionally do not re-add the second question
+        }
+
+        // Step 3: Load questions and verify only 1 is loaded
+        QuestionBank loadedQb = storageFile.load();
+        assertEquals(1, loadedQb.getQuestionCount(), "Only remaining line should be loaded.");
+        assertEquals("What is 2+2?", loadedQb.getQuestion(0).getQuestion());
+        assertEquals("4", loadedQb.getQuestion(0).getAnswer());
+    }
 }

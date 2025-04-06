@@ -38,9 +38,11 @@ public class HelpCommandTest {
                 - Find a question in the list that contains a specific keyword.
             7. delete
                 - Delete a question in the list.
-            8. show
+            8. clear
+                - Clears all questions in the question bank.
+            9. show
                 - Show the answer to a question in the list.
-            9. exit
+            10. exit
                 - Exit the program.
             To get detailed information on a specific command, use `help [COMMAND]`, e.g. `help add`.""";
 

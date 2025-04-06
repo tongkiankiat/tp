@@ -1,10 +1,12 @@
 package mindexpander.commands;
 
+import mindexpander.common.InputValidator;
 import mindexpander.data.QuestionBank;
 import mindexpander.data.question.MultipleChoice;
 import mindexpander.data.question.Question;
 import mindexpander.data.question.QuestionType;
 import mindexpander.exceptions.IllegalCommandException;
+import mindexpander.logging.QuestionLogger;
 
 import static java.lang.Integer.parseInt;
 
@@ -70,6 +72,25 @@ public class EditCommand extends Command implements Multistep {
             return this;
         }
 
+        try {
+            InputValidator.validateInput(nextInput);
+        } catch (IllegalCommandException e) {
+            if (editedAttribute.equals("question")) {
+                updateCommandMessage(
+                        "Input cannot contain the reserved delimiter string! Please enter a new question:"
+                );
+            } else if (editedAttribute.equals("answer")) {
+                updateCommandMessage(
+                        "Input cannot contain the reserved delimiter string! Please enter a new answer:"
+                );
+            } else {
+                updateCommandMessage(
+                        "Input cannot contain the reserved delimiter string! Please enter a new option:"
+                );
+            }
+            return this;
+        }
+
         int targetIndex = mainBank.findQuestionIndex(lastShownBank.getQuestion(indexToEdit));
 
         if (targetIndex == -1) {
@@ -119,6 +140,7 @@ public class EditCommand extends Command implements Multistep {
             }
         }
         mainBank.getQuestion(targetIndex).editQuestion(nextInput);
+        QuestionLogger.logEditedQuestion(mainBank.getQuestion(targetIndex));
         updateCommandMessage(String.format("Question successfully edited: %1$s", mainBank.getQuestion(targetIndex)));
         isComplete = true;
         return this;
@@ -153,6 +175,7 @@ public class EditCommand extends Command implements Multistep {
             q.editAnswer(nextInput);
         }
 
+        QuestionLogger.logEditedQuestion(q);
         updateCommandMessage(String.format("Question successfully edited: %1$s", mainBank.getQuestion(targetIndex)));
         isComplete = true;
         return this;
