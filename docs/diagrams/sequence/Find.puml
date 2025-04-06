@@ -11,12 +11,12 @@ User -> UI : input "find keyword"
 UI --> UI : getUserCommand()
 UI -> Main : "find keyword"
 
-Main -> Parser : parseCommand("find keyword", QB, lastShownQB)
-Parser -> FindCmd : new FindCommand(QB, "all", keyword)
+Main -> Parser : parseCommand(...)
+Parser -> FindCmd : new FindCommand(...)
 Parser --> Main : FindCommand
 
 Main -> FindCmd : execute()
-FindCmd --> FindCmd : filterQuestionBank(QB, "mcq", "binary")
+FindCmd --> FindCmd : filterQuestionBank(...)
 loop for each question
     FindCmd -> QB : getQuestion(i)
     QB --> FindCmd : Question
@@ -27,7 +27,7 @@ end
 
 FindCmd -> QB : getQuestionCount() on filteredQuestionBank
 QB --> FindCmd : int
-FindCmd -> Result : new CommandResult(message, filteredQB, false)
+FindCmd -> Result : new CommandResult(...)
 FindCmd --> Main : commandResult
 
 ref over Main

@@ -25,13 +25,14 @@ import mindexpander.logging.SolveAttemptLogger;
 public class SolveCommand extends Command implements Multistep {
     private enum Step { GET_INDEX, GET_ANSWER, GET_TRY_AGAIN_RESPONSE }
     private Step currentStep = Step.GET_INDEX;
+    private final QuestionBank questionBank;
 
     private int questionIndex = -1;
 
     public SolveCommand(String taskDetails, QuestionBank questionBank) {
         isComplete = false; // Multistep command
         isUsingLastShownQuestionBank = true; // Uses the last shown one, set this to ensure correct bank is fed in
-
+        this.questionBank = questionBank;
         String solveMessage = getQuestionIndex(taskDetails, questionBank);
 
         updateCommandMessage(solveMessage);
@@ -48,11 +49,10 @@ public class SolveCommand extends Command implements Multistep {
      * </ul>
      *
      * @param nextInput The user's input.
-     * @param questionBank The question bank containing all available questions.
      * @return The current {@code SolveCommand} instance to maintain state across steps.
      */
     @Override
-    public Command handleMultistepCommand(String nextInput, QuestionBank questionBank) {
+    public Command handleMultistepCommand(String nextInput) {
         if (currentStep == Step.GET_ANSWER) {
             Question question = questionBank.getQuestion(questionIndex);
             boolean isCorrect = question.checkAnswer(nextInput);

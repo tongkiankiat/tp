@@ -1,6 +1,7 @@
 package mindexpander.tests;
 
 import mindexpander.commands.EditCommand;
+import mindexpander.data.CommandHistory;
 import mindexpander.data.QuestionBank;
 import mindexpander.data.question.FillInTheBlanks;
 import mindexpander.data.question.MultipleChoice;
@@ -19,10 +20,12 @@ public class EditCommandTest {
     void testInitialState() {
         QuestionBank questionBank = new QuestionBank();
         QuestionBank lastShownQuestionBank = new QuestionBank();
+        CommandHistory commandHistory = new CommandHistory();
         Question question = new FillInTheBlanks("test q", "test a");
         questionBank.addQuestion(question);
         lastShownQuestionBank.addQuestion(question);
-        EditCommand editCommand = new EditCommand(1, "q", questionBank, lastShownQuestionBank);
+        EditCommand editCommand = new EditCommand(1, "q", questionBank,
+                lastShownQuestionBank, commandHistory);
         assertFalse(editCommand.isCommandComplete());
         assertEquals("Editing FITB: test q [Answer: test a] \n Please enter the new question:",
                 editCommand.getCommandMessage());
@@ -32,11 +35,13 @@ public class EditCommandTest {
     public void editCommand_correctlyEditsQuestion() {
         QuestionBank questionBank = new QuestionBank();
         QuestionBank lastShownQuestionBank = new QuestionBank();
+        CommandHistory commandHistory = new CommandHistory();
         Question question = new FillInTheBlanks("test q", "test a");
         questionBank.addQuestion(question);
         lastShownQuestionBank.addQuestion(question);
-        EditCommand editCommand = new EditCommand(1, "q", questionBank, lastShownQuestionBank);
-        editCommand.handleMultistepCommand("new q", questionBank);
+        EditCommand editCommand = new EditCommand(1, "q", questionBank,
+                lastShownQuestionBank, commandHistory);
+        editCommand.handleMultistepCommand("new q");
 
         assertTrue(editCommand.isCommandComplete());
         assertEquals("new q", question.getQuestion());
@@ -47,11 +52,13 @@ public class EditCommandTest {
     public void editCommand_correctlyEditsAnswer() {
         QuestionBank questionBank = new QuestionBank();
         QuestionBank lastShownQuestionBank = new QuestionBank();
+        CommandHistory commandHistory = new CommandHistory();
         Question question = new FillInTheBlanks("test q", "test a");
         questionBank.addQuestion(question);
         lastShownQuestionBank.addQuestion(question);
-        EditCommand editCommand = new EditCommand(1, "a", questionBank, lastShownQuestionBank);
-        editCommand.handleMultistepCommand("new a", questionBank);
+        EditCommand editCommand = new EditCommand(1, "a", questionBank,
+                lastShownQuestionBank, commandHistory);
+        editCommand.handleMultistepCommand("new a");
 
         assertTrue(editCommand.isCommandComplete());
         assertEquals("test q", question.getQuestion());
@@ -62,16 +69,19 @@ public class EditCommandTest {
     public void editCommand_correctlyEditsOption() {
         QuestionBank questionBank = new QuestionBank();
         QuestionBank lastShownQuestionBank = new QuestionBank();
+        CommandHistory commandHistory = new CommandHistory();
         List<String> options = List.of("test a", "test 1", "test 2", "test 3");
-        Question question = new MultipleChoice("test q", "test a", options);
+        MultipleChoice question = new MultipleChoice("test q", "test a", options);
         questionBank.addQuestion(question);
         lastShownQuestionBank.addQuestion(question);
-        EditCommand editCommand = new EditCommand(1, "o", questionBank, lastShownQuestionBank);
-        editCommand.handleMultistepCommand("1", questionBank);
-        editCommand.handleMultistepCommand("new test", questionBank);
+        EditCommand editCommand = new EditCommand(1, "o", questionBank,
+                lastShownQuestionBank, commandHistory);
+        editCommand.handleMultistepCommand("1");
+        editCommand.handleMultistepCommand("new test");
 
         assertTrue(editCommand.isCommandComplete());
         assertEquals("test q", question.getQuestion());
         assertEquals("test a", question.getAnswer());
+        assertTrue(question.getOptions().contains("new test"));
     }
 }

@@ -12,6 +12,7 @@
     - [Solving questions: `solve`](#solving-questions-solve)
     - [Exiting the program: `exit`](#exiting-the-program-exit)
     - [Deleting a question: `delete`](#deleting-a-question-delete)
+    - [Showing the answer to a question: `show`](#showing-the-answer-to-a-specific-question-show)
 4. **[Logged Data](#logged-data)**
 5. **[Additional Notes](#additional-notes-for-program-features-and-usage)**
 6. **[FAQ](#faq)**
@@ -124,6 +125,8 @@ options one at a time.
 Lists all the questions currently in the question bank. Running this will change the last shown list to be the full list
 of questions in the question bank again. List can be used to show the question list with or without answers.
 
+List can also be run with additional question type parameters, to display questions only from that specific question type.
+
 **To show the list of questions without answers**
 
 Format: `list`
@@ -132,6 +135,52 @@ Example usage:
 
 `list`
 
+Example output:
+
+```
+==============================
+[Command you entered: list]
+==============================
+==============================
+Here are the questions you have currently:
+==============================
+==============================
+1. MCQ: 1 + 1
+A. 400
+B. 2
+C. 49
+D. 22123
+2. FITB: Where am I?
+3. TF: Am I studying? (True/False)
+==============================
+```
+
+**To show the list of MCQ/FITB/TF questions without answers**
+
+Format `list [mcq/fitb/tf]`
+
+Example usage:
+
+`list mcq`
+
+Example output:
+
+```
+==============================
+[Command you entered: list mcq]
+==============================
+==============================
+Here are the MCQ questions you have currently:
+==============================
+==============================
+1. MCQ: 1 + 1
+A. 2
+B. 400
+C. 22123
+D. 49
+==============================
+```
+
 **To show the list of questions with answers**
 
 Format: `list answer`
@@ -139,6 +188,44 @@ Format: `list answer`
 Example usage:
 
 `list answer`
+
+Example output:
+
+```
+==============================
+[Command you entered: list answer]
+==============================
+==============================
+Here are the questions you have currently:
+==============================
+==============================
+1. MCQ: 1 + 1 [Answer: 2]
+2. FITB: Where am I? [Answer: NUS]
+3. TF: Am I studying? [Answer: false]
+==============================
+```
+
+**To show the list of MCQ/FITB/TF questions with answers**
+
+Format `list [mcq/fitb/tf] answer`
+
+Example usage:
+
+`list tf answer`
+
+Example output:
+
+```
+==============================
+[Command you entered: list tf answer]
+==============================
+==============================
+Here are the TF questions you have currently:
+==============================
+==============================
+1. TF: Am I studying? [Answer: false]
+==============================
+```
 
 ### Finding questions with a specified string: `find`
 Finds all questions currently in the question bank that contain a specific keyword. Running this will change the last shown list to be the list of
@@ -181,14 +268,19 @@ Example usage:
 Example output:
 ```
 ==============================
+[Command you entered: find MRT]
+==============================
+==============================
 Here are the questions with MRT:
 ==============================
 ==============================
-1. MCQ: What MRT station on EWL is closest to NUS?
+1. FITB: What is the closest MRT to NUS?
+2. MCQ: What MRT station on EWL is closest to NUS?
 A. Buona Vista MRT
-B. Dover MRT
+B. Redhill MRT
 C. Clementi MRT
-D. Redhill MRT
+D. Dover MRT
+3. TF: Lakeside MRT is the best. (True/False)
 ==============================
 ```
 
@@ -204,11 +296,13 @@ Example output:
 
 ```
 ==============================
-Here are the questions with MRT:
+[Command you entered: find fitb MRT]
+==============================
+==============================
+Here are the FITB questions with MRT:
 ==============================
 ==============================
 1. FITB: What is the closest MRT to NUS?
-==============================
 ==============================
 ```
 
@@ -224,11 +318,13 @@ Example output:
 
 ```
 ==============================
-Here are the questions with MRT:
+[Command you entered: find tf MRT]
 ==============================
 ==============================
-1. TF: There are 100 MRT stations in Singapore.
+Here are the TF questions with MRT:
 ==============================
+==============================
+1. TF: Lakeside MRT is the best. (True/False)
 ==============================
 ```
 
@@ -470,6 +566,61 @@ Deleted question: FITB: 1 + 2 = __ [Answer: 3]
 * Attempting to delete an index that does not exist in the last shown list will result in an error.
 * This command is **single-step** and does not support multistep usage.
 
+### Showing the answer to a specific question: `show`
+
+Shows the answer to a question in the question bank by querying its question index. The question index should refer to the index displayed by the most recent `list` or `find` command.
+
+Format: `show [QUESTION_INDEX]`
+
+- `[QUESTION_INDEX]`: The question number of the question whose answer is to be shown, according to the last shown list
+
+Example usage:
+
+```
+show 1
+==============================
+[Command you entered: show 1]
+==============================
+==============================
+Here is the answer for question 1:
+==============================
+==============================
+1. MCQ: 1 + 1 [Answer: 2]
+==============================
+```
+
+__Notes:__
+- This newly displayed list **does not** update the last shown list, so the user can still refer to the last shown list triggered by `list` or `find` commands to query the question index.
+
+### Undo/redo a command that modifies the question bank: `undo`/`redo`
+
+Undo/redo a traceable command. A traceable command is one that modifies the question bank (e.g. `add`, `delete`, `edit`).
+
+Format: `undo`/`redo`
+
+Example usage:
+
+Initial State:
+A question, "What is the most abundant gas in air? [Answer: Nitrogen]," 
+ is added as the first entry in the question bank.
+
+```
+undo
+==============================
+FITB: What is the most abundant gas in air? [Answer: Nitrogen] successfully deleted.
+==============================
+==============================
+redo
+==============================
+==============================
+FITB: What is the most abundant gas in air? [Answer: Nitrogen] successfully added.
+==============================
+```
+
+**Note**
+
+The program will store up to 10 traceable commands.
+
 ### Exiting the program: `exit`
 Exits the program.
 
@@ -487,7 +638,14 @@ Example usage:
 * There is no need to manually save — this is handled behind the scenes.
 
 * The save file uses a custom delimiter (as defined in the program's configuration via `Messages.STORAGE_DELIMITER`) to separate the fields of each question.
-* Do NOT at any point enter the `Messages.STORAGE_DELIMITER` string into the input as it will ruin the save and load logic
+* Do NOT at any point enter the `Messages.STORAGE_DELIMITER` string into the input as it is reserved internally by the 
+application as a delimiter for saving and loading your questions.
+*  Including it will result in the following error message:
+   1. While editing or adding a question: "Input cannot contain the reserved delimiter string! Please enter a new question:"
+
+   2. While editing or adding an answer: "Input cannot contain the reserved delimiter string! Please enter a new answer:"
+
+   3. While editing or adding MCQ options: "Input cannot contain the reserved delimiter string! Please enter a new option:"
 
 ### File Format
 The file follows a structured format to allow for proper parsing:
@@ -522,12 +680,17 @@ Users may find these logs useful for their specific purposes.
 1. Solve attempts: Stored in `solveAttemptLogs.txt`, tracks the time of attempt, the question attempted and if the user
 got the question correct or wrong in the format `Timestamp|Question|Result`. This is useful for seeing, for example, which questions
 are constantly attempted and gotten wrong.
+2. Errors: Stored in `errorLogs.txt`, tracks the time of input and the error message that was returned. This is useful for referring to when checking what inputs are not accepted.
+3. Questions: Whenever a user adds, edits, or deletes a question, the system automatically saves a record of it in `questionLogs.txt`. This is useful for looking back at all the questions you've worked with.
 
 ## Additional notes for program features and usage
 * This program is designed to take inputs in **Roman Alphabet** (i.e. English characters),
-please do not enter characters from other languages, for example Chinese characters.
+please do not enter characters from other languages, for example Chinese or Arabic characters. Entering them could
+result in unspecified behaviour.
+* Program is not designed to take in special control characters. Entering them may result in errors or crashing.
+  * Ctrl Z + Enter (EOF signal on Windows) or Ctrl C (Interrupt) will end the program. 
 * Inputting unrecognised commands will result in an error message.
-* Commands are __not__ case sensitive (i.e. ADD, LIsT are accepted).
+* Commands are __not__ case-sensitive (i.e. ADD, LIsT are accepted).
 
 ## FAQ
 
@@ -552,10 +715,18 @@ of getting the format wrong.
 * Add question `add` | `[QUESTION_TYPE]` | `[QUESTION_DETAILS]` | `[QUESTION_ANSWER]`
 * Edit question `edit` `QUESTION_INDEXT` `q/a/o` | `OPTION_INDEX` (`[OPTION_INDEX]` only applicable when editing options) | `[NEW_QUESTION_ATTRIBUTES]`
 * List question bank `list`
+* List MCQ question bank `list mcq`
+* List FITB question bank `list fitb`
+* List TF question bank `list tf`
 * List question bank with answer `list answer`
-* Find a question in the question with a specific keyword `find [KEYWORD]`
-* Find a MCQ question in the question with a specific keyword `find mcq [KEYWORD]`
-* Find a FITB question in the question with a specific keyword `find fitb [KEYWORD]`
+* List MCQ question bank with answer `list mcq answer`
+* List FITB question bank with answer `list fitb answer`
+* List TF question bank with answer `list tf answer`
+* Find a question in the question bank with a specific keyword `find [KEYWORD]`
+* Find a MCQ question in the question bank with a specific keyword `find mcq [KEYWORD]`
+* Find a FITB question in the question bank with a specific keyword `find fitb [KEYWORD]`
+* Find a TF question in the question bank with a specific keyword `find tf [KEYWORD]`
 * Solve question `solve [QUESTION_INDEX]` | `[QUESTION_ANSWER]` | `[Y/N]` (only if wrong)
 * Delete question: `delete [QUESTION_INDEX]`
+* Show answer to a question `show [QUESTION_INDEX]`
 * Exit program `exit`

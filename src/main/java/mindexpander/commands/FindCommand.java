@@ -39,6 +39,6 @@ public class FindCommand extends Command {
                 questionType,
                 filteredQuestionBank.getQuestionCount() > 0
         );
-        return new CommandResult(messageToUser, filteredQuestionBank, false);
+        return new CommandResult(messageToUser, filteredQuestionBank, false, true);
     }
 }

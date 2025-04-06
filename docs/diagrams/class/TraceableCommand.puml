@@ -1,0 +1,38 @@
+@startuml traceable-command
+hide circle
+skinparam classAttributeIconSize 0
+
+interface Traceable {
+    +undo(): void
+    +redo(): void
+    +undoMessage(): String
+    +redoMessage(): String
+}
+
+abstract class Command {
+
+}
+
+class AddCommand {
+    -toAdd: Question
+    -toAddIndex: int
+
+    +handleMultistepCommand(String): Command
+    +undo(): void
+    +redo(): void
+    +undoMessage(): String
+    +redoMessage(): String
+}
+
+class CommandHistory {
+    -COMMAND_HISTORY_MAX_SIZE: int
+    +add(Traceable): void
+    +undo(): void
+    +redo(): void
+}
+
+Command <|-- AddCommand
+Traceable <|.. AddCommand
+CommandHistory --> "Traceable [max=COMMAND_HISTORY_MAX_SIZE]" Traceable : stores
+
+@enduml
