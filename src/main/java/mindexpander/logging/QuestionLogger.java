@@ -51,7 +51,7 @@ public class QuestionLogger extends BaseLogger {
         }
     }
 
-    // ✅ Public access points for other commands to use
+    //Public access points for other commands to use
     public static void logAddedQuestion(Question question) {
         log("ADDED", question);
     }
