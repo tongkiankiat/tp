@@ -416,17 +416,20 @@ Logs users' errors whenever they type in an invalid input, storing the date and 
 The errors are stored in a file name `errorLogs.txt` in the following format: `Timestamp|Input|Error`
 
 For example:
+
 ```
 2025-04-06 12:23:42|find|Invalid command! Please enter either `find [KEYWORD]`, `find mcq [KEYWORD]`, `find fitb [KEYWORD]` or `find tf [KEYWORD]`.
 2025-04-06 12:35:55|list 2|Invalid command! Please enter either `list`, `list [mcq/fitb/tf]`, `list [mcq/fitb/tf] answer` to view the question bank
 2025-04-06 12:37:08|list answer 3 3|You have entered an unknown command. Please refer to the user guide, or type <help> to display the available commands
 ```
+
 ### **Question Logs**
 Tracks all meaningful question-related changes — specifically adding, editing, and deleting questions. This log helps users or developers review how questions have evolved over time.
 
 The questions are stored in a file name `questionLogs.txt` in the following format: `Timestamp|Action|QuestionType|FullQuestion`
 
 For example:
+
 ```
 2025-04-06 20:11:15|ADDED|FITB|FITB: The capital of Italy is ___ [Answer: Rome]  
 2025-04-06 20:12:10|DELETED|TF|TF: Water boils at 100°C [Answer: true]  
@@ -509,24 +512,9 @@ layer has a specific responsibility and interacts only with adjacent layers. The
    3. Open a command terminal, and `cd` into the folder you put the jar file in.
    4. Run `java -jar MindExpander.jar` to run MindExpander.
    5. The following screen should be displayed:
-   ```
-   ==============================
-    
-       _____  .__            .______________                                .___            
-      /     \ |__| ____    __| _/\_   _____/__  ______________    ____    __| _/___________
-     /  \ /  \|  |/    \  / __ |  |    __)_\  \/  /\____ \__  \  /    \  / __ |/ __ \_  __ \
-    /    Y    \  |   |  \/ /_/ |  |        \>    < |  |_> > __ \|   |  \/ /_/ \  ___/|  | \/
-    \____|__  /__|___|  /\____ | /_______  /__/\_ \|   __(____  /___|  /\____ |\___  >__|   
-            \/        \/      \/         \/      \/|__|       \/     \/      \/    \/
-    
-    Presented by: CS2113-F12-3
-    Welcome to MindExpander!
-    ==============================
-    ==============================
-    What would you like to do today?
-    Type <help> for a list of commands.
-    ==============================
-   ```
+
+![img_1.png](img_1.png)
+
 2. Exiting MindExpander
    1. Test case: `exit`
     

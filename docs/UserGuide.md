@@ -44,8 +44,8 @@ commands. With built-in saving and loading capabilities, users can seamlessly co
 The list of features and how to use them can be found below.
 User input lines will be of the form `[USER_INPUT]`.
 For example, an input which requires a question number from the user will be of the form `[QUESTION_NUMBER]`.
-For features with multiple separate inputs, the different inputs will be separated by a | symbol. For example,
-an input with 3 different input steps will be of the form `STEP 1` | `STEP 2` | `STEP 3`.
+For features with multiple separate inputs, the different inputs will be separated by a `|` symbol. For example,
+an input with 3 different input steps will be of the form `STEP 1` `|` `STEP 2` `|` `STEP 3`.
 
 "Last shown list" refers to the list that was last shown to the user. This list will be used for commands which
 require a specified question index to carry out the command, more details in the commands 
@@ -84,7 +84,7 @@ This prints the usage instructions for the command `add`.
 ### Adding a question: `add`
 Adds a question to the question bank. Follows a series of steps which require separate inputs each.
 
-Format: `add` | `[QUESTION_TYPE]` | `[QUESTION_DETAILS]` | `[QUESTION_ANSWER]` | `[INCORRECT_OPTIONS`]
+Format: `add` `|` `[QUESTION_TYPE]` `|` `[QUESTION_DETAILS]` `|` `[QUESTION_ANSWER]` `|` `[INCORRECT_OPTIONS`]
 
 `[QUESTION_TYPE]`: The type of the question to be added.
 
@@ -373,7 +373,7 @@ displayed by the `find` command, i.e. the last shown list.
   > 2. FITB: What is 1+2?
 * Question Index 1 will be the question "What is 1+1?".
 
-Format: `solve [QUESTION INDEX]` | `[QUESTION ANSWER]` | `[Y/N]` (only if wrong)
+Format: `solve [QUESTION INDEX]` `|` `[QUESTION ANSWER]` `|` `[Y/N]` (only if wrong)
 `[QUESTION_INDEX]`: The question number of the question to be solved, according to the last shown list.
 `[QUESTION_ANSWER]`: The answer to the question.
 `[Y/N]`: Y or N depending on whether you want to keep attempting the question or not.
@@ -502,8 +502,8 @@ It is recommended to run `list` before `solve` to check the index of the questio
 If one runs `find` before `edit`, the list used for editing questions and question indexes will be what is
 displayed by the `find` command, i.e. the last shown list.
 
-Format: `edit [QUESTION_INDEX] [QUESTION_ATTRIBUTES]` | `[OPTION_INDEX]` 
-(this step is only applicable if `[QUESTION_ATTRIBUTE]` is `o`) |`[NEW_QUESTION_ATTRIBUTES]`
+Format: `edit [QUESTION_INDEX] [QUESTION_ATTRIBUTES]` `|` `[OPTION_INDEX]` 
+(this step is only applicable if `[QUESTION_ATTRIBUTE]` is `o`) `|` `[NEW_QUESTION_ATTRIBUTES]`
 
 `[QUESTION_INDEX]`: The question number of the question to be solved, according to the last shown list.
 `[QUESTION_ATTRIBUTES]`: The specific part of the question to modify:
@@ -891,8 +891,8 @@ the question.
 
 * View help sheet `help`
 * View help for a specific command `help [COMMAND]`
-* Add question `add` | `[QUESTION_TYPE]` | `[QUESTION_DETAILS]` | `[QUESTION_ANSWER]`
-* Edit question `edit` `QUESTION_INDEXT` `q/a/o` | `OPTION_INDEX` (`[OPTION_INDEX]` only applicable when editing options) | `[NEW_QUESTION_ATTRIBUTES]`
+* Add question `add` `|` `[QUESTION_TYPE]` `|` `[QUESTION_DETAILS]` `|` `[QUESTION_ANSWER]`
+* Edit question `edit` `QUESTION_INDEXT` `q/a/o` `|` `OPTION_INDEX` (`[OPTION_INDEX]` only applicable when editing options) `|` `[NEW_QUESTION_ATTRIBUTES]`
 * List question bank `list`
 * List MCQ question bank `list mcq`
 * List FITB question bank `list fitb`
