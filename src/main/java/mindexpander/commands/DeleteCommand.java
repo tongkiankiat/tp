@@ -55,19 +55,6 @@ public class DeleteCommand extends Command implements Traceable {
         return new CommandResult("Deleted question: " + deletedQuestion);
     }
 
-    public static DeleteCommand parseFromUserInput(String taskDetails, QuestionBank main,
-                                                   QuestionBank lastShown, CommandHistory commandHistory) {
-        if (taskDetails.isEmpty()) {
-            throw new IllegalCommandException("Please provide a question index to delete.");
-        }
-        try {
-            int index = Integer.parseInt(taskDetails.trim());
-            return new DeleteCommand(index, main, lastShown, commandHistory);
-        } catch (NumberFormatException e) {
-            throw new IllegalCommandException("Invalid number format. Please enter a valid index.");
-        }
-    }
-
     @Override
     public void undo() {
         mainBank.addQuestionAt(targetIndex, deletedQuestion);

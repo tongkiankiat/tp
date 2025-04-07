@@ -63,17 +63,40 @@ public class Parser {
         case "list" -> handleList(userEntry, taskDetails, questionBank);
         case "find" -> handleFind(userEntry, taskDetails, questionBank);
         case "edit" -> handleEdit(userEntry, taskDetails, questionBank, lastShownQuestionBank, commandHistory);
-        case "delete" -> DeleteCommand.parseFromUserInput(taskDetails, questionBank,
-            lastShownQuestionBank, commandHistory);
+        case "delete" -> handleDelete(userEntry, taskDetails, questionBank, lastShownQuestionBank, commandHistory);
         case "undo" -> new UndoCommand(commandHistory);
         case "redo" -> new RedoCommand(commandHistory);
         case "show" -> handleShow(userEntry, taskDetails, questionBank, lastShownQuestionBank);
-        case "clear" -> ClearCommand.parseFromUserInput(taskDetails, questionBank, commandHistory);
+        case "clear" -> handleClear(userEntry, taskDetails, questionBank, commandHistory);
         default -> {
             ErrorLogger.logError(userEntry, Messages.UNKNOWN_COMMAND_MESSAGE);
             throw new IllegalCommandException(Messages.UNKNOWN_COMMAND_MESSAGE);
         }
         };
+    }
+
+    private Command handleDelete(String userEntry, String taskDetails, QuestionBank questionBank,
+                                 QuestionBank lastShownQuestionBank, CommandHistory commandHistory) {
+        if (taskDetails.isEmpty()) {
+            ErrorLogger.logError(userEntry, "Please provide a question index to delete.");
+            throw new IllegalCommandException("Please provide a question index to delete.");
+        }
+        try {
+            int index = Integer.parseInt(taskDetails.trim());
+            return new DeleteCommand(index, questionBank, lastShownQuestionBank, commandHistory);
+        } catch (NumberFormatException e) {
+            ErrorLogger.logError(userEntry, "Invalid number format. Please enter a valid index.");
+            throw new IllegalCommandException("Invalid number format. Please enter a valid index.");
+        }
+    }
+
+    private Command handleClear(String userEntry, String taskDetails, QuestionBank questionBank,
+                                CommandHistory commandHistory) {
+        if (!taskDetails.trim().isEmpty()) {
+            ErrorLogger.logError(userEntry, "The clear command does not take additional parameters.");
+            throw new IllegalCommandException("The clear command does not take additional parameters.");
+        }
+        return new ClearCommand(questionBank, commandHistory);
     }
 
     /**
