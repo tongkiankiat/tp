@@ -53,6 +53,16 @@ The UI component,
 
 - Formats and prints command execution results.
 
+**Notes on UI**
+* Commands and para meters are not case-sensitive, this makes life easier for users as it increases the range of 
+accepted inputs without compromising functionality (there isn't a need for this program to have case-sensitive commands).
+* Commands and parameters are trimmed (i.e. leading and trailing whitespaces are accepted).
+    * Note: ___ represents extra whitespaces.
+    * E.g. `______add_____` is accepted.
+    * E.g. `edit_______1____q___` is accepted.
+    * E.g. `find hello____` will search for strings with just `hello`.
+    * This trimming will improve quality of life for users when they accidentally press the space-bar too much.
+
 ### Command handling
 
 The MindExpander application follows a structured approach to handle user input, 
