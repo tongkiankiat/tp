@@ -40,7 +40,9 @@ public class DeleteCommand extends Command implements Traceable {
         assert lastShownBank != null : "lastShownBank must not be null";
 
         if (!isDeleteEnabled) {
-            throw new IllegalCommandException("Please run 'list' or 'find' to get an updated list before using delete.");
+            throw new IllegalCommandException(
+                    "Please run 'list' or 'find' to get an updated list before using delete."
+            );
         }
 
         if (indexToDelete < 0 || indexToDelete >= lastShownBank.getQuestionCount()) {
