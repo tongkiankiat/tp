@@ -101,14 +101,20 @@ Format: `add` | `[QUESTION_TYPE]` | `[QUESTION_DETAILS]` | `[QUESTION_ANSWER]` |
 
 Example usage for `FITB` questions:
 - `add`
+
 - `fitb`
+
 - `what is 2 + 2?`
+
 - `4`
 
 Example usage for `TF` questions:
 - `add`
+
 - `tf`
+
 - `is water wet`
+
 - `true`
 
 **Note**
@@ -290,6 +296,7 @@ Example usage:
 `find mcq MRT`
 
 Example output:
+
 ```
 ==============================
 [Command you entered: find MRT]
@@ -376,12 +383,15 @@ These examples are for a FITB question 2, "What are fries made of?" with the cor
 
 Correct answer example and outputs
 1. `solve 2`
+
 ```
 ==============================
 Attempting question 2: FITB: What are fries made of? Enter your answer:
 ==============================
 ```
+
 2. `Potato`
+
 ```
 ==============================
 Correct!
@@ -390,18 +400,23 @@ Correct!
 
 Wrong answer example and outputs
 1. `solve 2`
+
 ```
 ==============================
 Attempting question 2: FITB: What are fries made of? Enter your answer:
 ==============================
 ```
+
 2. `Cheese`
+
 ```
 ==============================
 Wrong answer, would you like to try again? [Y/N]
 ==============================
 ```
+
 3. `N`
+
 ```
 ==============================
 Giving up on question.
@@ -411,6 +426,7 @@ Giving up on question.
 OR
 
 4. `Y`
+
 ```
 ==============================
 Enter your answer to try again:
@@ -422,6 +438,7 @@ These examples are for an MCQ question 2 "What are fries made of?" with the corr
 option `A. Potato`, enter 'A'.
 
 1. `solve 2`
+
 ```
 ==============================
 Attempting question 2: MCQ: What are fries made of? 
@@ -433,7 +450,9 @@ D. Cheese
 Enter your answer:
 ==============================
 ```
+
 2. `C`
+
 ```
 ==============================
 Correct!
@@ -443,13 +462,16 @@ Correct!
 These examples are for a TF question 2, "Fries are made of potatoes" with the correct answer "true".
 
 1. `solve 2`
+
 ```
 ==============================
 Attempting question 2: TF: Fries are made of potatoes (True/False)
 Enter your answer:
 ==============================
 ```
+
 2. `true`
+
 ```
 ==============================
 Correct!
@@ -498,13 +520,16 @@ Example usage:
 These examples are for a FITB question 2, "Where is Singapore located?" with a stored answer "North America".
 
 1. `edit 2 a`
+
 ```
 ==============================
 Editing FITB: Where is Siingapore located? [Answer: North America] 
  Please enter the new answer:
 ==============================
 ```
+
 2. `Asia`
+
 ```
 ==============================
 Question successfully edited: FITB: Where is Singapore located? [Answer: Asia]
@@ -514,6 +539,7 @@ Question successfully edited: FITB: Where is Singapore located? [Answer: Asia]
 These examples are for a MCQ question 1, "What are fries made of?" with answer "Potato" and incorrect options "Tomato" "Cheese" and "Apple".
 
 1. `edit 1 o`
+
 ```
 ==============================
 Editing MCQ: What are fries made of? [Answer: Potato] 
@@ -523,13 +549,17 @@ Editing MCQ: What are fries made of? [Answer: Potato]
   3. Apple
 ==============================
 ```
+
 2. `3`
+
 ```
 ==============================
 Please enter the new option
 ==============================
 ```
+
 3. `Rock`
+
 ```
 ==============================
 Question successfully edited: MCQ: What are fries made of?
@@ -539,6 +569,7 @@ Question successfully edited: MCQ: What are fries made of?
   D. Potato
 ==============================
 ```
+
 **Note**
 The actual order of options may be different on your console because the options will be shuffled every time
 the multiple choice question is displayed.
@@ -546,13 +577,16 @@ the multiple choice question is displayed.
 These examples are for a TF question 1, "Burgers are made of potatoes" with the correct answer "true".
 
 1. `edit 1 a`
+
 ```
 ==============================
 Editing TF: Burgers are made of potatoes [Answer: true]
  Please enter the new answer:
 ==============================
 ```
+
 2. `false`
+
 ```
 ==============================
 Question successfully edited: TF: Burgers are made of potatoes [Answer: false]
@@ -571,6 +605,7 @@ Question successfully edited: TF: Burgers are made of potatoes [Answer: false]
 Removes a question from the question bank. The question index should refer to the index displayed by the most recent `list` or `find` command.
 
 **Format:**  
+
 `delete [QUESTION_INDEX]`
 
 - `[QUESTION_INDEX]`: The number of the question to be deleted, based on the latest shown list (either from `list` or `find`).
@@ -578,6 +613,7 @@ Removes a question from the question bank. The question index should refer to th
 ---
 
 #### ✅ Example usage (after `list`):
+
 ```
 list
 ==============================
@@ -589,6 +625,7 @@ Deleted question: FITB: 1 + 1 = __ [Answer: 2]
 ```
 
 You can run `list` again and delete the next question using `delete 1` again:
+
 ```
 list
 1. FITB: The capital of France is __
@@ -599,6 +636,7 @@ Deleted question: FITB: The capital of France is __ [Answer: Paris]
 ---
 
 #### Example usage (after `find`):
+
 ```
 find fitb 1 +
 ==============================
@@ -617,9 +655,10 @@ Deleted question: FITB: 1 + 2 = __ [Answer: 3]
 - If you want to delete **multiple questions**, make sure to **refresh the list before each deletion** by re-running the `list` or `find` command.
     - This is because after deleting, the displayed list is outdated — the indices may no longer point to the correct question.
 - If you try to delete again **without updating the list**, you may encounter this error:
-  ```
+
+```
   Unable to find question in main bank to delete.
-  ```
+```
 
 ---
 
@@ -627,11 +666,13 @@ Deleted question: FITB: 1 + 2 = __ [Answer: 3]
 If you're deleting multiple questions:
 
 **Using `list`:**
+
 ```
 list → delete 1 → list → delete 1 → list → delete 1
 ```
 
 **Using `find`:**
+
 ```
 find fitb math → delete 1 → find fitb math → delete 1 → ...
 ```
@@ -677,6 +718,7 @@ __Notes:__
 * Removes all questions from the question bank. This command uses multistep confirmation to prevent accidental loss of data.
 * Format: `clear
 * When run, it will prompt:
+
 ```
   Are you sure you want to clear the entire question bank? (Y/N)
   ```
@@ -770,13 +812,13 @@ The file follows a structured format to allow for proper parsing:
 * `[QUESTION_TYPE]|[QUESTION_TEXT]|[OPTION1]|[OPTION2]|[OPTION3]|[OPTION4]` (for MCQ)
 
 #### Example: 
-* Fill-in-the-Blanks questions: FITB|What is 2+2?|4
+* Fill-in-the-Blanks questions: FITB`|`What is 2+2?`|`4
 
-* Multiple Choice Questions: MCQ|What is 2+2?|4|3|5|6
+* Multiple Choice Questions: MCQ`|`What is 2+2?`|`4`|`3`|`5`|`6
 
-* True/False questions: TF|The sky is blue|true
+* True/False questions: TF`|`The sky is blue`|`true
 
-Note that | in the above examples represent `Messages.STORAGE_DELIMITER`
+Note that `|` in the above examples represent `Messages.STORAGE_DELIMITER`
 
 ### Loading
 * Upon startup, MindExpander will automatically read and load all questions from the MindExpander.txt file (if it exists).
@@ -863,10 +905,10 @@ the question.
 * Find a MCQ question in the question bank with a specific keyword `find mcq [KEYWORD]`
 * Find a FITB question in the question bank with a specific keyword `find fitb [KEYWORD]`
 * Find a TF question in the question bank with a specific keyword `find tf [KEYWORD]`
-* Solve question `solve [QUESTION_INDEX]` | `[QUESTION_ANSWER]` | `[Y/N]` (only if wrong)
+* Solve question `solve [QUESTION_INDEX]` `|` `[QUESTION_ANSWER]` `|` `[Y/N]` (only if wrong)
 * Delete question: `delete [QUESTION_INDEX]`
 * Show answer to a question `show [QUESTION_INDEX]`
-* Clear all questions: `clear` | `[Y/N]`
+* Clear all questions: `clear` `|` `[Y/N]`
 * Undo the previous command: `undo`
 * Redo the previous undid command: `redo`
 * Exit program `exit`
