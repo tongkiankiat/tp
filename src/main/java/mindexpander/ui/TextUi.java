@@ -83,7 +83,7 @@ public class TextUi {
         }
 
         printToUser("[Command you entered: " + input.trim() + "]");
-        return input.trim();
+        return input;
     }
 
     // For possible enhancements in the future to clear the screen

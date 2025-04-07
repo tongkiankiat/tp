@@ -7,5 +7,5 @@ package mindexpander.commands;
  * additional user input across multiple steps.
  */
 public interface Multistep {
-    Command handleMultistepCommand(String nextInput);
+    Command handleMultistepCommand(String userCommand, String nextInput);
 }

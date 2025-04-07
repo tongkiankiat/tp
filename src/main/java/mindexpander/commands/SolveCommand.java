@@ -2,6 +2,7 @@ package mindexpander.commands;
 
 import mindexpander.data.question.Question;
 import mindexpander.data.QuestionBank;
+import mindexpander.logging.ErrorLogger;
 import mindexpander.logging.SolveAttemptLogger;
 
 /**
@@ -29,12 +30,11 @@ public class SolveCommand extends Command implements Multistep {
 
     private int questionIndex = -1;
 
-    public SolveCommand(String taskDetails, QuestionBank questionBank) {
+    public SolveCommand(String userCommand, String taskDetails, QuestionBank questionBank) {
         isComplete = false; // Multistep command
         isUsingLastShownQuestionBank = true; // Uses the last shown one, set this to ensure correct bank is fed in
         this.questionBank = questionBank;
-        String solveMessage = getQuestionIndex(taskDetails, questionBank);
-
+        String solveMessage = getQuestionIndex(userCommand, taskDetails, questionBank);
         updateCommandMessage(solveMessage);
     }
 
@@ -52,7 +52,7 @@ public class SolveCommand extends Command implements Multistep {
      * @return The current {@code SolveCommand} instance to maintain state across steps.
      */
     @Override
-    public Command handleMultistepCommand(String nextInput) {
+    public Command handleMultistepCommand(String userCommand, String nextInput) {
         if (currentStep == Step.GET_ANSWER) {
             Question question = questionBank.getQuestion(questionIndex);
             boolean isCorrect = question.checkAnswer(nextInput);
@@ -98,17 +98,19 @@ public class SolveCommand extends Command implements Multistep {
      * @param questionBank The question bank to fetch the question from.
      * @return A message indicating the next step (either the question prompt or an error).
      */
-    private String getQuestionIndex(String nextInput, QuestionBank questionBank) {
+    private String getQuestionIndex(String userCommand, String nextInput, QuestionBank questionBank) {
         try {
             questionIndex = Integer.parseInt(nextInput.trim()) - 1; // Convert to 0-based index
 
             if (questionBank.getQuestionCount() == 0) {
                 isComplete = true;
+                ErrorLogger.logError(userCommand, "Question bank is empty. Please add a question first.");
                 return "Question bank is empty. Please add a question first.";
             }
 
             if (questionIndex < 0 || questionIndex >= questionBank.getQuestionCount()) {
                 isComplete = true;
+                ErrorLogger.logError(userCommand, "Invalid question number. Please enter a valid index.");
                 return "Invalid question number. Please enter a valid index.";
             }
 
@@ -118,6 +120,7 @@ public class SolveCommand extends Command implements Multistep {
             return "Attempting question " + (questionIndex + 1) + ": " + questionDetails + "\nEnter your answer:";
         } catch (NumberFormatException e) {
             isComplete = true;
+            ErrorLogger.logError(userCommand, "Invalid question number. Please enter a valid index.");
             return "Invalid question number. Please enter a valid index." ;
         }
     }

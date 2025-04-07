@@ -73,6 +73,7 @@ public class Messages {
     }
 
     public static final String findCommandMessage(String keyword,  String questionType, boolean questionsFound) {
+        keyword = keyword.trim();
         if (questionsFound) {
             if (questionType.equals("mcq")) {
                 return "Here are the MCQ questions with " + keyword + ":";

@@ -3,6 +3,7 @@ package mindexpander.commands;
 import mindexpander.data.CommandHistory;
 import mindexpander.data.QuestionBank;
 import mindexpander.data.question.Question;
+import mindexpander.logging.ErrorLogger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +26,7 @@ public class ClearCommand extends Command implements Traceable, Multistep {
     }
 
     @Override
-    public Command handleMultistepCommand(String userInput) {
+    public Command handleMultistepCommand(String userCommand, String userInput) {
         String input = userInput.trim().toLowerCase();
         if (awaitingConfirmation) {
             switch (input) {
@@ -41,6 +42,7 @@ public class ClearCommand extends Command implements Traceable, Multistep {
                 isComplete = true;
                 break;
             default:
+                ErrorLogger.logError(userCommand, "Invalid input. Please enter 'Y' or 'N':");
                 updateCommandMessage("Invalid input. Please enter 'Y' or 'N':");
                 break;
             }

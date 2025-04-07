@@ -144,7 +144,7 @@ public class Parser {
             ErrorLogger.logError(userEntry, "Invalid format. Use the format `solve [QUESTION_INDEX]`");
             throw new IllegalCommandException("Invalid format. Use the format 'solve [QUESTION_INDEX]'");
         }
-        ongoingCommand = new SolveCommand(taskDetails, lastShownQuestionBank);
+        ongoingCommand = new SolveCommand(userEntry, taskDetails, lastShownQuestionBank);
         return ongoingCommand;
     }
 
@@ -167,7 +167,10 @@ public class Parser {
             String[] commandArguments = taskDetails.trim().split(" ", 2);
 
             if (commandArguments.length < 2) {
-                ErrorLogger.logError(userEntry, Messages.UNKNOWN_COMMAND_MESSAGE);
+                ErrorLogger.logError(userEntry, "Invalid format. Please use edit [QUESTION_IDEX] [q/a/o]" +
+                        "\n" + "'q' - question content" +
+                        "\n" + "'a' - answer" +
+                        "\n" + "'o' for multiple choice options.");
                 throw new IllegalCommandException("Invalid format. Please use edit [QUESTION_IDEX] [q/a/o]" +
                         "\n" + "'q' - question content" +
                         "\n" + "'a' - answer" +
@@ -181,7 +184,7 @@ public class Parser {
                 ErrorLogger.logError(userEntry, "Invalid question index. Please enter a valid index.");
                 throw new IllegalCommandException("Invalid question index. Please enter a valid index.");
             }
-            return new EditCommand(indexToEdit, toEdit, questionBank, lastShownQuestionBank, commandHistory);
+            return new EditCommand(userEntry, indexToEdit, toEdit, questionBank, lastShownQuestionBank, commandHistory);
         } catch (NumberFormatException e) {
             ErrorLogger.logError(userEntry, "Invalid number. Please enter a valid number.");
             throw new IllegalCommandException("Invalid number. Please enter a valid number.");
@@ -200,7 +203,7 @@ public class Parser {
             return new ListCommand(questionBank, "all", false);
         }
 
-        String[] parts = taskDetails.trim().split("\\s+");
+        String[] parts = taskDetails.trim().split(" ");
         String questionType = "";
         boolean showAnswer = false;
 

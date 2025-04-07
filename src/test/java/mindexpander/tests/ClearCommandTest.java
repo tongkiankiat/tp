@@ -33,7 +33,7 @@ public class ClearCommandTest {
         ClearCommand clearCommand = new ClearCommand(qb, history);
 
         // Simulate 'y' input
-        Command resultCommand = clearCommand.handleMultistepCommand("y");
+        Command resultCommand = clearCommand.handleMultistepCommand("clear","y");
         assertEquals("All questions have been cleared.", resultCommand.getCommandMessage());
         assertEquals(0, qb.getQuestionCount());
     }
@@ -48,10 +48,9 @@ public class ClearCommandTest {
         ClearCommand clearCommand = new ClearCommand(qb, history);
 
         // Simulate 'n' input
-        Command resultCommand = clearCommand.handleMultistepCommand("n");
+        Command resultCommand = clearCommand.handleMultistepCommand("clear","n");
         assertEquals("Clear command cancelled.", resultCommand.getCommandMessage());
         assertEquals(1, qb.getQuestionCount());
     }
-
 }
 
