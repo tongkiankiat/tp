@@ -1,0 +1,43 @@
+@startuml
+actor User
+participant ":TextUi" as UI
+participant ":Main" as Main
+participant ":Parser" as Parser
+participant ":DeleteCommand" as DeleteCmd
+participant ":QuestionBank" as LastShownQB
+participant ":QuestionBank" as MainQB
+participant ":CommandHistory" as History
+participant ":QuestionLogger" as Logger
+participant ":CommandResult" as Result
+
+User -> UI : input "delete 1"
+UI -> Main : "delete 1"
+
+Main -> Parser : parseCommand(...)
+Parser -> DeleteCmd : new DeleteCommand(...)
+Parser --> Main : DeleteCommand
+
+Main -> DeleteCmd : execute()
+
+alt if delete disabled
+    DeleteCmd --> Main : throws IllegalCommandException
+else
+    DeleteCmd -> LastShownQB : getQuestion(index)
+    DeleteCmd -> MainQB : findQuestionIndex(...)
+    DeleteCmd -> MainQB : removeQuestion(index)
+    DeleteCmd -> History : add(this)
+    DeleteCmd -> Logger : logDeletedQuestion(...)
+    DeleteCmd -> DeleteCmd : disableDelete()
+    DeleteCmd -> Result : new CommandResult(...)
+    DeleteCmd --> Main : commandResult
+end
+
+Main -> UI : displayResults(Result)
+UI -> Result : getQuestionBank()
+UI -> MainQB : getQuestionCount()
+loop for each question
+    UI -> MainQB : getQuestion(i)
+end
+UI --> User : prints updated question list
+
+@enduml

@@ -12,7 +12,7 @@ import java.util.List;
  * Clears all questions from the question bank.
  * Uses multistep confirmation (Y/N).
  */
-public class ClearCommand extends Command implements Tracable, Multistep {
+public class ClearCommand extends Command implements Traceable, Multistep {
     private final QuestionBank mainBank;
     private final CommandHistory commandHistory;
     private final List<Question> backupQuestions = new ArrayList<>();

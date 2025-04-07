@@ -18,7 +18,7 @@ import mindexpander.logging.QuestionLogger;
  * @version 1.0
  * @since 2025-03-31
  */
-public class DeleteCommand extends Command implements Tracable {
+public class DeleteCommand extends Command implements Traceable {
     private final int indexToDelete;
     private int targetIndex;
     private Question deletedQuestion;
@@ -85,4 +85,5 @@ public class DeleteCommand extends Command implements Tracable {
     public String redoMessage() {
         return String.format("%1$s successfully deleted.", deletedQuestion);
     }
+
 }

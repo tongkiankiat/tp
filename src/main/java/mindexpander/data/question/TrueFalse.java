@@ -10,6 +10,10 @@ public class TrueFalse extends Question {
         super(question, answer.toLowerCase(), QuestionType.TF);
     }
 
+    public TrueFalse(TrueFalse tf) {
+        super(tf.getQuestion(), tf.getAnswer(), QuestionType.TF);
+    }
+
     @Override
     public boolean checkAnswer(String userAnswer) {
         return answer.equalsIgnoreCase(userAnswer.trim());

@@ -25,7 +25,8 @@ The project consists of the following main components:
 6. Question: Objects to store data for question details and answers.
 7. Question bank: Handle question storing in the list, contains the list of questions.
 8. Storage handler: Handles the reading and writing to a .txt file.
-9. Common: Stores all magic strings or literals to be printed to user.
+9. Common: Stores all magic strings or literals to be printed to user and provides input validation utilities.
+10. Command history: Stores up to COMMAND_HISTORY_MAX_SIZE newest commands that can be undone/redone.
 
 The overall relations between the components and classes is as follows:
 
@@ -117,6 +118,34 @@ The returning of a `CommandResult` instance will be handled automatically by the
 
 The class diagram for the example multistep command `SolveCommand`:
 ![](diagrams/class/CommandHandling.png)
+
+**Traceable commands**
+
+The Traceable interface defines a set of behaviour for commands that support undo and redo functionality. 
+These commands are considered traceable because their effects can be reversed and reapplied, enabling users to seamlessly 
+backtrack or reapply previous actions. Traceable commands integrate with the `CommandHistory` class, which maintains a bounded 
+stack of the most recent traceable commands. When a traceable command is successfully executed, it is recorded in the `CommandHistory`.
+This enables a reliable and intuitive command reversal mechanism.
+
+![](diagrams/class/TraceableCommand.png)
+
+**Note**
+
+- Any command that implements Traceable must define:
+
+  - `undo()` – Reverts the action performed by the command.
+
+  - `redo()` – Reapplies the action as if it had just been executed.
+
+  - `undoMessage()`– Returns a user-facing message describing the undo operation.
+
+  - `redoMessage()` – Returns a user-facing message describing the redo operation.
+
+- By default, the CommandHistory class can store up to 10 traceable commands.
+  This limit is defined by the constant `COMMAND_HISTORY_MAX_SIZE` in the `CommandHistory` 
+  class and can be modified if needed to support a different history depth.
+- Undo and redo behaviour is invoked by the user by instantiating UndoCommand and RedoCommand.
+
 
 ### Data
 ![](diagrams/class/DataDiagram.png)
@@ -221,6 +250,10 @@ containing the reserved storage delimiter `%%MINDEXPANDER_DELIM%%`.
     * If the reserved delimiter is detected, the validator throws an `IllegalCommandException`.
 * Each command is responsible for handling this exception and giving context-specific feedback to the user.
 
+#### **Integration with Main**
+* Every time a command modifies the QuestionBank (e.g., add, delete, edit, clear), the updated data is automatically saved.
+* This logic is handled in the Main class and is transparent to the user — no manual saving is needed.
+
 
 ### Listing questions
 
@@ -253,9 +286,26 @@ The `show` command allows users to view the answer to a question by querying its
 The sequence diagram when calling `show`:
 ![](diagrams/sequence/Show.png)
 
-#### **Integration with Main**
-* Every time a command modifies the QuestionBank (e.g., add, delete, edit), the updated data is automatically saved.
-* This logic is handled in the Main class and is transparent to the user — no manual saving is needed.
+### Deleting a question
+* The `delete` command allows the user to remove a question from the question bank based on its index from the last shown list.
+
+Delete Safeguard Logic:
+* After a successful deletion, further delete operations are disabled until the user explicitly runs `list` or `find` again. 
+* This is implemented using a static flag `isDeleteEnabled` inside `DeleteCommand`.
+
+    * This ensures that users do not accidentally delete the wrong question from an outdated list.
+
+    * If a user attempts to delete without refreshing the question list, an error is shown: 
+  ```Please run list or find to get an updated list before using delete.```
+
+* Commands that re-enable deletion:
+    * `list`
+    * `find`
+
+This safeguard is enforced in both normal and edge cases and has been unit tested in DeleteCommandTest.
+
+The sequence diagram when calling `delete`:
+![](diagrams/sequence/Delete.png)
 
 ### Logging features
 
@@ -270,19 +320,22 @@ The log files are stored in a logs folder. This process is managed by a `LogsMan
 folder's existence and its creation for all logger classes.
 
 #### **Solve Attempt Logs**
-Logs users' attempts at solving questions, storing the date and time of the attempt, the question attempted and the
+Logs users' attempts at solving questions, storing the date and time of the attempt, the question attempted (with its correct answer) and the
 result of the attempt (either CORRECT or WRONG). This log serves to keep track of a user's performance over time. It can
 be examined to find specific questions which users struggle with a lot and constantly get wrong.
 
 The attempts are stored in a file named `solveAttemptLogs.txt`
-in the following format: `Timestamp|Question|Result`
+in the following format: `Timestamp|Question [Answer]|Result`
 
 For example:
 ```
-2025-04-04 19:40:40|FITB: hey|CORRECT
-2025-04-04 19:40:46|FITB: hey|WRONG
-2025-04-04 19:40:56|MCQ: hello\nA. hi\nB. hiii\nC. hiv\nD. hii\n|CORRECT
-2025-04-04 19:41:01|MCQ: hello\nA. hiii\nB. hi\nC. hiv\nD. hii\n|WRONG
+Timestamp|Question [Answer]|Result
+2025-04-07 07:18:03|FITB: What colour is yellow? [Answer: Yellow]|CORRECT
+2025-04-07 07:18:10|FITB: What colour is yellow? [Answer: Yellow]|WRONG
+2025-04-07 07:18:29|MCQ: What comes after the number 3? [Answer: 4]|WRONG
+2025-04-07 07:18:34|MCQ: What comes after the number 3? [Answer: 4]|CORRECT
+2025-04-07 07:19:05|TF: Fish are animals. [Answer: true]|WRONG
+2025-04-07 07:19:15|TF: Fish are animals. [Answer: true]|CORRECT
 ```
 
 ### **Error Logs**
@@ -337,6 +390,8 @@ This product aims to solve the problem of students not having a convenient place
 | v2.0    | user             | edit the questions that are currently in my question bank                                     | update outdated or incorrect question details                              |
 | v2.0    | user             | delete a question from the question bank                                                      | remove outdated or incorrect questions                                     |
 | v2.1    | user             | show the answer of a question from the question bank                                          | check the answer for that specific question                                |
+| v2.1    | user             | undo and redo my command                                                                      | easily correct mistakes and experiment without losing progress.            |
+| v2.1    | user             | clear all questions in the question bank                                                      | start fresh without manually deleting each question                        |
 
 ## Non-Functional Requirements
 
@@ -477,6 +532,18 @@ layer has a specific responsibility and interacts only with adjacent layers. The
 4. Invalid Index Case: `delete 100` (when the list has fewer than 100 questions)
    Expected: `Invalid question index.`
 
+### Clearing all questions
+1. Allows the user to remove all questions from the question bank in one command. Useful for resetting the application to a clean state during practice or testing.
+
+2. Prerequisite: The question bank contains at least 1 question.
+
+3. Test Case:
+   1. Command: `clear`
+       * Expected: The system asks for confirmation.
+       * UI prints: ```Are you sure you want to clear the entire question bank? (Y/N)```
+   2. User types: `Y`
+       * Expected: All questions are removed.
+       * UI prints: ```All questions have been cleared.```
 
 ## Future Enhancements
 

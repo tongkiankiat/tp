@@ -57,4 +57,5 @@ public class DeleteCommandTest extends DefaultTest {
                 () -> deleteCommand.execute());
         assertEquals("Invalid question index.", exception.getMessage());
     }
+
 }

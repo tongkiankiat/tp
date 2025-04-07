@@ -10,13 +10,17 @@
     - [Listing questions added: `list`](#listing-questions-added-list)
     - [Finding questions with a specified string: `find`](#finding-questions-with-a-specified-string-find)
     - [Solving questions: `solve`](#solving-questions-solve)
-    - [Exiting the program: `exit`](#exiting-the-program-exit)
+    - [Editing questions: `edit`](#editing-questions-edit)
     - [Deleting a question: `delete`](#deleting-a-question-delete)
     - [Showing the answer to a question: `show`](#showing-the-answer-to-a-specific-question-show)
-4. **[Logged Data](#logged-data)**
-5. **[Additional Notes](#additional-notes-for-program-features-and-usage)**
-6. **[FAQ](#faq)**
-7. **[Command Summary](#command-summary)**
+    - [Clearing all questions: `clear`](#clearing-all-questions-clear)
+    - [Undoing and redoing: `undo`/`redo`](#undoredo-a-command-that-modifies-the-question-bank-undoredo)
+    - [Exiting the program: `exit`](#exiting-the-program-exit)
+4. **[Saving and Loading](#saving-and-loading-of-data)**
+5. **[Logged Data](#logged-data)**
+6. **[Additional Notes](#additional-notes-for-program-features-and-usage)**
+7. **[FAQ](#faq)**
+8. **[Command Summary](#command-summary)**
 
 ## Introduction
 
@@ -131,7 +135,7 @@ options one at a time.
 Lists all the questions currently in the question bank. Running this will change the last shown list to be the full list
 of questions in the question bank again. List can be used to show the question list with or without answers.
 
-List can also be ran with additional question type parameters, to display questions only from that specific question type.
+List can also be run with additional question type parameters, to display questions only from that specific question type.
 
 **To show the list of questions without answers**
 
@@ -439,6 +443,8 @@ The wrong answer sequence for the above MCQ and TF questions follows that of the
 
 
 **Note**:
+* Entering a random string or character for MCQ or TF questions will by default be wrong, e.g. entering 'hi' instead of
+'A', 'B', 'C' or 'D' for MCQ or 'hi' instead of 'true' or 'false' for TF will be considered incorrect.
 * The MCQ question options are randomised each time to aid remembering the right answer contents instead of remembering
 the right letter.
 * If the question bank is empty (refers to the last shown list as well), the program will ask you to add a question.
@@ -569,7 +575,8 @@ Deleted question: FITB: 1 + 2 = __ [Answer: 3]
 
 **Notes:**
 * The question index is based on the most recently displayed question list (via `list` or `find`).
-* Attempting to delete an index that does not exist in the last shown list will result in an error.
+* Deletion is only allowed once after each `list` or `find` command. Attempting to delete again without refreshing the list will result in an error.
+* This safeguard prevents accidental multiple deletions using outdated indices.
 * This command is **single-step** and does not support multistep usage.
 
 ### Showing the answer to a specific question: `show`
@@ -597,6 +604,59 @@ Here is the answer for question 1:
 
 __Notes:__
 - This newly displayed list **does not** update the last shown list, so the user can still refer to the last shown list triggered by `list` or `find` commands to query the question index.
+
+### Clearing all questions: `clear`
+* Removes all questions from the question bank. This command uses multistep confirmation to prevent accidental loss of data.
+* Format: `clear
+* When run, it will prompt:
+```
+  Are you sure you want to clear the entire question bank? (Y/N)
+  ```
+* Type `Y` to proceed with clearing all questions.
+
+* Type `N` to cancel the operation.
+
+Example usage:
+
+```
+clear
+==============================
+Are you sure you want to clear the entire question bank? (Y/N)
+==============================
+Y
+==============================
+All questions have been cleared.
+==============================
+```
+
+### Undo/redo a command that modifies the question bank: `undo`/`redo`
+
+Undo/redo a traceable command. A traceable command is one that modifies the question bank (e.g. `add`, `delete`, `edit`).
+
+Format: `undo`/`redo`
+
+Example usage:
+
+Initial State:
+A question, "What is the most abundant gas in air? [Answer: Nitrogen]," 
+ is added as the first entry in the question bank.
+
+```
+undo
+==============================
+FITB: What is the most abundant gas in air? [Answer: Nitrogen] successfully deleted.
+==============================
+==============================
+redo
+==============================
+==============================
+FITB: What is the most abundant gas in air? [Answer: Nitrogen] successfully added.
+==============================
+```
+
+**Note**
+
+The program will store up to 10 traceable commands.
 
 ### Exiting the program: `exit`
 Exits the program.
@@ -654,11 +714,13 @@ something that will be logged (see log features below).
 
 Users may find these logs useful for their specific purposes.
 
-1. Solve attempts: Stored in `solveAttemptLogs.txt`, tracks the time of attempt, the question attempted and if the user
-got the question correct or wrong in the format `Timestamp|Question|Result`. This is useful for seeing, for example, which questions
+1. Solve attempts: Stored in `solveAttemptLogs.txt`, tracks the time of attempt, the question attempted with its **correct** answer and if the user
+got the question correct or wrong in the format `Timestamp|Question [Answer]|Result`. This is useful for seeing, for example, which questions
 are constantly attempted and gotten wrong.
 2. Errors: Stored in `errorLogs.txt`, tracks the time of input and the error message that was returned. This is useful for referring to when checking what inputs are not accepted.
 3. Questions: Whenever a user adds, edits, or deletes a question, the system automatically saves a record of it in `questionLogs.txt`. This is useful for looking back at all the questions you've worked with.
+
+The above log files are for the user to view only.
 
 ## Additional notes for program features and usage
 * This program is designed to take inputs in **Roman Alphabet** (i.e. English characters),
@@ -683,7 +745,8 @@ same folder where the .jar file is installed on the new computer.
 **Q**: Will questions I add to the save file before running the program be added to the list?
 
 **A**: Yes, provided that the questions are in the correct format. However, this is highly not recommended due to risk
-of getting the format wrong.
+of getting the format wrong. This will also bypass the checking of duplicate questions since you chose to manually add
+the question.
 
 ## Command Summary
 
@@ -706,4 +769,7 @@ of getting the format wrong.
 * Solve question `solve [QUESTION_INDEX]` | `[QUESTION_ANSWER]` | `[Y/N]` (only if wrong)
 * Delete question: `delete [QUESTION_INDEX]`
 * Show answer to a question `show [QUESTION_INDEX]`
+* Clear all questions: `clear` | `[Y/N]`
+* Undo the previous command: `undo`
+* Redo the previous undid command: `redo`
 * Exit program `exit`
