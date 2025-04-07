@@ -29,32 +29,17 @@ questions. It features a simple Command Line Interface (CLI), allowing users to 
 questions. The app provides a structured and interactive way for students to reinforce their learning through guided 
 commands. With built-in saving and loading capabilities, users can seamlessly continue their practice sessions anytime.
 
+<div style="page-break-after: always;"></div>
+
 ## Quick Start
 
 1. Ensure that you have Java 17 or above installed.
-2. Down the latest version of `MindExpander` from [here](https://github.com/AY2425S2-CS2113-F12-3/tp/releases/tag/v2.0).
+2. Down the latest version of `MindExpander` from [here](https://github.com/AY2425S2-CS2113-F12-3/tp/releases/tag/v2.1).
 3. Open a command terminal.
 4. `cd` into the folder containing the jar file.
 5. Use the command `java -jar MindExpander.jar` to run the application. Upon start up, you should see:
-```
-==============================
 
-    _____  .__            .______________                                .___            
-   /     \ |__| ____    __| _/\_   _____/__  ______________    ____    __| _/___________
-  /  \ /  \|  |/    \  / __ |  |    __)_\  \/  /\____ \__  \  /    \  / __ |/ __ \_  __ \
- /    Y    \  |   |  \/ /_/ |  |        \>    < |  |_> > __ \|   |  \/ /_/ \  ___/|  | \/
- \____|__  /__|___|  /\____ | /_______  /__/\_ \|   __(____  /___|  /\____ |\___  >__|   
-         \/        \/      \/         \/      \/|__|       \/     \/      \/    \/
-
-Presented by: CS2113-F12-3
-Welcome to MindExpander!
-==============================
-==============================
-What would you like to do today?
-Type <help> for a list of commands.
-==============================
-```
-
+![img.png](img.png)
 ## Features
 The list of features and how to use them can be found below.
 User input lines will be of the form `[USER_INPUT]`.
@@ -65,6 +50,11 @@ an input with 3 different input steps will be of the form `STEP 1` | `STEP 2` | 
 "Last shown list" refers to the list that was last shown to the user. This list will be used for commands which
 require a specified question index to carry out the command, more details in the commands 
 [List](#listing-questions-added-list) and in [Find](#finding-questions-with-a-specified-string-find).
+
+
+<div style="page-break-after: always;"></div>
+
+
 
 ### Viewing the help sheet: `help`
 Displays a list of the available commands a brief description of what they do. It can also be used to view the
@@ -88,6 +78,8 @@ Example usage:
 `help add`
 
 This prints the usage instructions for the command `add`.
+
+<div style="page-break-after: always;"></div>
 
 ### Adding a question: `add`
 Adds a question to the question bank. Follows a series of steps which require separate inputs each.
@@ -146,6 +138,9 @@ Example usage for `TF` questions:
 * MCQ questions have 4 options including the correct answer. When prompted to enter the incorrect answers, only input the **incorrect**
 options one at a time.
 * Invalid TF answers will prompt the user to re-enter until `true` or `false` is provided.
+
+<div style="page-break-after: always;"></div>
+
 
 ### Listing questions added: `list`
 Lists all the questions currently in the question bank. Running this will change the last shown list to be the full list
@@ -253,6 +248,9 @@ Here are the TF questions you have currently:
 ==============================
 ```
 
+<div style="page-break-after: always;"></div>
+
+
 ### Finding questions with a specified string: `find`
 Finds all questions currently in the question bank that contain a specific keyword. Running this will change the last shown list to be the list of
 questions which match the user's search query in the question bank. Find can be used to search for all question types,
@@ -353,6 +351,9 @@ Here are the TF questions with MRT:
 1. TF: Lakeside MRT is the best. (True/False)
 ==============================
 ```
+
+<div style="page-break-after: always;"></div>
+
 
 ### Solving questions: `solve`
 Solves a question that was previously added to the question bank.
@@ -469,6 +470,9 @@ the right letter.
 * Entering other strings that are neither Y nor N to try again will result in the program continuously asking for Y 
 or N until one of them is entered. This is to give the user a chance to actually enter Y or N.
 
+<div style="page-break-after: always;"></div>
+
+
 ### Editing questions: `edit`
 
 Edits a question that was previously added to the question bank.
@@ -560,6 +564,9 @@ Question successfully edited: TF: Burgers are made of potatoes [Answer: false]
 
 - When editing multiple-choice options, the system will prompt for three options sequentially.
 
+<div style="page-break-after: always;"></div>
+
+
 ### Deleting a question: `delete`
 Removes a question from the question bank. The question index should refer to the index displayed by the most recent `list` or `find` command.
 
@@ -630,6 +637,11 @@ find fitb math → delete 1 → find fitb math → delete 1 → ...
 ```
 
 This ensures the list is always updated and the deletion works as expected.
+
+
+<div style="page-break-after: always;"></div>
+
+
 ### Showing the answer to a specific question: `show`
 
 Shows the answer to a question in the question bank by querying its question index. The question index should refer to the index displayed by the most recent `list` or `find` command.
@@ -656,6 +668,11 @@ Here is the answer for question 1:
 __Notes:__
 - This newly displayed list **does not** update the last shown list, so the user can still refer to the last shown list triggered by `list` or `find` commands to query the question index.
 
+
+<div style="page-break-after: always;"></div>
+
+
+
 ### Clearing all questions: `clear`
 * Removes all questions from the question bank. This command uses multistep confirmation to prevent accidental loss of data.
 * Format: `clear
@@ -679,6 +696,10 @@ Y
 All questions have been cleared.
 ==============================
 ```
+
+
+<div style="page-break-after: always;"></div>
+
 
 ### Undo/redo a command that modifies the question bank: `undo`/`redo`
 
@@ -709,6 +730,9 @@ FITB: What is the most abundant gas in air? [Answer: Nitrogen] successfully adde
 
 The program will store up to 10 traceable commands.
 
+<div style="page-break-after: always;"></div>
+
+
 ### Exiting the program: `exit`
 Exits the program.
 
@@ -717,6 +741,10 @@ Format: `exit`
 Example usage: 
 
 `exit`
+
+<div style="page-break-after: always;"></div>
+
+
 
 ## Saving and Loading of Data
 
@@ -756,6 +784,9 @@ Note that | in the above examples represent `Messages.STORAGE_DELIMITER`
 * Only properly formatted lines will be loaded. Malformed entries will be skipped.
 * Lines that are incorrectly formatted by the user manually modifying the text file risk being skipped.
 
+<div style="page-break-after: always;"></div>
+
+
 ## Logged data
 To improve user experience, MindExpander keeps track of some data throughout the use of the program.
 The log files are generated and stored in a logs folder that will be created when the user first does
@@ -773,6 +804,9 @@ are constantly attempted and gotten wrong.
 
 The above log files are for the user to view only.
 
+<div style="page-break-after: always;"></div>
+
+
 ## Additional notes for program features and usage
 * This program is designed to take inputs in **Roman Alphabet** (i.e. English characters),
 please do not enter characters from other languages, for example Chinese or Arabic characters. Entering them could
@@ -787,6 +821,9 @@ result in unspecified behaviour.
   * E.g. `edit_______1____q___` is accepted.
   * E.g. `find hello____` will search for strings with just `hello`.
   * This trimming means it's ok if you accidentally press the space-bar too many times.
+
+<div style="page-break-after: always;"></div>
+
 
 ## FAQ
 
@@ -804,6 +841,9 @@ same folder where the .jar file is installed on the new computer.
 **A**: Yes, provided that the questions are in the correct format. However, this is highly not recommended due to risk
 of getting the format wrong. This will also bypass the checking of duplicate questions since you chose to manually add
 the question.
+
+<div style="page-break-after: always;"></div>
+
 
 ## Command Summary
 
