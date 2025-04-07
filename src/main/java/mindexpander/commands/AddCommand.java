@@ -1,11 +1,15 @@
 package mindexpander.commands;
 
+import mindexpander.data.CommandHistory;
+import mindexpander.common.InputValidator;
 import mindexpander.data.QuestionBank;
 import mindexpander.data.question.FillInTheBlanks;
 import mindexpander.data.question.MultipleChoice;
 import mindexpander.data.question.Question;
 import mindexpander.data.question.QuestionType;
 import mindexpander.data.question.TrueFalse;
+import mindexpander.exceptions.IllegalCommandException;
+import mindexpander.logging.QuestionLogger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,25 +19,31 @@ import java.util.List;
  * This command is multistep, prompting the user for the question type,
  * question text, answer, and additional data based on the type (e.g., options for MCQ).
  */
-public class AddCommand extends Command implements Multistep {
+public class AddCommand extends Command implements Multistep, Traceable {
     private Question toAdd;
+    private final int toAddIndex;
     private QuestionType type;
     private String question;
     private String answer;
+    private final QuestionBank questionBank;
+    private final CommandHistory commandHistory;
 
     private enum Step {GET_TYPE, GET_QUESTION, GET_ANSWER, GENERATE_QUESTION}
 
     private AddCommand.Step currentStep = AddCommand.Step.GET_TYPE;
     private int multipleChoiceOptionNumber = 0;
-    private List<String> options;
+    private final List<String> options;
 
     /**
      * Constructs an {@code AddCommand} and initiates the first step
      * of the multistep process by prompting the user to enter a question type.
      */
-    public AddCommand() {
+    public AddCommand(QuestionBank questionBank, CommandHistory commandHistory) {
         isComplete = false; // Multistep command
         options = new ArrayList<>();
+        this.questionBank = questionBank;
+        this.commandHistory = commandHistory;
+        this.toAddIndex = questionBank.getQuestionCount();
         updateCommandMessage(initialiseAddCommand());
     }
 
@@ -46,11 +56,10 @@ public class AddCommand extends Command implements Multistep {
      * Handles each step of the multistep add question process based on the current input.
      *
      * @param nextInput the user input for the current step.
-     * @param questionBank the {@code QuestionBank} where the new question will be stored.
      * @return the updated {@code Command} instance representing the current step.
      */
     @Override
-    public Command handleMultistepCommand(String nextInput, QuestionBank questionBank) {
+    public Command handleMultistepCommand(String nextInput) {
         if (nextInput.trim().equals("")) {
             updateCommandMessage("Input cannot be empty!");
             return this;
@@ -58,6 +67,31 @@ public class AddCommand extends Command implements Multistep {
 
         if (currentStep == Step.GET_TYPE) {
             getQuestionType(nextInput);
+            return this;
+        }
+
+        try {
+            InputValidator.validateInput(nextInput);
+        } catch (IllegalCommandException e) {
+            switch (currentStep) {
+            case GET_QUESTION:
+                updateCommandMessage(
+                        "Input cannot contain the reserved delimiter string! Please enter a new question:"
+                );
+                break;
+            case GET_ANSWER:
+                updateCommandMessage(
+                        "Input cannot contain the reserved delimiter string! Please enter a new answer:"
+                );
+                break;
+            case GENERATE_QUESTION:
+                updateCommandMessage(
+                        "Input cannot contain the reserved delimiter string! Please enter a new option:"
+                );
+                break;
+            default:
+                updateCommandMessage(e.getMessage()); // fallback
+            }
             return this;
         }
 
@@ -78,6 +112,7 @@ public class AddCommand extends Command implements Multistep {
         if (currentStep == Step.GET_ANSWER) {
             this.answer = nextInput.trim();
             currentStep = Step.GENERATE_QUESTION;
+            commandHistory.add(this);
         }
 
         return addQuestionHandler(nextInput, questionBank);
@@ -127,6 +162,7 @@ public class AddCommand extends Command implements Multistep {
     private Command addFillInTheBlank(QuestionBank questionBank) {
         toAdd = new FillInTheBlanks(question, answer);
         questionBank.addQuestion(toAdd);
+        QuestionLogger.logAddedQuestion(toAdd);
         updateCommandMessage(String.format("Question %1$s successfully added.", toAdd.toString()));
         isComplete = true;
         return this;
@@ -162,6 +198,7 @@ public class AddCommand extends Command implements Multistep {
 
         toAdd = new MultipleChoice(question, answer, options);
         questionBank.addQuestion(toAdd);
+        QuestionLogger.logAddedQuestion(toAdd);
         updateCommandMessage(String.format("Question %1$s successfully added.", toAdd.toString()));
         isComplete = true;
         return this;
@@ -182,9 +219,26 @@ public class AddCommand extends Command implements Multistep {
         }
         toAdd = new TrueFalse(question, answerLower);
         questionBank.addQuestion(toAdd);
+        QuestionLogger.logAddedQuestion(toAdd);
         updateCommandMessage(String.format("Question %1$s successfully added.", toAdd.toString()));
         isComplete = true;
         return this;
     }
 
+    public void undo() {
+        int indexToDelete = questionBank.findQuestionIndex(toAdd);
+        questionBank.removeQuestion(indexToDelete);
+    }
+
+    public String undoMessage() {
+        return String.format("%1$s successfully deleted.", toAdd);
+    }
+
+    public void redo() {
+        questionBank.addQuestionAt(toAddIndex, toAdd);
+    }
+
+    public String redoMessage() {
+        return String.format("%1$s successfully added.", toAdd);
+    }
 }

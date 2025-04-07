@@ -3,6 +3,8 @@ package mindexpander.parser;
 // Commands
 import mindexpander.commands.HelpCommand;
 import mindexpander.commands.ListCommand;
+import mindexpander.commands.ExitCommand;
+import mindexpander.commands.RedoCommand;
 import mindexpander.commands.AddCommand;
 import mindexpander.commands.EditCommand;
 import mindexpander.commands.SolveCommand;
@@ -10,8 +12,10 @@ import mindexpander.commands.ShowCommand;
 import mindexpander.commands.FindCommand;
 import mindexpander.commands.Command;
 import mindexpander.commands.DeleteCommand;
-import mindexpander.commands.ExitCommand;
+import mindexpander.commands.ClearCommand;
 
+import mindexpander.commands.UndoCommand;
+import mindexpander.data.CommandHistory;
 import mindexpander.exceptions.IllegalCommandException;
 
 import mindexpander.data.QuestionBank;
@@ -41,7 +45,8 @@ public class Parser {
      * @return The appropriate {@code CommandHandler} object based on the command.
      * @throws IllegalCommandException If the command is invalid or unrecognized.
      */
-    public Command parseCommand (String userEntry, QuestionBank questionBank, QuestionBank lastShownQuestionBank)
+    public Command parseCommand (String userEntry, QuestionBank questionBank,
+                                 QuestionBank lastShownQuestionBank, CommandHistory commandHistory)
             throws IllegalCommandException {
 
         // Split into commands and details of task
@@ -54,12 +59,16 @@ public class Parser {
         case "help" -> new HelpCommand(taskDetails);
         case "exit" -> new ExitCommand();
         case "solve" -> handleSolve(userEntry, taskDetails, lastShownQuestionBank);
-        case "add" -> new AddCommand();
+        case "add" -> new AddCommand(questionBank, commandHistory);
         case "list" -> handleList(userEntry, taskDetails, questionBank);
         case "find" -> handleFind(userEntry, taskDetails, questionBank);
-        case "edit" -> handleEdit(userEntry, taskDetails, questionBank, lastShownQuestionBank);
-        case "delete" -> DeleteCommand.parseFromUserInput(taskDetails, questionBank, lastShownQuestionBank);
+        case "edit" -> handleEdit(userEntry, taskDetails, questionBank, lastShownQuestionBank, commandHistory);
+        case "delete" -> DeleteCommand.parseFromUserInput(taskDetails, questionBank,
+            lastShownQuestionBank, commandHistory);
+        case "undo" -> new UndoCommand(commandHistory);
+        case "redo" -> new RedoCommand(commandHistory);
         case "show" -> handleShow(userEntry, taskDetails, questionBank, lastShownQuestionBank);
+        case "clear" -> ClearCommand.parseFromUserInput(taskDetails, questionBank, commandHistory);
         default -> {
             ErrorLogger.logError(userEntry, Messages.UNKNOWN_COMMAND_MESSAGE);
             throw new IllegalCommandException(Messages.UNKNOWN_COMMAND_MESSAGE);
@@ -95,7 +104,8 @@ public class Parser {
             String userEntry,
             String taskDetails,
             QuestionBank questionBank,
-            QuestionBank lastShownQuestionBank
+            QuestionBank lastShownQuestionBank,
+            CommandHistory commandHistory
     ) {
         try {
             String[] commandArguments = taskDetails.split(" ", 2);
@@ -114,7 +124,7 @@ public class Parser {
             if (indexToEdit < 1 || indexToEdit > lastShownQuestionBank.getQuestionCount()) {
                 throw new IllegalCommandException("Invalid question index.");
             }
-            return new EditCommand(indexToEdit, toEdit, questionBank, lastShownQuestionBank);
+            return new EditCommand(indexToEdit, toEdit, questionBank, lastShownQuestionBank, commandHistory);
         } catch (NumberFormatException e) {
             ErrorLogger.logError(userEntry, Messages.UNKNOWN_COMMAND_MESSAGE);
             throw new IllegalCommandException(Messages.UNKNOWN_COMMAND_MESSAGE);

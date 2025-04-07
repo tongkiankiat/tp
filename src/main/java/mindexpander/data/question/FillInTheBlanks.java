@@ -1,3 +1,4 @@
+//@@author Flaaaash
 package mindexpander.data.question;
 
 /**
@@ -6,6 +7,10 @@ package mindexpander.data.question;
 public class FillInTheBlanks extends Question {
     public FillInTheBlanks(String question, String answer) {
         super(question, answer, QuestionType.FITB);
+    }
+
+    public FillInTheBlanks(FillInTheBlanks fitb) {
+        super(fitb.getQuestion(), fitb.getAnswer(), QuestionType.FITB);
     }
 
     /**

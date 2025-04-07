@@ -43,7 +43,7 @@ public class SolveCommandTest {
         String message = command.getCommandMessage();
         String correctOption = getCorrectOptionFromMessage(message, "4");
 
-        Command result = command.handleMultistepCommand(correctOption, questionBank);
+        Command result = command.handleMultistepCommand(correctOption);
         assertEquals("Correct!", result.getCommandMessage());
     }
 
@@ -54,21 +54,21 @@ public class SolveCommandTest {
         String message = command.getCommandMessage();
         String wrongOption = getWrongOptionFromMessage(message, "4");
 
-        Command result = command.handleMultistepCommand(wrongOption, questionBank);
+        Command result = command.handleMultistepCommand(wrongOption);
         assertEquals("Wrong answer, would you like to try again? [Y/N]", result.getCommandMessage());
     }
 
     @Test
     public void testHandleMultistepCommand_correctFillInTheBlanks() {
         SolveCommand command = new SolveCommand("2", questionBank);
-        Command result = command.handleMultistepCommand("Paris", questionBank);
+        Command result = command.handleMultistepCommand("Paris");
         assertEquals("Correct!", result.getCommandMessage());
     }
 
     @Test
     public void testHandleMultistepCommand_wrongFillInTheBlanks() {
         SolveCommand command = new SolveCommand("2", questionBank);
-        Command result = command.handleMultistepCommand("London", questionBank);
+        Command result = command.handleMultistepCommand("London");
         assertEquals("Wrong answer, would you like to try again? [Y/N]", result.getCommandMessage());
     }
 

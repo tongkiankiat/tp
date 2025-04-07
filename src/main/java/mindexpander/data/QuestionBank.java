@@ -1,3 +1,4 @@
+//@@author Flaaaash
 package mindexpander.data;
 
 import mindexpander.data.question.Question;
@@ -20,8 +21,16 @@ public class QuestionBank {
         allQuestions.add(toAdd);
     }
 
+    public void addQuestionAt(int index, Question toAdd) {
+        allQuestions.add(index, toAdd);
+    }
+
     public void removeQuestion(int index) {
         allQuestions.remove(index);
+    }
+
+    public void clear() {
+        allQuestions.clear();
     }
 
     public int getQuestionCount() {

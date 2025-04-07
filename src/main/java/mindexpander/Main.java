@@ -1,6 +1,7 @@
 package mindexpander;
 
 import mindexpander.commands.CommandResult;
+import mindexpander.data.CommandHistory;
 import mindexpander.parser.Parser;
 
 import mindexpander.data.QuestionBank;
@@ -20,6 +21,7 @@ public class Main {
     private QuestionBank lastShownQuestionBank;
     private StorageFile storage;
     private TextUi ui;
+    private CommandHistory commandHistory;
 
     // Constructor
     public static void main(String[] args) {
@@ -41,6 +43,7 @@ public class Main {
             this.storage = new StorageFile();
             this.questionBank = storage.load();
             this.lastShownQuestionBank = questionBank;
+            this.commandHistory = new CommandHistory();
         } catch (Exception e) {
             ui.printInitFailedMessage();
         }
@@ -57,7 +60,7 @@ public class Main {
             String userCommand = ui.getUserCommand();
 
             try {
-                command = new Parser().parseCommand(userCommand, questionBank, lastShownQuestionBank);
+                command = new Parser().parseCommand(userCommand, questionBank, lastShownQuestionBank, commandHistory);
                 CommandResult commandResult = command.execute();
                 recordResult(commandResult);
                 storage.save(questionBank);
@@ -65,7 +68,7 @@ public class Main {
 
                 while (!command.isCommandComplete()) {
                     String input = ui.nextLine();
-                    manageMultistepCommand(input, command, questionBank, lastShownQuestionBank);
+                    command.handleMultistepCommand(input);
                     storage.save(questionBank);
                     ui.displayResults(command.execute());
                 }
@@ -87,12 +90,4 @@ public class Main {
         }
     }
 
-    private void manageMultistepCommand(String input, Command command, QuestionBank questionBank,
-        QuestionBank lastShownQuestionBank) {
-        if (command.isUsingLastShownQuestionBank()) {
-            command.handleMultistepCommand(input, lastShownQuestionBank);
-        } else {
-            command.handleMultistepCommand(input, questionBank);
-        }
-    }
 }

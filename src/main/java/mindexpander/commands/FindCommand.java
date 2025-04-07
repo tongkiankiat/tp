@@ -14,6 +14,7 @@ public class FindCommand extends Command {
         this.questionBank = questionBank;
         this.questionType = questionType.toLowerCase();
         this.keyword = keyword;
+        DeleteCommand.enableDelete();
     }
 
     // Methods

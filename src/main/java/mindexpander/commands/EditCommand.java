@@ -1,10 +1,15 @@
 package mindexpander.commands;
 
+import mindexpander.common.InputValidator;
+import mindexpander.data.CommandHistory;
 import mindexpander.data.QuestionBank;
+import mindexpander.data.question.FillInTheBlanks;
 import mindexpander.data.question.MultipleChoice;
 import mindexpander.data.question.Question;
 import mindexpander.data.question.QuestionType;
+import mindexpander.data.question.TrueFalse;
 import mindexpander.exceptions.IllegalCommandException;
+import mindexpander.logging.QuestionLogger;
 
 import static java.lang.Integer.parseInt;
 
@@ -13,21 +18,38 @@ import static java.lang.Integer.parseInt;
  * This command supports editing the question text, answer, or individual options
  * for multiple choice questions, and is designed as a multistep command.
  */
-public class EditCommand extends Command implements Multistep {
+public class EditCommand extends Command implements Multistep, Traceable {
     private final int indexToEdit;
     private String editedAttribute;
     private int optionIndex = 0;
-    private final Question questionToEdit;
+    private Question questionToEdit;
+    private Question originalQuestion;
     private final QuestionBank mainBank;
     private final QuestionBank lastShownBank;
+    private final CommandHistory commandHistory;
 
-    public EditCommand(int indexToEdit, String toEdit, QuestionBank mainBank, QuestionBank lastShownBank) {
+    public EditCommand(int indexToEdit, String toEdit, QuestionBank mainBank,
+                       QuestionBank lastShownBank, CommandHistory commandHistory) {
         this.indexToEdit = indexToEdit - 1;
-        this.questionToEdit = lastShownBank.getQuestion(this.indexToEdit);
         this.mainBank = mainBank;
         this.lastShownBank = lastShownBank;
+        this.commandHistory = commandHistory;
         isComplete = false;
+        initialiseQuestionRecord();
         updateCommandMessage(initialiseEditCommandMessage(toEdit));
+    }
+
+    private void initialiseQuestionRecord() {
+        this.questionToEdit = lastShownBank.getQuestion(indexToEdit);
+        if (questionToEdit instanceof FillInTheBlanks fitb) {
+            this.originalQuestion = new FillInTheBlanks(fitb);
+        }
+        if (questionToEdit instanceof MultipleChoice mcq) {
+            this.originalQuestion = new MultipleChoice(mcq);
+        }
+        if (questionToEdit instanceof TrueFalse tf) {
+            this.originalQuestion = new TrueFalse(tf);
+        }
     }
 
     private String initialiseEditCommandMessage(String toEdit) {
@@ -59,15 +81,33 @@ public class EditCommand extends Command implements Multistep {
      * Handles user input for each step of the editing process.
      *
      * @param nextInput the new input to apply to the specified field.
-     * @param questionBank the {@code QuestionBank} used for reference.
      * @return the updated {@code Command} instance.
      */
     @Override
-    public Command handleMultistepCommand(String nextInput, QuestionBank questionBank) {
+    public Command handleMultistepCommand(String nextInput) {
         assert lastShownBank != null : "lastShownBank must not be null";
 
         if (nextInput.trim().isEmpty()) {
             updateCommandMessage(String.format("%1$s cannot be empty!", editedAttribute));
+            return this;
+        }
+
+        try {
+            InputValidator.validateInput(nextInput);
+        } catch (IllegalCommandException e) {
+            if (editedAttribute.equals("question")) {
+                updateCommandMessage(
+                        "Input cannot contain the reserved delimiter string! Please enter a new question:"
+                );
+            } else if (editedAttribute.equals("answer")) {
+                updateCommandMessage(
+                        "Input cannot contain the reserved delimiter string! Please enter a new answer:"
+                );
+            } else {
+                updateCommandMessage(
+                        "Input cannot contain the reserved delimiter string! Please enter a new option:"
+                );
+            }
             return this;
         }
 
@@ -120,7 +160,9 @@ public class EditCommand extends Command implements Multistep {
             }
         }
         mainBank.getQuestion(targetIndex).editQuestion(nextInput);
+        QuestionLogger.logEditedQuestion(mainBank.getQuestion(targetIndex));
         updateCommandMessage(String.format("Question successfully edited: %1$s", mainBank.getQuestion(targetIndex)));
+        commandHistory.add(this);
         isComplete = true;
         return this;
     }
@@ -154,7 +196,9 @@ public class EditCommand extends Command implements Multistep {
             q.editAnswer(nextInput);
         }
 
+        QuestionLogger.logEditedQuestion(q);
         updateCommandMessage(String.format("Question successfully edited: %1$s", mainBank.getQuestion(targetIndex)));
+        commandHistory.add(this);
         isComplete = true;
         return this;
     }
@@ -178,7 +222,26 @@ public class EditCommand extends Command implements Multistep {
         }
         updateCommandMessage(String.format("Question successfully edited: %1$s",
                 mainBank.getQuestion(targetIndex).toStringNoAnswer()));
+        commandHistory.add(this);
         isComplete = true;
         return this;
+    }
+
+    public void undo() {
+        mainBank.removeQuestion(indexToEdit);
+        mainBank.addQuestionAt(indexToEdit, originalQuestion);
+    }
+
+    public String undoMessage() {
+        return String.format("%1$s successfully restored.", originalQuestion);
+    }
+
+    public void redo() {
+        mainBank.removeQuestion(indexToEdit);
+        mainBank.addQuestionAt(indexToEdit, questionToEdit);
+    }
+
+    public String redoMessage() {
+        return String.format("%1$s successfully restored.", questionToEdit);
     }
 }
