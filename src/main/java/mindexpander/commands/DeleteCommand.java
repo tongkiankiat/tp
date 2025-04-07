@@ -18,6 +18,7 @@ import mindexpander.logging.QuestionLogger;
  * @version 1.0
  * @since 2025-03-31
  */
+public class DeleteCommand extends Command implements Traceable {
 public class DeleteCommand extends Command implements Tracable {
     private static boolean isDeleteEnabled = true;
     private final int indexToDelete;

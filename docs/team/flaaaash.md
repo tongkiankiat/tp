@@ -10,8 +10,8 @@ design of our project components and defined how they interact with each other. 
 ensure alignment with our objectives and adherence to code quality principles.
 
 For the program itself, I was responsible for all aspects of data management, including the Question and QuestionBank
-classes. I also handled everything related to the Add and Edit features, including their implementation, testing,
-and documentation.
+classes. I handled everything related to the Add and Edit features, including their implementation, testing,
+and documentation. I also designed and implemented the Undo/Redo behaviour for relevant command class.
 
 ## Summary of Contributions
 Given below are my contributions to the project.
@@ -22,12 +22,16 @@ Given below are my contributions to the project.
     * Developed the Add feature, allowing users to create different types of questions.
     * Developed the Edit feature, allowing modifications of existing questions.
     * Improved the Add command to support a guided multistep creation of a question.
+    * Designed and implemented Undo/Redo feature and commandHistory class that stores Command that has Undo/Redo behaviour.
+    * Developed the Undo/Redo behaviour for Add, Delete and Edit commands.
 * __Contributions to UG__
     * Add Command
     * Edit Command
+    * Undo/Redo Command
 * __Contributions to DG__
     * Command handling segment of Design and Implementation
     * Data segment of Design and Implementation
+    * Traceable commands of Design and Implementation.
 * __Others__
     * Coordinated and reviewed overall system architecture to ensure modularity and maintainability.
 

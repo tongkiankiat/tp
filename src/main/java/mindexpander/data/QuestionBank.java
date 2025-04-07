@@ -1,3 +1,4 @@
+//@@author Flaaaash
 package mindexpander.data;
 
 import mindexpander.data.question.Question;

@@ -19,20 +19,20 @@ import java.util.List;
  * This command is multistep, prompting the user for the question type,
  * question text, answer, and additional data based on the type (e.g., options for MCQ).
  */
-public class AddCommand extends Command implements Multistep, Tracable {
+public class AddCommand extends Command implements Multistep, Traceable {
     private Question toAdd;
     private final int toAddIndex;
     private QuestionType type;
     private String question;
     private String answer;
-    private QuestionBank questionBank;
-    private CommandHistory commandHistory;
+    private final QuestionBank questionBank;
+    private final CommandHistory commandHistory;
 
     private enum Step {GET_TYPE, GET_QUESTION, GET_ANSWER, GENERATE_QUESTION}
 
     private AddCommand.Step currentStep = AddCommand.Step.GET_TYPE;
     private int multipleChoiceOptionNumber = 0;
-    private List<String> options;
+    private final List<String> options;
 
     /**
      * Constructs an {@code AddCommand} and initiates the first step
