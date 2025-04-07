@@ -207,7 +207,7 @@ public class HelpCommand extends Command {
         if (taskDetails.isEmpty()) {
             updateCommandMessage(DEFAULT_HELP_MESSAGE);
         } else {
-            String helpMessage = chooseHelpMessage(taskDetails);
+            String helpMessage = chooseHelpMessage(taskDetails.trim());
             updateCommandMessage(helpMessage);
         }
     }

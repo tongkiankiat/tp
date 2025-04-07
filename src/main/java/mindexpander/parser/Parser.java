@@ -108,7 +108,7 @@ public class Parser {
             CommandHistory commandHistory
     ) {
         try {
-            String[] commandArguments = taskDetails.split(" ", 2);
+            String[] commandArguments = taskDetails.trim().split(" ", 2);
 
             if (commandArguments.length < 2) {
                 ErrorLogger.logError(userEntry, Messages.UNKNOWN_COMMAND_MESSAGE);
@@ -118,16 +118,17 @@ public class Parser {
                         "\n" + "'o' for multiple choice options.");
             }
 
-            int indexToEdit = Integer.parseInt(commandArguments[0]);
-            String toEdit = commandArguments[1];
+            int indexToEdit = Integer.parseInt(commandArguments[0].trim());
+            String toEdit = commandArguments[1].trim();
 
             if (indexToEdit < 1 || indexToEdit > lastShownQuestionBank.getQuestionCount()) {
-                throw new IllegalCommandException("Invalid question index.");
+                ErrorLogger.logError(userEntry, "Invalid question index. Please enter a valid index.");
+                throw new IllegalCommandException("Invalid question index. Please enter a valid index.");
             }
             return new EditCommand(indexToEdit, toEdit, questionBank, lastShownQuestionBank, commandHistory);
         } catch (NumberFormatException e) {
-            ErrorLogger.logError(userEntry, Messages.UNKNOWN_COMMAND_MESSAGE);
-            throw new IllegalCommandException(Messages.UNKNOWN_COMMAND_MESSAGE);
+            ErrorLogger.logError(userEntry, "Invalid number. Please enter a valid number.");
+            throw new IllegalCommandException("Invalid number. Please enter a valid number.");
         }
     }
 

@@ -724,6 +724,9 @@ result in unspecified behaviour.
   * Ctrl Z + Enter (EOF signal on Windows) or Ctrl C (Interrupt) will end the program. 
 * Inputting unrecognised commands will result in an error message.
 * Commands are __not__ case-sensitive (i.e. ADD, LIsT are accepted).
+* Commands and parameters are trimmed (i.e. leading and trailing whitespaces are accepted).
+  * E.g. `          add           ` is accepted.
+  * E.g. `edit           1    q   ` is accepted.
 
 ## FAQ
 
