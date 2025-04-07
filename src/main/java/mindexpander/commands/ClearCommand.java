@@ -4,6 +4,7 @@ import mindexpander.data.CommandHistory;
 import mindexpander.data.QuestionBank;
 import mindexpander.data.question.Question;
 import mindexpander.exceptions.IllegalCommandException;
+import mindexpander.logging.ErrorLogger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +27,7 @@ public class ClearCommand extends Command implements Traceable, Multistep {
     }
 
     @Override
-    public Command handleMultistepCommand(String userInput) {
+    public Command handleMultistepCommand(String userCommand, String userInput) {
         String input = userInput.trim().toLowerCase();
         if (awaitingConfirmation) {
             switch (input) {
@@ -42,6 +43,7 @@ public class ClearCommand extends Command implements Traceable, Multistep {
                 isComplete = true;
                 break;
             default:
+                ErrorLogger.logError(userCommand, "Invalid input. Please enter 'Y' or 'N':");
                 updateCommandMessage("Invalid input. Please enter 'Y' or 'N':");
                 break;
             }
@@ -49,9 +51,10 @@ public class ClearCommand extends Command implements Traceable, Multistep {
         return this;
     }
 
-    public static ClearCommand parseFromUserInput(String taskDetails, QuestionBank mainBank,
+    public static ClearCommand parseFromUserInput(String userCommand, String taskDetails, QuestionBank mainBank,
                                                   CommandHistory commandHistory) {
         if (!taskDetails.trim().isEmpty()) {
+            ErrorLogger.logError(userCommand, "Invalid usage. Just type: clear");
             throw new IllegalCommandException("Invalid usage. Just type: clear");
         }
         return new ClearCommand(mainBank, commandHistory);

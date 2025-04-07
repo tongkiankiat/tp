@@ -87,7 +87,7 @@ public class Command {
      *
      * @return an instance of the command.
      */
-    public Command handleMultistepCommand(String userCommand) {
+    public Command handleMultistepCommand(String userCommand, String userInput) {
         // NOTE: if this is thrown during runtime, a single step command was mistakenly used
         // as a multistep command in parser.
         throw new UnsupportedOperationException("Command is not a multistep command.");

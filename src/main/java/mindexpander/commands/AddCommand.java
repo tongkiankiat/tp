@@ -9,6 +9,7 @@ import mindexpander.data.question.Question;
 import mindexpander.data.question.QuestionType;
 import mindexpander.data.question.TrueFalse;
 import mindexpander.exceptions.IllegalCommandException;
+import mindexpander.logging.ErrorLogger;
 import mindexpander.logging.QuestionLogger;
 
 import java.util.ArrayList;
@@ -59,14 +60,15 @@ public class AddCommand extends Command implements Multistep, Traceable {
      * @return the updated {@code Command} instance representing the current step.
      */
     @Override
-    public Command handleMultistepCommand(String nextInput) {
+    public Command handleMultistepCommand(String userCommand, String nextInput) {
         if (nextInput.trim().equals("")) {
+            ErrorLogger.logError(userCommand, "Input cannot be empty!");
             updateCommandMessage("Input cannot be empty!");
             return this;
         }
 
         if (currentStep == Step.GET_TYPE) {
-            getQuestionType(nextInput);
+            getQuestionType(userCommand, nextInput);
             return this;
         }
 
@@ -75,21 +77,28 @@ public class AddCommand extends Command implements Multistep, Traceable {
         } catch (IllegalCommandException e) {
             switch (currentStep) {
             case GET_QUESTION:
+                ErrorLogger.logError(userCommand,
+                        "Input cannot contain the reserved delimiter string! Please enter a new question:");
                 updateCommandMessage(
                         "Input cannot contain the reserved delimiter string! Please enter a new question:"
                 );
                 break;
             case GET_ANSWER:
+                ErrorLogger.logError(userCommand,
+                        "Input cannot contain the reserved delimiter string! Please enter a new answer:");
                 updateCommandMessage(
                         "Input cannot contain the reserved delimiter string! Please enter a new answer:"
                 );
                 break;
             case GENERATE_QUESTION:
+                ErrorLogger.logError(userCommand,
+                        "Input cannot contain the reserved delimiter string! Please enter a new option:");
                 updateCommandMessage(
                         "Input cannot contain the reserved delimiter string! Please enter a new option:"
                 );
                 break;
             default:
+                ErrorLogger.logError(userCommand, e.getMessage());
                 updateCommandMessage(e.getMessage()); // fallback
             }
             return this;
@@ -99,6 +108,7 @@ public class AddCommand extends Command implements Multistep, Traceable {
             this.question = nextInput.trim();
             for (Question q : questionBank.getAllQuestions()) {
                 if (q.getQuestion().equals(question)) {
+                    ErrorLogger.logError(userCommand, "Question already exists. Terminating add command.");
                     updateCommandMessage("Question already exists. Terminating add command.");
                     isComplete = true;
                     return this;
@@ -115,7 +125,7 @@ public class AddCommand extends Command implements Multistep, Traceable {
             commandHistory.add(this);
         }
 
-        return addQuestionHandler(nextInput, questionBank);
+        return addQuestionHandler(userCommand, nextInput, questionBank);
     }
 
     /**
@@ -123,9 +133,12 @@ public class AddCommand extends Command implements Multistep, Traceable {
      *
      * @param nextInput the user input representing the question type.
      */
-    private void getQuestionType(String nextInput) {
+    private void getQuestionType(String userCommand, String nextInput) {
         String trimmedInput = nextInput.trim();
         if (!QuestionType.isValidType(trimmedInput)) {
+            ErrorLogger.logError(userCommand,
+                    String.format("Invalid input. Please enter a correct question type. (%1$s)",
+                            QuestionType.allTypes()));
             updateCommandMessage(String.format("Invalid input. Please enter a correct question type. (%1$s)",
                     QuestionType.allTypes()));
         } else {
@@ -142,13 +155,13 @@ public class AddCommand extends Command implements Multistep, Traceable {
      * @param questionBank the {@code QuestionBank} to which the question is added.
      * @return the updated {@code Command} instance.
      */
-    private Command addQuestionHandler(String nextInput, QuestionBank questionBank) {
+    private Command addQuestionHandler(String userCommand, String nextInput, QuestionBank questionBank) {
         if (this.type == QuestionType.FITB) {
             return addFillInTheBlank(questionBank);
         } else if (this.type == QuestionType.MCQ) {
-            return addMultipleChoice(nextInput, questionBank);
+            return addMultipleChoice(userCommand, nextInput, questionBank);
         } else if (this.type == QuestionType.TF) {
-            return addTrueFalse(questionBank);
+            return addTrueFalse(userCommand, questionBank);
         }
         return this;
     }
@@ -176,8 +189,10 @@ public class AddCommand extends Command implements Multistep, Traceable {
      * @param questionBank the {@code QuestionBank} to add to.
      * @return the updated {@code Command} instance.
      */
-    private Command addMultipleChoice(String nextInput, QuestionBank questionBank) {
+    private Command addMultipleChoice(String userCommand, String nextInput, QuestionBank questionBank) {
         if (options.contains(nextInput)) {
+            ErrorLogger.logError(userCommand,
+                    "Invalid input: Duplicate options are not allowed in multiple choice questions.");
             updateCommandMessage("Invalid input: Duplicate options are not allowed in multiple choice questions.");
             return this;
         }
@@ -210,9 +225,10 @@ public class AddCommand extends Command implements Multistep, Traceable {
      * @param questionBank the {@code QuestionBank} to add to.
      * @return the updated {@code Command} instance.
      */
-    private Command addTrueFalse(QuestionBank questionBank) {
+    private Command addTrueFalse(String userCommand, QuestionBank questionBank) {
         String answerLower = answer.toLowerCase().trim();
         if (!answerLower.equals("true") && !answerLower.equals("false")) {
+            ErrorLogger.logError(userCommand, "Invalid answer. Please enter 'true' or 'false'.");
             updateCommandMessage("Invalid answer. Please enter 'true' or 'false'.");
             currentStep = Step.GET_ANSWER; // Forces user to re-enter
             return this;

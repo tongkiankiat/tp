@@ -68,7 +68,7 @@ public class Parser {
         case "undo" -> new UndoCommand(commandHistory);
         case "redo" -> new RedoCommand(commandHistory);
         case "show" -> handleShow(userEntry, taskDetails, questionBank, lastShownQuestionBank);
-        case "clear" -> ClearCommand.parseFromUserInput(taskDetails, questionBank, commandHistory);
+        case "clear" -> ClearCommand.parseFromUserInput(userEntry, taskDetails, questionBank, commandHistory);
         default -> {
             ErrorLogger.logError(userEntry, Messages.UNKNOWN_COMMAND_MESSAGE);
             throw new IllegalCommandException(Messages.UNKNOWN_COMMAND_MESSAGE);
@@ -88,7 +88,7 @@ public class Parser {
             ErrorLogger.logError(userEntry, "Invalid format. Use the format `solve [QUESTION_INDEX]`");
             throw new IllegalCommandException("Invalid format. Use the format 'solve [QUESTION_INDEX]'");
         }
-        ongoingCommand = new SolveCommand(taskDetails, lastShownQuestionBank);
+        ongoingCommand = new SolveCommand(userEntry, taskDetails, lastShownQuestionBank);
         return ongoingCommand;
     }
 
@@ -111,7 +111,10 @@ public class Parser {
             String[] commandArguments = taskDetails.split(" ", 2);
 
             if (commandArguments.length < 2) {
-                ErrorLogger.logError(userEntry, Messages.UNKNOWN_COMMAND_MESSAGE);
+                ErrorLogger.logError(userEntry, "Invalid format. Please use edit [QUESTION_IDEX] [q/a/o]" +
+                        "\n" + "'q' - question content" +
+                        "\n" + "'a' - answer" +
+                        "\n" + "'o' for multiple choice options.");
                 throw new IllegalCommandException("Invalid format. Please use edit [QUESTION_IDEX] [q/a/o]" +
                         "\n" + "'q' - question content" +
                         "\n" + "'a' - answer" +
@@ -122,9 +125,10 @@ public class Parser {
             String toEdit = commandArguments[1];
 
             if (indexToEdit < 1 || indexToEdit > lastShownQuestionBank.getQuestionCount()) {
+                ErrorLogger.logError(userEntry, "Invalid question index.");
                 throw new IllegalCommandException("Invalid question index.");
             }
-            return new EditCommand(indexToEdit, toEdit, questionBank, lastShownQuestionBank, commandHistory);
+            return new EditCommand(userEntry, indexToEdit, toEdit, questionBank, lastShownQuestionBank, commandHistory);
         } catch (NumberFormatException e) {
             ErrorLogger.logError(userEntry, Messages.UNKNOWN_COMMAND_MESSAGE);
             throw new IllegalCommandException(Messages.UNKNOWN_COMMAND_MESSAGE);
@@ -143,7 +147,7 @@ public class Parser {
             return new ListCommand(questionBank, "all", false);
         }
 
-        String[] parts = taskDetails.trim().split("\\s+");
+        String[] parts = taskDetails.trim().split(" ");
         String questionType = "";
         boolean showAnswer = false;
 
