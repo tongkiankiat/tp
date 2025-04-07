@@ -24,7 +24,7 @@ public class EditCommandTest {
         Question question = new FillInTheBlanks("test q", "test a");
         questionBank.addQuestion(question);
         lastShownQuestionBank.addQuestion(question);
-        EditCommand editCommand = new EditCommand(1, "q", questionBank,
+        EditCommand editCommand = new EditCommand("edit",1, "q", questionBank,
                 lastShownQuestionBank, commandHistory);
         assertFalse(editCommand.isCommandComplete());
         assertEquals("Editing FITB: test q [Answer: test a] \n Please enter the new question:",
@@ -39,9 +39,9 @@ public class EditCommandTest {
         Question question = new FillInTheBlanks("test q", "test a");
         questionBank.addQuestion(question);
         lastShownQuestionBank.addQuestion(question);
-        EditCommand editCommand = new EditCommand(1, "q", questionBank,
+        EditCommand editCommand = new EditCommand("edit",1, "q", questionBank,
                 lastShownQuestionBank, commandHistory);
-        editCommand.handleMultistepCommand("new q");
+        editCommand.handleMultistepCommand("edit", "new q");
 
         assertTrue(editCommand.isCommandComplete());
         assertEquals("new q", question.getQuestion());
@@ -56,9 +56,9 @@ public class EditCommandTest {
         Question question = new FillInTheBlanks("test q", "test a");
         questionBank.addQuestion(question);
         lastShownQuestionBank.addQuestion(question);
-        EditCommand editCommand = new EditCommand(1, "a", questionBank,
+        EditCommand editCommand = new EditCommand("edit", 1, "a", questionBank,
                 lastShownQuestionBank, commandHistory);
-        editCommand.handleMultistepCommand("new a");
+        editCommand.handleMultistepCommand("edit","new a");
 
         assertTrue(editCommand.isCommandComplete());
         assertEquals("test q", question.getQuestion());
@@ -74,10 +74,10 @@ public class EditCommandTest {
         MultipleChoice question = new MultipleChoice("test q", "test a", options);
         questionBank.addQuestion(question);
         lastShownQuestionBank.addQuestion(question);
-        EditCommand editCommand = new EditCommand(1, "o", questionBank,
+        EditCommand editCommand = new EditCommand("edit",1, "o", questionBank,
                 lastShownQuestionBank, commandHistory);
-        editCommand.handleMultistepCommand("1");
-        editCommand.handleMultistepCommand("new test");
+        editCommand.handleMultistepCommand("edit", "1");
+        editCommand.handleMultistepCommand("edit","new test");
 
         assertTrue(editCommand.isCommandComplete());
         assertEquals("test q", question.getQuestion());

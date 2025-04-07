@@ -29,7 +29,7 @@ public class SolveCommandTest {
 
     @Test
     public void testGetQuestionIndex_validIndex() {
-        SolveCommand command = new SolveCommand("1", questionBank);
+        SolveCommand command = new SolveCommand("solve", "1", questionBank);
         String message = command.getCommandMessage();
         assertTrue(message.startsWith("Attempting question 1:"));
         assertTrue(message.contains("MCQ: What is 2+2?"));
@@ -38,37 +38,37 @@ public class SolveCommandTest {
 
     @Test
     public void testHandleMultistepCommand_correctMCQAnswer() {
-        SolveCommand command = new SolveCommand("1", questionBank);
+        SolveCommand command = new SolveCommand("solve","1", questionBank);
         // Get the displayed options to find the correct letter
         String message = command.getCommandMessage();
         String correctOption = getCorrectOptionFromMessage(message, "4");
 
-        Command result = command.handleMultistepCommand(correctOption);
+        Command result = command.handleMultistepCommand("solve", correctOption);
         assertEquals("Correct!", result.getCommandMessage());
     }
 
     @Test
     public void testHandleMultistepCommand_wrongMCQAnswer() {
-        SolveCommand command = new SolveCommand("1", questionBank);
+        SolveCommand command = new SolveCommand("solve","1", questionBank);
         // Get the displayed options to find a wrong letter
         String message = command.getCommandMessage();
         String wrongOption = getWrongOptionFromMessage(message, "4");
 
-        Command result = command.handleMultistepCommand(wrongOption);
+        Command result = command.handleMultistepCommand("solve", wrongOption);
         assertEquals("Wrong answer, would you like to try again? [Y/N]", result.getCommandMessage());
     }
 
     @Test
     public void testHandleMultistepCommand_correctFillInTheBlanks() {
-        SolveCommand command = new SolveCommand("2", questionBank);
-        Command result = command.handleMultistepCommand("Paris");
+        SolveCommand command = new SolveCommand("solve","2", questionBank);
+        Command result = command.handleMultistepCommand("solve","Paris");
         assertEquals("Correct!", result.getCommandMessage());
     }
 
     @Test
     public void testHandleMultistepCommand_wrongFillInTheBlanks() {
-        SolveCommand command = new SolveCommand("2", questionBank);
-        Command result = command.handleMultistepCommand("London");
+        SolveCommand command = new SolveCommand("solve","2", questionBank);
+        Command result = command.handleMultistepCommand("solve","London");
         assertEquals("Wrong answer, would you like to try again? [Y/N]", result.getCommandMessage());
     }
 
@@ -95,23 +95,23 @@ public class SolveCommandTest {
 
     @Test
     public void testGetQuestionIndex_invalidIndex() {
-        SolveCommand command = new SolveCommand("0", questionBank);
+        SolveCommand command = new SolveCommand("solve","0", questionBank);
         assertEquals("Invalid question number. Please enter a valid index.", command.getCommandMessage());
 
-        command = new SolveCommand("3", questionBank);
+        command = new SolveCommand("solve","3", questionBank);
         assertEquals("Invalid question number. Please enter a valid index.", command.getCommandMessage());
     }
 
     @Test
     public void testGetQuestionIndex_nonNumeric() {
-        SolveCommand command = new SolveCommand("abc", questionBank);
+        SolveCommand command = new SolveCommand("solve","abc", questionBank);
         assertEquals("Invalid question number. Please enter a valid index.", command.getCommandMessage());
     }
 
     @Test
     public void testEmptyQuestionBank() {
         QuestionBank emptyBank = new QuestionBank();
-        SolveCommand command = new SolveCommand("1", emptyBank);
+        SolveCommand command = new SolveCommand("solve","1", emptyBank);
         assertEquals("Question bank is empty. Please add a question first.", command.getCommandMessage());
     }
 }

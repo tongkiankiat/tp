@@ -30,7 +30,7 @@ public class AddCommandTest {
         AddCommand addCommand = new AddCommand(questionBank, commandHistory);
         final String[] invalidTypes = {"abc", "[]\\[;]", "question"};
         for (String type : invalidTypes) {
-            addCommand.handleMultistepCommand(type);
+            addCommand.handleMultistepCommand(type, type);
             assertEquals("Invalid input. Please enter a correct question type. (fitb/mcq/tf)",
                     addCommand.getCommandMessage());
         }
@@ -41,8 +41,8 @@ public class AddCommandTest {
         QuestionBank questionBank = new QuestionBank();
         CommandHistory commandHistory = new CommandHistory();
         AddCommand addCommand = new AddCommand(questionBank, commandHistory);
-        addCommand.handleMultistepCommand("fitb");
-        addCommand.handleMultistepCommand("");
+        addCommand.handleMultistepCommand("add", "fitb");
+        addCommand.handleMultistepCommand("add","");
         assertEquals("Input cannot be empty!", addCommand.getCommandMessage());
     }
 
@@ -51,9 +51,9 @@ public class AddCommandTest {
         QuestionBank questionBank = new QuestionBank();
         CommandHistory commandHistory = new CommandHistory();
         AddCommand addCommand = new AddCommand(questionBank, commandHistory);
-        addCommand.handleMultistepCommand("fitb");
-        addCommand.handleMultistepCommand("What is 2 + 2?");
-        addCommand.handleMultistepCommand("4");
+        addCommand.handleMultistepCommand("add","fitb");
+        addCommand.handleMultistepCommand("add","What is 2 + 2?");
+        addCommand.handleMultistepCommand("add","4");
         Question question = questionBank.getQuestion(0);
 
         assertTrue(addCommand.isCommandComplete());
