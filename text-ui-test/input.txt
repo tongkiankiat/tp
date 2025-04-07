@@ -20,6 +20,8 @@ N
 solve 0
 list
 delete 2
+undo
+redo
 list
 potato
 exit

@@ -42,7 +42,11 @@ public class HelpCommandTest {
                 - Clears all questions in the question bank.
             9. show
                 - Show the answer to a question in the list.
-            10. exit
+            10. undo
+                - Undo a previous traceable command
+            11. redo
+                - redo a previously undone traceable command
+            12. exit
                 - Exit the program.
             To get detailed information on a specific command, use `help [COMMAND]`, e.g. `help add`.""";
 
@@ -170,6 +174,23 @@ public class HelpCommandTest {
             Usage:
              - 'exit': exit the program.""";
 
+    private static final String UNDO_HELP_MESSAGE = """
+            *The `undo` command*
+            
+            Undoes the previous traceable command. These
+            include add, delete, edit and clear.
+            
+            Usage:
+             - 'undo': undo the previous traceable command.""";
+
+    private static final String REDO_HELP_MESSAGE = """
+            *The `exit` command*
+            
+            Redo the previous undone command.
+            
+            Usage:
+             - 'redo': redo undone command.""";
+
     @Test
     public void testHelpCommandMessage() {
         HelpCommand helpCommand = new HelpCommand("");
@@ -245,6 +266,20 @@ public class HelpCommandTest {
         HelpCommand helpCommand = new HelpCommand("show");
 
         assertEquals(SHOW_HELP_MESSAGE, helpCommand.getCommandMessage(),
+                "Help message does not match the expected output.");
+    }
+
+    @Test public void testRedoHelpCommandMessage() {
+        HelpCommand helpCommand = new HelpCommand("redo");
+
+        assertEquals(REDO_HELP_MESSAGE, helpCommand.getCommandMessage(),
+                "Help message does not match expected output.");
+    }
+
+    @Test public void testUndoHelpCommandMessage() {
+        HelpCommand helpCommand = new HelpCommand("undo");
+
+        assertEquals(UNDO_HELP_MESSAGE, helpCommand.getCommandMessage(),
                 "Help message does not match the expected output.");
     }
 
