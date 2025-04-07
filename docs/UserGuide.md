@@ -120,6 +120,12 @@ Example usage for `TF` questions:
 - `true`
 
 **Note**
+* Fill-in-the-Blank (FITB) questions should be designed to have a single, unambiguous answer.
+  Avoid questions that can have multiple correct responses — for example:
+  - ✖ What are the roots of (x − 2)(x + 2) = 0? (Answer could be 2 or -2)
+  
+  Instead, rephrase the question to clearly specify which answer is expected. For example:
+  - ✔ What is the positive root of (x − 2)(x + 2) = 0?
 * Input is case-insensitive and trimmed. For example, `   TRUE   ` and `false` are both accepted.
 * MCQ questions have 4 options including the correct answer. When prompted to enter the incorrect answers, only input the **incorrect**
 options one at a time.
