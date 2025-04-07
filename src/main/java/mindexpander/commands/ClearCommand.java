@@ -3,7 +3,6 @@ package mindexpander.commands;
 import mindexpander.data.CommandHistory;
 import mindexpander.data.QuestionBank;
 import mindexpander.data.question.Question;
-import mindexpander.exceptions.IllegalCommandException;
 import mindexpander.logging.ErrorLogger;
 
 import java.util.ArrayList;
