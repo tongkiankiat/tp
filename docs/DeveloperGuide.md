@@ -328,16 +328,17 @@ When `delete 1` is called again:
 Unable to find question in main bank to delete.
 ```
 
-### Expected Behavior:
-* The system allows consecutive deletions only if the index corresponds to a valid question in both `lastShownQuestionBank` and `mainBank`.
-* If a question is not found in the `mainBank` (e.g. already deleted), the system throws a clear error:
-```
-Unable to find question in main bank to delete.
-```
+**✅ Case C: Using `find` → `delete 1` → `delete 2` → `delete 3`**
+This works correctly because each deletion removes a different question from the original filtered list (`lastShownBank`), and their corresponding backing questions still exist in `mainBank`.
 
-### Developer Design Rationale:
-* It leans on the already well-defined `lastShownQuestionBank` architecture to keep deletion intuitive and simple.
-* It also reflects how most CLI tools work — users should update their view (`list`, `find`) if unsure.
+But once any of these are deleted, they do not move up in the list like `list` does — because `find` was not re-run.
+
+### Recommendation for users
+- To avoid confusion or unexpected errors, users are strongly encouraged to:
+  - Run list before performing multiple deletions in a row.
+  - Alternatively, if using find, re-run find before each deletion to refresh the filtered list.
+
+This ensures that the question indices remain accurate and reflect the current state of the question bank.
 
 The sequence diagram when calling `delete`:
 ![](diagrams/sequence/Delete.png)
