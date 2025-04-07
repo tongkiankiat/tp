@@ -28,9 +28,13 @@ The project consists of the following main components:
 9. Common: Stores all magic strings or literals to be printed to user and provides input validation utilities.
 10. Command history: Stores up to COMMAND_HISTORY_MAX_SIZE newest commands that can be undone/redone.
 
+<div style="page-break-after: always;"></div>
+
 The overall relations between the components and classes is as follows:
 
 ![](diagrams/class/Main.png)
+
+<div style="page-break-after: always;"></div>
 
 The overall flow of interaction between the user and program is as follows:
 
@@ -38,6 +42,8 @@ The overall flow of interaction between the user and program is as follows:
 
 **Note**: Certain elements such as exceptions, enums and logging have been left out for brevity. 
 More details on other elements can be found in the segments below.
+
+<div style="page-break-after: always;"></div>
 
 ### User Interface
 
@@ -62,6 +68,8 @@ accepted inputs without compromising functionality (there isn't a need for this 
     * E.g. `edit_______1____q___` is accepted.
     * E.g. `find hello____` will search for strings with just `hello`.
     * This trimming will improve quality of life for users when they accidentally press the space-bar too much.
+
+<div style="page-break-after: always;"></div>
 
 ### Command handling
 
@@ -126,8 +134,12 @@ Parser or main.
 The command's messages for the user can be updated using `updateCommandMessage()` within `handleMultistepCommand` instead of returning a `CommandResult`.
 The returning of a `CommandResult` instance will be handled automatically by the parent `Command` class.
 
+<div style="page-break-after: always;"></div>
+
 The class diagram for the example multistep command `SolveCommand`:
 ![](diagrams/class/CommandHandling.png)
+
+<div style="page-break-after: always;"></div>
 
 **Traceable commands**
 
@@ -156,6 +168,8 @@ This enables a reliable and intuitive command reversal mechanism.
   class and can be modified if needed to support a different history depth.
 - Undo and redo behaviour is invoked by the user by instantiating UndoCommand and RedoCommand.
 
+
+<div style="page-break-after: always;"></div>
 
 ### Data
 ![](diagrams/class/DataDiagram.png)
@@ -196,7 +210,9 @@ This dual-QuestionBank approach improves usability by allowing users to interact
     - Once a modification is applied (e.g., a deletion or an edit), the `Command` class updates the main `QuestionBank` accordingly.
 
   - This maintains data consistency and ensures that all logged questions remain up to date.
-  
+
+<div style="page-break-after: always;"></div>
+
 ### Storage
 
 The `StorageFile` class is responsible for saving and loading questions to/from a local text file `./data/MindExpander.txt`, ensuring data persistence across user sessions.
@@ -265,6 +281,8 @@ containing the reserved storage delimiter `%%MINDEXPANDER_DELIM%%`.
 * This logic is handled in the Main class and is transparent to the user — no manual saving is needed.
 
 
+<div style="page-break-after: always;"></div>
+
 ### Listing questions
 
 The `list` command displays all the questions currently in the question bank, and at the same time updates lastShownQuestionBank whenever it is executed.
@@ -276,6 +294,8 @@ For both `list` and `list answer`, they make use of CommandResult, which stores 
 The sequence diagram when calling `list`:
 ![](diagrams/sequence/List.png)
 
+<div style="page-break-after: always;"></div>
+
 ### Finding questions containing a keyword
 
 The `find` command allows users to find all questions in the questionBank that containing a keyword. Similar to `list`, `find` also updates lastShownQuestionBank whenever it is executed.
@@ -284,6 +304,8 @@ The default behaviour for `find` returns a list of all question types containing
 
 The sequence diagram when calling `find`:
 ![](diagrams/sequence/Find.png)
+
+<div style="page-break-after: always;"></div>
 
 ### Showing the answer to a specific question
 
@@ -295,6 +317,8 @@ The `show` command allows users to view the answer to a question by querying its
 
 The sequence diagram when calling `show`:
 ![](diagrams/sequence/Show.png)
+
+<div style="page-break-after: always;"></div>
 
 ### Deleting a question
 * The `delete` command allows the user to remove a question from the question bank based on its index from the last shown list, which is managed via the `lastShownQuestionBank`.
@@ -353,6 +377,8 @@ This ensures that the question indices remain accurate and reflect the current s
 The sequence diagram when calling `delete`:
 ![](diagrams/sequence/Delete.png)
 
+<div style="page-break-after: always;"></div>
+
 ### Logging features
 
 MindExpander keeps track of several things to either help with product development in the future (e.g. error logging) or
@@ -410,6 +436,8 @@ For example:
 #### **Note**
 The question log only tracks the core content of questions - namely the question text and answer. Changes to multiple choice options are not logged, to avoid clutter and focus on meaningful content changes.
 
+<div style="page-break-after: always;"></div>
+
 ## Product scope
 ### Target user profile
 
@@ -419,6 +447,8 @@ Their level of education is at the point where examination questions come in sim
 ### Value proposition
 
 This product aims to solve the problem of students not having a convenient place to store questions they would like to practice or refer to again in the future.
+
+<div style="page-break-after: always;"></div>
 
 ## User Stories
 
@@ -439,6 +469,8 @@ This product aims to solve the problem of students not having a convenient place
 | v2.1    | user             | undo and redo my command                                                                      | easily correct mistakes and experiment without losing progress.            |
 | v2.1    | user             | clear all questions in the question bank                                                      | start fresh without manually deleting each question                        |
 
+<div style="page-break-after: always;"></div>
+
 ## Non-Functional Requirements
 
 * Should work on any _mainstream_ OS as long as it has Java `17` or above installed.
@@ -450,6 +482,8 @@ MCQ should not be the same options tagged to the same answers each time, etc.).
 * Number of questions added should not be limited by the program.
 * Commands should not be overly complicated to use, for example having to type too many items in one long single line
 command. This can be solved by breaking down the command in a user-friendly manner with multistep commands.
+
+<div style="page-break-after: always;"></div>
 
 ## Glossary
 
@@ -463,6 +497,8 @@ command. This can be solved by breaking down the command in a user-friendly mann
 queuing of operations. The design pattern used for command handling.
 * *Layered Architecture* - A software design approach that organizes components into hierarchical layers, where each
 layer has a specific responsibility and interacts only with adjacent layers. The architectural style used in the design.
+
+<div style="page-break-after: always;"></div>
 
 ## Instructions for manual testing
 
@@ -573,8 +609,6 @@ layer has a specific responsibility and interacts only with adjacent layers. The
      2. Command: delete 1
         * Expected: Deletes the first question in the filtered results (not the global index from full list).
    3. UI prints: `Deleted question: MCQ: What are fries made of? [Answer: Potato]`
-
-
 4. Invalid Index Case: `delete 100` (when the list has fewer than 100 questions)
    Expected: `Invalid question index.`
 
@@ -590,6 +624,8 @@ layer has a specific responsibility and interacts only with adjacent layers. The
    2. User types: `Y`
        * Expected: All questions are removed.
        * UI prints: ```All questions have been cleared.```
+
+<div style="page-break-after: always;"></div>
 
 ## Future Enhancements
 
