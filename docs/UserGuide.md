@@ -13,6 +13,7 @@
     - [Editing questions: `edit`](#editing-questions-edit)
     - [Deleting a question: `delete`](#deleting-a-question-delete)
     - [Showing the answer to a question: `show`](#showing-the-answer-to-a-specific-question-show)
+    - [Clearing all questions: `clear`](#clearing-all-questions-clear)
     - [Exiting the program: `exit`](#exiting-the-program-exit)
 4. **[Saving and Loading](#saving-and-loading-of-data)**
 5. **[Logged Data](#logged-data)**
@@ -567,7 +568,8 @@ Deleted question: FITB: 1 + 2 = __ [Answer: 3]
 
 **Notes:**
 * The question index is based on the most recently displayed question list (via `list` or `find`).
-* Attempting to delete an index that does not exist in the last shown list will result in an error.
+* Deletion is only allowed once after each `list` or `find` command. Attempting to delete again without refreshing the list will result in an error.
+* This safeguard prevents accidental multiple deletions using outdated indices.
 * This command is **single-step** and does not support multistep usage.
 
 ### Showing the answer to a specific question: `show`
@@ -595,6 +597,30 @@ Here is the answer for question 1:
 
 __Notes:__
 - This newly displayed list **does not** update the last shown list, so the user can still refer to the last shown list triggered by `list` or `find` commands to query the question index.
+
+### Clearing all questions: `clear`
+* Removes all questions from the question bank. This command uses multistep confirmation to prevent accidental loss of data.
+* Format: `clear
+* When run, it will prompt:
+```
+  Are you sure you want to clear the entire question bank? (Y/N)
+  ```
+* Type `Y` to proceed with clearing all questions.
+
+* Type `N` to cancel the operation.
+
+Example usage:
+
+```
+clear
+==============================
+Are you sure you want to clear the entire question bank? (Y/N)
+==============================
+Y
+==============================
+All questions have been cleared.
+==============================
+```
 
 ### Undo/redo a command that modifies the question bank: `undo`/`redo`
 
@@ -735,4 +761,5 @@ of getting the format wrong.
 * Solve question `solve [QUESTION_INDEX]` | `[QUESTION_ANSWER]` | `[Y/N]` (only if wrong)
 * Delete question: `delete [QUESTION_INDEX]`
 * Show answer to a question `show [QUESTION_INDEX]`
+* Clear all questions: `clear` | `[Y/N]`
 * Exit program `exit`

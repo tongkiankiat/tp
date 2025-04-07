@@ -251,6 +251,10 @@ containing the reserved storage delimiter `%%MINDEXPANDER_DELIM%%`.
     * If the reserved delimiter is detected, the validator throws an `IllegalCommandException`.
 * Each command is responsible for handling this exception and giving context-specific feedback to the user.
 
+#### **Integration with Main**
+* Every time a command modifies the QuestionBank (e.g., add, delete, edit, clear), the updated data is automatically saved.
+* This logic is handled in the Main class and is transparent to the user — no manual saving is needed.
+
 
 ### Listing questions
 
@@ -283,9 +287,26 @@ The `show` command allows users to view the answer to a question by querying its
 The sequence diagram when calling `show`:
 ![](diagrams/sequence/Show.png)
 
-#### **Integration with Main**
-* Every time a command modifies the QuestionBank (e.g., add, delete, edit, clear), the updated data is automatically saved.
-* This logic is handled in the Main class and is transparent to the user — no manual saving is needed.
+### Deleting a question
+* The `delete` command allows the user to remove a question from the question bank based on its index from the last shown list.
+
+Delete Safeguard Logic:
+* After a successful deletion, further delete operations are disabled until the user explicitly runs `list` or `find` again. 
+* This is implemented using a static flag `isDeleteEnabled` inside `DeleteCommand`.
+
+    * This ensures that users do not accidentally delete the wrong question from an outdated list.
+
+    * If a user attempts to delete without refreshing the question list, an error is shown: 
+  ```Please run list or find to get an updated list before using delete.```
+
+* Commands that re-enable deletion:
+    * `list`
+    * `find`
+
+This safeguard is enforced in both normal and edge cases and has been unit tested in DeleteCommandTest.
+
+The sequence diagram when calling `delete`:
+![](diagrams/sequence/Delete.png)
 
 ### Logging features
 
@@ -515,6 +536,15 @@ layer has a specific responsibility and interacts only with adjacent layers. The
 ### Clearing all questions
 1. Allows the user to remove all questions from the question bank in one command. Useful for resetting the application to a clean state during practice or testing.
 
+2. Prerequisite: The question bank contains at least 1 question.
+
+3. Test Case:
+   1. Command: `clear`
+       * Expected: The system asks for confirmation.
+       * UI prints: ```Are you sure you want to clear the entire question bank? (Y/N)```
+   2. User types: `Y`
+       * Expected: All questions are removed.
+       * UI prints: ```All questions have been cleared.```
 
 ## Future Enhancements
 
