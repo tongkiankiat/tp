@@ -61,7 +61,7 @@ public class ClearCommandTest {
         IllegalCommandException exception = assertThrows(IllegalCommandException.class, () ->
                 ClearCommand.parseFromUserInput("clear now", questionBank, history)
         );
-        assertEquals("Invalid usage. Just type: clear", exception.getMessage());
+        assertEquals("Invalid format. Use 'clear' without extra parameters", exception.getMessage());
     }
 
 }
