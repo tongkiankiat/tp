@@ -731,8 +731,11 @@ result in unspecified behaviour.
 * Inputting unrecognised commands will result in an error message.
 * Commands are __not__ case-sensitive (i.e. ADD, LIsT are accepted).
 * Commands and parameters are trimmed (i.e. leading and trailing whitespaces are accepted).
-  * E.g. `          add           ` is accepted.
-  * E.g. `edit           1    q   ` is accepted.
+  * Note: ___ represents extra whitespaces.
+  * E.g. `______add_____` is accepted.
+  * E.g. `edit_______1____q___` is accepted.
+  * E.g. `find hello____` will search for strings with just `hello`.
+  * This trimming means it's ok if you accidentally press the space-bar too many times.
 
 ## FAQ
 
