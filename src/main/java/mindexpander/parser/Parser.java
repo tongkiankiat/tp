@@ -76,7 +76,8 @@ public class Parser {
         };
     }
 
-    private Command handleAdd(String userEntry, String taskDetails, QuestionBank questionBank, CommandHistory commandHistory) {
+    private Command handleAdd(String userEntry, String taskDetails, QuestionBank questionBank,
+                              CommandHistory commandHistory) {
         if (!taskDetails.isEmpty()) {
             ErrorLogger.logError(userEntry, "Invalid format. Use 'add' without extra parameters");
             throw new IllegalCommandException("Invalid format. Use 'add' without extra parameters");
