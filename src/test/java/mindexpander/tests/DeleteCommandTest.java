@@ -28,8 +28,6 @@ public class DeleteCommandTest extends DefaultTest {
 
     @Test
     public void testDeleteCommand_validIndex() {
-        DeleteCommand.enableDelete();
-
         // Store the expected deleted question's string (from the last shown list at index 0)
         String expectedDeleted = lastShownBank.getQuestion(0).toString();
         CommandHistory commandHistory = new CommandHistory();
@@ -44,8 +42,6 @@ public class DeleteCommandTest extends DefaultTest {
 
     @Test
     public void testDeleteCommand_zeroIndex() {
-        DeleteCommand.enableDelete();
-
         DeleteCommand deleteCommand = new DeleteCommand(0, mainBank, lastShownBank, history);
         IllegalCommandException exception = assertThrows(IllegalCommandException.class,
                 deleteCommand::execute);
@@ -54,49 +50,12 @@ public class DeleteCommandTest extends DefaultTest {
 
     @Test
     public void testDeleteCommand_invalidIndex() {
-        DeleteCommand.enableDelete();
-
         // Try deleting with an out-of-bounds index (e.g., delete 3 when there are only 2 questions)
         CommandHistory commandHistory = new CommandHistory();
         DeleteCommand deleteCommand = new DeleteCommand(3, mainBank, lastShownBank, commandHistory);
         IllegalCommandException exception = assertThrows(IllegalCommandException.class,
                 () -> deleteCommand.execute());
         assertEquals("Invalid question index.", exception.getMessage());
-    }
-
-    @Test
-    public void testDeleteCommand_disabledAfterOneUse() {
-        CommandHistory commandHistory = new CommandHistory();
-
-        // First delete should succeed
-        DeleteCommand deleteCommand1 = new DeleteCommand(1, mainBank, lastShownBank, commandHistory);
-        deleteCommand1.execute();
-
-        // Second delete should throw error since delete is disabled
-        DeleteCommand deleteCommand2 = new DeleteCommand(1, mainBank, lastShownBank, commandHistory);
-        IllegalCommandException exception = assertThrows(IllegalCommandException.class,
-                deleteCommand2::execute);
-        assertEquals("Please run 'list' or 'find' to get an updated list before using delete.", exception.getMessage());
-    }
-
-    @Test
-    public void testDeleteCommand_reEnabledAfterList() {
-        DeleteCommand.enableDelete();
-
-        CommandHistory commandHistory = new CommandHistory();
-
-        // First delete
-        DeleteCommand deleteCommand1 = new DeleteCommand(1, mainBank, lastShownBank, commandHistory);
-        deleteCommand1.execute();
-
-        // Simulate list/find re-enabling delete
-        DeleteCommand.enableDelete();
-
-        // Second delete should now work again
-        DeleteCommand deleteCommand2 = new DeleteCommand(1, mainBank, lastShownBank, commandHistory);
-        deleteCommand2.execute();
-
-        assertEquals(0, mainBank.getQuestionCount());
     }
 
 }
