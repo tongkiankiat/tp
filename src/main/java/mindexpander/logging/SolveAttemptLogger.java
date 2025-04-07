@@ -44,7 +44,7 @@ public class SolveAttemptLogger extends BaseLogger {
             LOG_FILE = LogsManager.getLogFilePath(LOG_FILENAME);
             if (!Files.exists(LOG_FILE) || Files.size(LOG_FILE) == 0) {
                 String header = String.join(DELIMITER,
-                        "Timestamp", "Question", "Result") + "\n";
+                        "Timestamp", "Question [Answer]", "Result") + "\n";
                 Files.write(LOG_FILE, header.getBytes());
             }
         } catch (IOException e) {
@@ -62,7 +62,7 @@ public class SolveAttemptLogger extends BaseLogger {
     public static void logAttempt(Question question, boolean isCorrect) {
         String record = String.join(DELIMITER,
                 LocalDateTime.now().format(TIMESTAMP_FORMAT),
-                escapeSpecialCharacters(question.toStringNoAnswer()),
+                escapeSpecialCharacters(question.toString()),
                 isCorrect ? "CORRECT" : "WRONG");
 
         try {
