@@ -100,7 +100,7 @@ public class SolveCommand extends Command implements Multistep {
      */
     private String getQuestionIndex(String nextInput, QuestionBank questionBank) {
         try {
-            questionIndex = Integer.parseInt(nextInput) - 1; // Convert to 0-based index
+            questionIndex = Integer.parseInt(nextInput.trim()) - 1; // Convert to 0-based index
 
             if (questionBank.getQuestionCount() == 0) {
                 isComplete = true;
