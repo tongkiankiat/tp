@@ -57,7 +57,7 @@ public class Parser {
         // Handle commands
         return switch (userCommand.toLowerCase()) {
         case "help" -> new HelpCommand(taskDetails);
-        case "exit" -> new ExitCommand();
+        case "exit" -> handleExit(userEntry, taskDetails);
         case "solve" -> handleSolve(userEntry, taskDetails, lastShownQuestionBank);
         case "add" -> handleAdd(userEntry, taskDetails, questionBank, commandHistory);
         case "list" -> handleList(userEntry, taskDetails, questionBank);
@@ -65,8 +65,8 @@ public class Parser {
         case "edit" -> handleEdit(userEntry, taskDetails, questionBank, lastShownQuestionBank, commandHistory);
         case "delete" -> DeleteCommand.parseFromUserInput(taskDetails, questionBank,
             lastShownQuestionBank, commandHistory);
-        case "undo" -> new UndoCommand(commandHistory);
-        case "redo" -> new RedoCommand(commandHistory);
+        case "undo" -> handleUndo(userEntry, taskDetails, commandHistory);
+        case "redo" -> handleRedo(userEntry, taskDetails, commandHistory);
         case "show" -> handleShow(userEntry, taskDetails, questionBank, lastShownQuestionBank);
         case "clear" -> ClearCommand.parseFromUserInput(taskDetails, questionBank, commandHistory);
         default -> {
@@ -74,6 +74,30 @@ public class Parser {
             throw new IllegalCommandException(Messages.UNKNOWN_COMMAND_MESSAGE);
         }
         };
+    }
+
+    private Command handleExit(String userEntry, String taskDetails) {
+        if (!taskDetails.isEmpty()) {
+            ErrorLogger.logError(userEntry, "Invalid format. Use 'exit' without extra parameters");
+            throw new IllegalCommandException("Invalid format. Use 'exit' without extra parameters");
+        }
+        return new ExitCommand();
+    }
+
+    private Command handleUndo(String userEntry, String taskDetails, CommandHistory commandHistory) {
+        if (!taskDetails.isEmpty()) {
+            ErrorLogger.logError(userEntry, "Invalid format. Use 'undo' without extra parameters");
+            throw new IllegalCommandException("Invalid format. Use 'undo' without extra parameters");
+        }
+        return new UndoCommand(commandHistory);
+    }
+
+    private Command handleRedo(String userEntry, String taskDetails, CommandHistory commandHistory) {
+        if (!taskDetails.isEmpty()) {
+            ErrorLogger.logError(userEntry, "Invalid format. Use 'redo' without extra parameters");
+            throw new IllegalCommandException("Invalid format. Use 'redo' without extra parameters");
+        }
+        return new RedoCommand(commandHistory);
     }
 
     private Command handleAdd(String userEntry, String taskDetails, QuestionBank questionBank,
