@@ -59,7 +59,7 @@ public class Parser {
         case "help" -> new HelpCommand(taskDetails);
         case "exit" -> new ExitCommand();
         case "solve" -> handleSolve(userEntry, taskDetails, lastShownQuestionBank);
-        case "add" -> new AddCommand(questionBank, commandHistory);
+        case "add" -> handleAdd(userEntry, taskDetails, questionBank, commandHistory);
         case "list" -> handleList(userEntry, taskDetails, questionBank);
         case "find" -> handleFind(userEntry, taskDetails, questionBank);
         case "edit" -> handleEdit(userEntry, taskDetails, questionBank, lastShownQuestionBank, commandHistory);
@@ -74,6 +74,14 @@ public class Parser {
             throw new IllegalCommandException(Messages.UNKNOWN_COMMAND_MESSAGE);
         }
         };
+    }
+
+    private Command handleAdd(String userEntry, String taskDetails, QuestionBank questionBank, CommandHistory commandHistory) {
+        if (!taskDetails.isEmpty()) {
+            ErrorLogger.logError(userEntry, "Invalid format. Use 'add' without extra parameters");
+            throw new IllegalCommandException("Invalid format. Use 'add' without extra parameters");
+        }
+        return new AddCommand(questionBank, commandHistory);
     }
 
     /**
