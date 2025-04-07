@@ -25,7 +25,7 @@ The project consists of the following main components:
 6. Question: Objects to store data for question details and answers.
 7. Question bank: Handle question storing in the list, contains the list of questions.
 8. Storage handler: Handles the reading and writing to a .txt file.
-9. Common: Stores all magic strings or literals to be printed to user.
+9. Common: Stores all magic strings or literals to be printed to user and provides input validation utilities.
 
 The overall relations between the components and classes is as follows:
 
@@ -254,7 +254,7 @@ The sequence diagram when calling `show`:
 ![](diagrams/sequence/Show.png)
 
 #### **Integration with Main**
-* Every time a command modifies the QuestionBank (e.g., add, delete, edit), the updated data is automatically saved.
+* Every time a command modifies the QuestionBank (e.g., add, delete, edit, clear), the updated data is automatically saved.
 * This logic is handled in the Main class and is transparent to the user — no manual saving is needed.
 
 ### Logging features
@@ -323,20 +323,21 @@ This product aims to solve the problem of students not having a convenient place
 
 ## User Stories
 
-| Version | As a ...         | I want to ...                                                                                 | So that I can ...                                                          |
-|---------|------------------|-----------------------------------------------------------------------------------------------|----------------------------------------------------------------------------|
-| v1.0    | new user         | view a list of commands and their uses                                                        | refer to them to understand how to use the program                         |
-| v1.0    | user             | add questions into the question bank                                                          | store it for future practice                                               |
-| v1.0    | user             | list the questions I have previously added in the question bank                               | check what questions I have added previously                               |
-| v1.0    | user             | list the questions I have previously added in the question bank with their respective answers | check what questions I have added previously along with their answers      |
-| v1.0    | user             | save my questions permanently                                                                 | the questions that i have added will not be lost                           |
-| v1.0    | user             | load my saved questions when i start the program                                              | see and work on the questions even after closing and reopening the program |
-| v1.0    | user             | have my answer inputs evaluated                                                               | practice the questions previously added                                    |
-| v2.0    | user             | find a question in the question bank by name                                                  | locate whether I have previously added a similar question                  |
-| v2.0    | experienced user | solve questions by typing everything in one command                                           | answer questions faster without going through the multiple steps           |
-| v2.0    | user             | edit the questions that are currently in my question bank                                     | update outdated or incorrect question details                              |
-| v2.0    | user             | delete a question from the question bank                                                      | remove outdated or incorrect questions                                     |
-| v2.1    | user             | show the answer of a question from the question bank                                          | check the answer for that specific question                                |
+| Version | As a ...         | I want to ...                                                                                 | So that I can ...                                                           |
+|---------|------------------|-----------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------|
+| v1.0    | new user         | view a list of commands and their uses                                                        | refer to them to understand how to use the program                          |
+| v1.0    | user             | add questions into the question bank                                                          | store it for future practice                                                |
+| v1.0    | user             | list the questions I have previously added in the question bank                               | check what questions I have added previously                                |
+| v1.0    | user             | list the questions I have previously added in the question bank with their respective answers | check what questions I have added previously along with their answers       |
+| v1.0    | user             | save my questions permanently                                                                 | the questions that i have added will not be lost                            |
+| v1.0    | user             | load my saved questions when i start the program                                              | see and work on the questions even after closing and reopening the program  |
+| v1.0    | user             | have my answer inputs evaluated                                                               | practice the questions previously added                                     |
+| v2.0    | user             | find a question in the question bank by name                                                  | locate whether I have previously added a similar question                   |
+| v2.0    | experienced user | solve questions by typing everything in one command                                           | answer questions faster without going through the multiple steps            |
+| v2.0    | user             | edit the questions that are currently in my question bank                                     | update outdated or incorrect question details                               |
+| v2.0    | user             | delete a question from the question bank                                                      | remove outdated or incorrect questions                                      |
+| v2.1    | user             | show the answer of a question from the question bank                                          | check the answer for that specific question                                 |
+| v2.1    | user             | clear all questions in the question bank                                                      | start fresh without manually deleting each question                         |
 
 ## Non-Functional Requirements
 
@@ -476,6 +477,9 @@ layer has a specific responsibility and interacts only with adjacent layers. The
 
 4. Invalid Index Case: `delete 100` (when the list has fewer than 100 questions)
    Expected: `Invalid question index.`
+
+### Clearing all questions
+1. Allows the user to remove all questions from the question bank in one command. Useful for resetting the application to a clean state during practice or testing.
 
 
 ## Future Enhancements
