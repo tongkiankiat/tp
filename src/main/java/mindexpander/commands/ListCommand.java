@@ -22,7 +22,6 @@ public class ListCommand extends Command {
         this.questionBank = questionBank;
         this.questionType = questionType;
         this.showAnswer = showAnswer;
-        DeleteCommand.enableDelete();
     }
 
     // Methods
