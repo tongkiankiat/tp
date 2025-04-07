@@ -547,12 +547,14 @@ Question successfully edited: TF: Burgers are made of potatoes [Answer: false]
 ### Deleting a question: `delete`
 Removes a question from the question bank. The question index should refer to the index displayed by the most recent `list` or `find` command.
 
-Format: `delete [QUESTION_INDEX]`
+**Format:**  
+`delete [QUESTION_INDEX]`
 
-- `[QUESTION_INDEX]`: The number of the question to be deleted, as seen in the last shown list.
+- `[QUESTION_INDEX]`: The number of the question to be deleted, based on the latest shown list (either from `list` or `find`).
 
-Example usage:
+---
 
+#### ✅ Example usage (after `list`):
 ```
 list
 ==============================
@@ -563,6 +565,17 @@ delete 1
 Deleted question: FITB: 1 + 1 = __ [Answer: 2]
 ```
 
+You can run `list` again and delete the next question using `delete 1` again:
+```
+list
+1. FITB: The capital of France is __
+delete 1
+Deleted question: FITB: The capital of France is __ [Answer: Paris]
+```
+
+---
+
+#### Example usage (after `find`):
 ```
 find fitb 1 +
 ==============================
@@ -573,12 +586,34 @@ delete 2
 Deleted question: FITB: 1 + 2 = __ [Answer: 3]
 ```
 
-**Notes:**
-* The question index is based on the most recently displayed question list (via `list` or `find`).
-* Deletion is only allowed once after each `list` or `find` command. Attempting to delete again without refreshing the list will result in an error.
-* This safeguard prevents accidental multiple deletions using outdated indices.
-* This command is **single-step** and does not support multistep usage.
+---
 
+### Important Notes
+
+- The question index refers to the **most recently displayed question list**, either from `list` or `find`.
+- If you want to delete **multiple questions**, make sure to **refresh the list before each deletion** by re-running the `list` or `find` command.
+    - This is because after deleting, the displayed list is outdated — the indices may no longer point to the correct question.
+- If you try to delete again **without updating the list**, you may encounter this error:
+  ```
+  Unable to find question in main bank to delete.
+  ```
+
+---
+
+### Good Practice:
+If you're deleting multiple questions:
+
+**Using `list`:**
+```
+list → delete 1 → list → delete 1 → list → delete 1
+```
+
+**Using `find`:**
+```
+find fitb math → delete 1 → find fitb math → delete 1 → ...
+```
+
+This ensures the list is always updated and the deletion works as expected.
 ### Showing the answer to a specific question: `show`
 
 Shows the answer to a question in the question bank by querying its question index. The question index should refer to the index displayed by the most recent `list` or `find` command.

@@ -3,7 +3,6 @@ package mindexpander.commands;
 import mindexpander.data.CommandHistory;
 import mindexpander.data.QuestionBank;
 import mindexpander.data.question.Question;
-import mindexpander.exceptions.IllegalCommandException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,14 +46,6 @@ public class ClearCommand extends Command implements Traceable, Multistep {
             }
         }
         return this;
-    }
-
-    public static ClearCommand parseFromUserInput(String taskDetails, QuestionBank mainBank,
-                                                  CommandHistory commandHistory) {
-        if (!taskDetails.trim().isEmpty()) {
-            throw new IllegalCommandException("Invalid format. Use 'clear' without extra parameters");
-        }
-        return new ClearCommand(mainBank, commandHistory);
     }
 
     @Override

@@ -13,31 +13,27 @@ participant ":CommandResult" as Result
 User -> UI : input "delete 1"
 UI -> Main : "delete 1"
 
-Main -> Parser : parseCommand(...)
-Parser -> DeleteCmd : new DeleteCommand(...)
+Main -> Parser : parseCommand("delete 1")
+Parser -> DeleteCmd : new DeleteCommand(index, mainBank, lastShownBank, commandHistory)
 Parser --> Main : DeleteCommand
 
 Main -> DeleteCmd : execute()
 
-alt if delete disabled
+alt invalid index
     DeleteCmd --> Main : throws IllegalCommandException
-else
+else valid index
     DeleteCmd -> LastShownQB : getQuestion(index)
-    DeleteCmd -> MainQB : findQuestionIndex(...)
-    DeleteCmd -> MainQB : removeQuestion(index)
-    DeleteCmd -> History : add(this)
-    DeleteCmd -> Logger : logDeletedQuestion(...)
-    DeleteCmd -> DeleteCmd : disableDelete()
-    DeleteCmd -> Result : new CommandResult(...)
-    DeleteCmd --> Main : commandResult
+    DeleteCmd -> MainQB : findQuestionIndex(question)
+    alt not found in main
+        DeleteCmd --> Main : throws IllegalCommandException
+    else found in main
+        DeleteCmd -> MainQB : removeQuestion(index)
+        DeleteCmd -> History : add(this)
+        DeleteCmd -> Logger : logDeletedQuestion(question)
+        DeleteCmd -> Result : new CommandResult("Deleted ...")
+        DeleteCmd --> Main : Result
+    end
 end
 
 Main -> UI : displayResults(Result)
-UI -> Result : getQuestionBank()
-UI -> MainQB : getQuestionCount()
-loop for each question
-    UI -> MainQB : getQuestion(i)
-end
-UI --> User : prints updated question list
-
 @enduml

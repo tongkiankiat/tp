@@ -24,6 +24,7 @@ public class EditCommand extends Command implements Multistep, Traceable {
     private int optionIndex = 0;
     private Question questionToEdit;
     private Question originalQuestion;
+    private Question newQuestion;
     private final QuestionBank mainBank;
     private final QuestionBank lastShownBank;
     private final CommandHistory commandHistory;
@@ -144,6 +145,18 @@ public class EditCommand extends Command implements Multistep, Traceable {
 
     }
 
+    public void storeEditedQuestionState() {
+        if (questionToEdit instanceof FillInTheBlanks fitb) {
+            this.newQuestion = new FillInTheBlanks(fitb);
+        }
+        if (questionToEdit instanceof MultipleChoice mcq) {
+            this.newQuestion = new MultipleChoice(mcq);
+        }
+        if (questionToEdit instanceof TrueFalse tf) {
+            this.originalQuestion = new TrueFalse(tf);
+        }
+    }
+
     /**
      * Applies the new question text to the specified question.
      *
@@ -160,6 +173,7 @@ public class EditCommand extends Command implements Multistep, Traceable {
             }
         }
         mainBank.getQuestion(targetIndex).editQuestion(nextInput);
+        storeEditedQuestionState();
         QuestionLogger.logEditedQuestion(mainBank.getQuestion(targetIndex));
         updateCommandMessage(String.format("Question successfully edited: %1$s", mainBank.getQuestion(targetIndex)));
         commandHistory.add(this);
@@ -195,7 +209,7 @@ public class EditCommand extends Command implements Multistep, Traceable {
         } else {
             q.editAnswer(nextInput);
         }
-
+        storeEditedQuestionState();
         QuestionLogger.logEditedQuestion(q);
         updateCommandMessage(String.format("Question successfully edited: %1$s", mainBank.getQuestion(targetIndex)));
         commandHistory.add(this);
@@ -220,6 +234,7 @@ public class EditCommand extends Command implements Multistep, Traceable {
             }
             mcq.editOption(optionIndex, nextInput);
         }
+        storeEditedQuestionState();
         updateCommandMessage(String.format("Question successfully edited: %1$s",
                 mainBank.getQuestion(targetIndex).toStringNoAnswer()));
         commandHistory.add(this);
@@ -238,10 +253,10 @@ public class EditCommand extends Command implements Multistep, Traceable {
 
     public void redo() {
         mainBank.removeQuestion(indexToEdit);
-        mainBank.addQuestionAt(indexToEdit, questionToEdit);
+        mainBank.addQuestionAt(indexToEdit, newQuestion);
     }
 
     public String redoMessage() {
-        return String.format("%1$s successfully restored.", questionToEdit);
+        return String.format("%1$s successfully restored.", newQuestion);
     }
 }

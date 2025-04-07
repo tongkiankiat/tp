@@ -5,12 +5,10 @@ import mindexpander.commands.Command;
 import mindexpander.data.CommandHistory;
 import mindexpander.data.QuestionBank;
 import mindexpander.data.question.FillInTheBlanks;
-import mindexpander.exceptions.IllegalCommandException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class ClearCommandTest {
     private QuestionBank questionBank;
@@ -53,15 +51,6 @@ public class ClearCommandTest {
         Command resultCommand = clearCommand.handleMultistepCommand("n");
         assertEquals("Clear command cancelled.", resultCommand.getCommandMessage());
         assertEquals(1, qb.getQuestionCount());
-    }
-
-
-    @Test
-    public void testClearCommandInvalidInputThrowsException() {
-        IllegalCommandException exception = assertThrows(IllegalCommandException.class, () ->
-                ClearCommand.parseFromUserInput("clear now", questionBank, history)
-        );
-        assertEquals("Invalid format. Use 'clear' without extra parameters", exception.getMessage());
     }
 
 }
