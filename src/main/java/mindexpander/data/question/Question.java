@@ -19,7 +19,7 @@ public abstract class Question {
         if (q ==  this) {
             return true;
         }
-        return this.getQuestion().equals(q.getQuestion());
+        return this.getQuestion().equalsIgnoreCase(q.getQuestion());
     }
 
     public String getQuestion() {

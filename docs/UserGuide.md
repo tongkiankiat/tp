@@ -120,6 +120,22 @@ Example usage for `TF` questions:
 - `true`
 
 **Note**
+* To maintain a clean and meaningful question bank, duplicate questions are not allowed, even across different question types
+  (e.g., FITB and MCQ). Duplicate detection is based solely on the question content, not the question type or format.
+
+  For example, the following two questions would be considered duplicates and cannot coexist:
+
+    - FITB: Which continent is France located?
+
+    - MCQ: Which continent is France located?  
+      A. Europe  
+      B. Asia  
+      C. North America  
+      D. Africa
+
+  Even though the formats differ, the core question is identical and storing both is redundant.
+  Case-insensitive comparison is used when checking for duplicates. That means:
+  test q and Test Q are treated as the same question.
 * Fill-in-the-Blank (FITB) questions should be designed to have a single, unambiguous answer.
   Avoid questions that can have multiple correct responses — for example:
   - ✖ What are the roots of (x − 2)(x + 2) = 0? (Answer could be 2 or -2)
