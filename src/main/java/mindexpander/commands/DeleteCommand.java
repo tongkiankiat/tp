@@ -80,7 +80,7 @@ public class DeleteCommand extends Command implements Traceable {
     }
 
     public String undoMessage() {
-        return String.format("%1$s Undo success, successfully added.", deletedQuestion);
+        return String.format("%1$s successfully added.", deletedQuestion);
     }
 
     @Override
@@ -89,7 +89,7 @@ public class DeleteCommand extends Command implements Traceable {
     }
 
     public String redoMessage() {
-        return String.format("%1$s Redo success, successfully deleted.", deletedQuestion);
+        return String.format("%1$s successfully deleted.", deletedQuestion);
     }
 
     public static void disableDelete() {

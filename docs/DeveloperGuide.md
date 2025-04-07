@@ -26,7 +26,6 @@ The project consists of the following main components:
 7. Question bank: Handle question storing in the list, contains the list of questions.
 8. Storage handler: Handles the reading and writing to a .txt file.
 9. Common: Stores all magic strings or literals to be printed to user and provides input validation utilities.
-9. Common: Stores all magic strings or literals to be printed to user.
 10. Command history: Stores up to COMMAND_HISTORY_MAX_SIZE newest commands that can be undone/redone.
 
 The overall relations between the components and classes is as follows:
