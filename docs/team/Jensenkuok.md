@@ -29,9 +29,8 @@ Given below are my contributions to the project.
     * Updated commands to support TF functionality.
     * Included validation to ensure TF answers are strictly "true" or "false".
 
-  * Developed the full logic for `DeleteCommand`, including safety guard.
+  * Developed the full logic for `DeleteCommand`.
     * Created `DeleteCommand` to delete questions based on index from the last shown list.
-    * Implemented a static safety flag (`isDeleteEnabled`) to restrict delete usage only after `list` or `find` commands.
     * Added error handling for invalid delete attempts and invalid indices.
 
   * Implemented `ClearCommand` with confirmation logic and undo/redo.
@@ -59,7 +58,7 @@ Given below are my contributions to the project.
   
 * __Contributions to DG__
     * Storage: design rationale, file format, saving/loading logic, and delimiter handling.
-    * DeleteCommand: explanation of the delete safeguard logic, static flags, and user flow.
+    * DeleteCommand: explanation of the delete command, different delete cases and user flow.
     * InputValidator: integration with Add/Edit, exception management, and delimiter protection.
     * Question logging: overview, file structures, and real-world use cases.
     * Updated diagrams and wrote relevant sequences and data flow explanations to support maintainability by future developers.

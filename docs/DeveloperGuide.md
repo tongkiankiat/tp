@@ -53,6 +53,16 @@ The UI component,
 
 - Formats and prints command execution results.
 
+**Notes on UI**
+* Commands and para meters are not case-sensitive, this makes life easier for users as it increases the range of 
+accepted inputs without compromising functionality (there isn't a need for this program to have case-sensitive commands).
+* Commands and parameters are trimmed (i.e. leading and trailing whitespaces are accepted).
+    * Note: ___ represents extra whitespaces.
+    * E.g. `______add_____` is accepted.
+    * E.g. `edit_______1____q___` is accepted.
+    * E.g. `find hello____` will search for strings with just `hello`.
+    * This trimming will improve quality of life for users when they accidentally press the space-bar too much.
+
 ### Command handling
 
 The MindExpander application follows a structured approach to handle user input, 
@@ -287,22 +297,58 @@ The sequence diagram when calling `show`:
 ![](diagrams/sequence/Show.png)
 
 ### Deleting a question
-* The `delete` command allows the user to remove a question from the question bank based on its index from the last shown list.
+* The `delete` command allows the user to remove a question from the question bank based on its index from the last shown list, which is managed via the `lastShownQuestionBank`.
 
-Delete Safeguard Logic:
-* After a successful deletion, further delete operations are disabled until the user explicitly runs `list` or `find` again. 
-* This is implemented using a static flag `isDeleteEnabled` inside `DeleteCommand`.
+### Index Mapping via Bumping Logic:
+* `delete` uses the index from `lastShownQuestionBank`, which is updated every time the user calls `list` or `find`.
+* Since `lastShownQuestionBank` is a shallow copy of the main `questionBank` at the time of the last listing, the system is able to bump the user's view forward — meaning:
+    * After a deletion, the next item in the list "moves up" (i.e. index 2 becomes index 1, and so on).
+    * This behavior is intuitive and expected when using `list`, as each deletion shortens the list and updates it implicitly.
 
-    * This ensures that users do not accidentally delete the wrong question from an outdated list.
+* However, this does not work reliably with `find`:
+    * If a user tries to delete multiple questions in a row using outdated indices from a `find`, the second delete might fail due to the backing question no longer existing in the main bank.
 
-    * If a user attempts to delete without refreshing the question list, an error is shown: 
-  ```Please run list or find to get an updated list before using delete.```
+### Case Comparison
 
-* Commands that re-enable deletion:
-    * `list`
-    * `find`
+**✅ Case A: Using `list` → `delete 1` → `delete 1` → `delete 1`**
+This works correctly because each time you call `list`, it updates the internal list (`lastShownBank`) that `delete` uses to identify questions.
 
-This safeguard is enforced in both normal and edge cases and has been unit tested in DeleteCommandTest.
+After each deletion, the remaining questions "move up" to the top of the list.
+
+**Example:**
+```
+list
+1. TF: Apple is red.
+2. TF: Sky is blue.
+3. TF: Water is wet.
+
+delete 1 → Deletes "Apple is red"
+delete 1 → Deletes "Sky is blue"
+delete 1 → Deletes "Water is wet"
+```
+
+**❌ Case B: Using `find` → `delete 1` → `delete 1` → `delete 1`**
+This will not work the same way. After the first delete, the question is removed from the actual database, but the filtered list (`lastShownBank`) is not refreshed.
+
+When `delete 1` is called again:
+- The app still looks at the original filtered list (which hasn't changed).
+- It tries to delete a question that no longer exists in the full list.
+- It fails with:
+```
+Unable to find question in main bank to delete.
+```
+
+**✅ Case C: Using `find` → `delete 1` → `delete 2` → `delete 3`**
+This works correctly because each deletion removes a different question from the original filtered list (`lastShownBank`), and their corresponding backing questions still exist in `mainBank`.
+
+But once any of these are deleted, they do not move up in the list like `list` does — because `find` was not re-run.
+
+### Recommendation for users
+- To avoid confusion or unexpected errors, users are strongly encouraged to:
+  - Run list before performing multiple deletions in a row.
+  - Alternatively, if using find, re-run find before each deletion to refresh the filtered list.
+
+This ensures that the question indices remain accurate and reflect the current state of the question bank.
 
 The sequence diagram when calling `delete`:
 ![](diagrams/sequence/Delete.png)
@@ -310,7 +356,7 @@ The sequence diagram when calling `delete`:
 ### Logging features
 
 MindExpander keeps track of several things to either help with product development in the future (e.g. error logging) or
-provide benefit to users (e.g. previously entered commands, questions that have been added and their attempts at solving questions).
+provide benefit to users (e.g. questions that have been added and their attempts at solving questions).
 
 The logger classes inherit from a parent `BaseLogger` class and contain static methods so they can be called easily
 in the program's features, for example the `SolveCommand` class can use `SolveAttemptLogger` log methods without needing to
