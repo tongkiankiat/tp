@@ -54,8 +54,8 @@ public class ClearCommand extends Command implements Traceable, Multistep {
     public static ClearCommand parseFromUserInput(String userCommand, String taskDetails, QuestionBank mainBank,
                                                   CommandHistory commandHistory) {
         if (!taskDetails.trim().isEmpty()) {
-            ErrorLogger.logError(userCommand, "Invalid usage. Just type: clear");
-            throw new IllegalCommandException("Invalid usage. Just type: clear");
+            ErrorLogger.logError(userCommand, "Invalid format. Use 'clear' without extra parameters");
+            throw new IllegalCommandException("Invalid format. Use 'clear' without extra parameters");
         }
         return new ClearCommand(mainBank, commandHistory);
     }

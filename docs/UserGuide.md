@@ -14,6 +14,7 @@
     - [Deleting a question: `delete`](#deleting-a-question-delete)
     - [Showing the answer to a question: `show`](#showing-the-answer-to-a-specific-question-show)
     - [Clearing all questions: `clear`](#clearing-all-questions-clear)
+    - [Undoing and redoing: `undo`/`redo`](#undoredo-a-command-that-modifies-the-question-bank-undoredo)
     - [Exiting the program: `exit`](#exiting-the-program-exit)
 4. **[Saving and Loading](#saving-and-loading-of-data)**
 5. **[Logged Data](#logged-data)**
@@ -119,6 +120,12 @@ Example usage for `TF` questions:
 - `true`
 
 **Note**
+* Fill-in-the-Blank (FITB) questions should be designed to have a single, unambiguous answer.
+  Avoid questions that can have multiple correct responses — for example:
+  - ✖ What are the roots of (x − 2)(x + 2) = 0? (Answer could be 2 or -2)
+  
+  Instead, rephrase the question to clearly specify which answer is expected. For example:
+  - ✔ What is the positive root of (x − 2)(x + 2) = 0?
 * Input is case-insensitive and trimmed. For example, `   TRUE   ` and `false` are both accepted.
 * MCQ questions have 4 options including the correct answer. When prompted to enter the incorrect answers, only input the **incorrect**
 options one at a time.
@@ -723,6 +730,9 @@ result in unspecified behaviour.
   * Ctrl Z + Enter (EOF signal on Windows) or Ctrl C (Interrupt) will end the program. 
 * Inputting unrecognised commands will result in an error message.
 * Commands are __not__ case-sensitive (i.e. ADD, LIsT are accepted).
+* Commands and parameters are trimmed (i.e. leading and trailing whitespaces are accepted).
+  * E.g. `          add           ` is accepted.
+  * E.g. `edit           1    q   ` is accepted.
 
 ## FAQ
 
@@ -738,7 +748,8 @@ same folder where the .jar file is installed on the new computer.
 **Q**: Will questions I add to the save file before running the program be added to the list?
 
 **A**: Yes, provided that the questions are in the correct format. However, this is highly not recommended due to risk
-of getting the format wrong.
+of getting the format wrong. This will also bypass the checking of duplicate questions since you chose to manually add
+the question.
 
 ## Command Summary
 
@@ -762,4 +773,6 @@ of getting the format wrong.
 * Delete question: `delete [QUESTION_INDEX]`
 * Show answer to a question `show [QUESTION_INDEX]`
 * Clear all questions: `clear` | `[Y/N]`
+* Undo the previous command: `undo`
+* Redo the previous undid command: `redo`
 * Exit program `exit`

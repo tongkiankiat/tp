@@ -39,7 +39,11 @@ List of commands:
     - Clears all questions in the question bank.
 9. show
     - Show the answer to a question in the list.
-10. exit
+10. undo
+    - Undo a previous traceable command
+11. redo
+    - redo a previously undone traceable command
+12. exit
     - Exit the program.
 To get detailed information on a specific command, use `help [COMMAND]`, e.g. `help add`.
 ==============================
@@ -226,6 +230,26 @@ Type <help> for a list of commands.
 ==============================
 ==============================
 Deleted question: FITB: what is 1+2? [Answer: 3]
+==============================
+==============================
+What would you like to do today?
+Type <help> for a list of commands.
+==============================
+==============================
+[Command you entered: undo]
+==============================
+==============================
+FITB: what is 1+2? [Answer: 3] successfully added.
+==============================
+==============================
+What would you like to do today?
+Type <help> for a list of commands.
+==============================
+==============================
+[Command you entered: redo]
+==============================
+==============================
+FITB: what is 1+2? [Answer: 3] successfully deleted.
 ==============================
 ==============================
 What would you like to do today?

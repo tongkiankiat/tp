@@ -39,7 +39,11 @@ public class HelpCommand extends Command {
                 - Clears all questions in the question bank.
             9. show
                 - Show the answer to a question in the list.
-            10. exit
+            10. undo
+                - Undo a previous traceable command
+            11. redo
+                - redo a previously undone traceable command
+            12. exit
                 - Exit the program.
             To get detailed information on a specific command, use `help [COMMAND]`, e.g. `help add`.""";
 
@@ -118,7 +122,6 @@ public class HelpCommand extends Command {
              - 'edit 1 q'
              - 'what is 3 - 2?'""";
 
-    // Haha, "find help", get it?
     private static final String FIND_HELP_MESSAGE = """
             *The `find` command*
             
@@ -175,6 +178,23 @@ public class HelpCommand extends Command {
             Example:
              - `show 1`""";
 
+    private static final String UNDO_HELP_MESSAGE = """
+            *The `undo` command*
+            
+            Undoes the previous traceable command. These
+            include add, delete, edit and clear.
+            
+            Usage:
+             - 'undo': undo the previous traceable command.""";
+
+    private static final String REDO_HELP_MESSAGE = """
+            *The `exit` command*
+            
+            Redo the previous undone command.
+            
+            Usage:
+             - 'redo': redo undone command.""";
+
     private static final String EXIT_HELP_MESSAGE = """
             *The `exit` command*
             
@@ -187,7 +207,7 @@ public class HelpCommand extends Command {
         if (taskDetails.isEmpty()) {
             updateCommandMessage(DEFAULT_HELP_MESSAGE);
         } else {
-            String helpMessage = chooseHelpMessage(taskDetails);
+            String helpMessage = chooseHelpMessage(taskDetails.trim());
             updateCommandMessage(helpMessage);
         }
     }
@@ -208,6 +228,8 @@ public class HelpCommand extends Command {
         case "clear" -> CLEAR_HELP_MESSAGE;
         case "exit" -> EXIT_HELP_MESSAGE;
         case "show" -> SHOW_HELP_MESSAGE;
+        case "undo" -> UNDO_HELP_MESSAGE;
+        case "redo" -> REDO_HELP_MESSAGE;
         default -> throw new IllegalCommandException(Messages.UNKNOWN_COMMAND_MESSAGE + "\nNo help available.");
         };
     }

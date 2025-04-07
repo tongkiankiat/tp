@@ -22,6 +22,7 @@ import java.util.List;
  */
 public class AddCommand extends Command implements Multistep, Traceable {
     private Question toAdd;
+    private Question toAddOriginalState;
     private final int toAddIndex;
     private QuestionType type;
     private String question;
@@ -174,6 +175,7 @@ public class AddCommand extends Command implements Multistep, Traceable {
      */
     private Command addFillInTheBlank(QuestionBank questionBank) {
         toAdd = new FillInTheBlanks(question, answer);
+        toAddOriginalState = new FillInTheBlanks((FillInTheBlanks) toAdd);
         questionBank.addQuestion(toAdd);
         QuestionLogger.logAddedQuestion(toAdd);
         updateCommandMessage(String.format("Question %1$s successfully added.", toAdd.toString()));
@@ -212,6 +214,7 @@ public class AddCommand extends Command implements Multistep, Traceable {
         }
 
         toAdd = new MultipleChoice(question, answer, options);
+        toAddOriginalState = new MultipleChoice((MultipleChoice)toAdd);
         questionBank.addQuestion(toAdd);
         QuestionLogger.logAddedQuestion(toAdd);
         updateCommandMessage(String.format("Question %1$s successfully added.", toAdd.toString()));
@@ -234,6 +237,7 @@ public class AddCommand extends Command implements Multistep, Traceable {
             return this;
         }
         toAdd = new TrueFalse(question, answerLower);
+        toAddOriginalState = new TrueFalse((TrueFalse)toAdd);
         questionBank.addQuestion(toAdd);
         QuestionLogger.logAddedQuestion(toAdd);
         updateCommandMessage(String.format("Question %1$s successfully added.", toAdd.toString()));
@@ -242,19 +246,19 @@ public class AddCommand extends Command implements Multistep, Traceable {
     }
 
     public void undo() {
-        int indexToDelete = questionBank.findQuestionIndex(toAdd);
+        int indexToDelete = questionBank.findQuestionIndex(toAddOriginalState);
         questionBank.removeQuestion(indexToDelete);
     }
 
     public String undoMessage() {
-        return String.format("%1$s successfully deleted.", toAdd);
+        return String.format("%1$s successfully deleted.", toAddOriginalState);
     }
 
     public void redo() {
-        questionBank.addQuestionAt(toAddIndex, toAdd);
+        questionBank.addQuestionAt(toAddIndex, toAddOriginalState);
     }
 
     public String redoMessage() {
-        return String.format("%1$s successfully added.", toAdd);
+        return String.format("%1$s successfully added.", toAddOriginalState);
     }
 }
